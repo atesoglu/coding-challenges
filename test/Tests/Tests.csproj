@@ -29,4 +29,8 @@
       <ProjectReference Include="..\..\src\Solutions\Solutions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="LeetCode\Problems\TwoSum.cs" />
+    </ItemGroup>
+
 </Project>
