@@ -30,8 +30,5 @@ public abstract class GradingStudents : SolutionBase
         return finalGrades;
     }
 
-    private static int GetNextMultipleOfFive(int number)
-    {
-        return number % 5 == 0 ? number : number + (5 - number % 5);
-    }
+    private static int GetNextMultipleOfFive(int number) => number % 5 == 0 ? number : number + (5 - number % 5);
 }
