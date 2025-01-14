@@ -32,4 +32,13 @@ public class AlgorithmTests
 
         output.Should().BeEquivalentTo(expected);
     }
+
+    [Theory]
+    [InlineData(2, 1, 1, 2, "YES")]
+    public void KangarooTest(int xPosition, int xRate, int yPosition, int yRate, string expected)
+    {
+        var output = Kangaroo.Solve(xPosition, xRate, yPosition, yRate);
+
+        output.Should().BeEquivalentTo(expected);
+    }
 }

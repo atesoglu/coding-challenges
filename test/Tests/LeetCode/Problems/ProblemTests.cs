@@ -14,4 +14,14 @@ public class ProblemTests
 
         output.Should().BeEquivalentTo(expected);
     }
+
+    [Theory]
+    [InlineData(new[] { 1, 3, 2, 4 }, new[] { 3, 1, 2, 4 }, new[] { 0, 2, 3, 4 })]
+    [InlineData(new[] { 2, 3, 1 }, new[] { 3, 1, 2 }, new[] { 0, 1, 3 })]
+    public void FindThePrefixCommonArrayOfTwoArraysTest(int[] inputA, int[] inputB, int[] expected)
+    {
+        var output = FindThePrefixCommonArrayOfTwoArrays.Solve(inputA, inputB);
+
+        output.Should().BeEquivalentTo(expected);
+    }
 }
