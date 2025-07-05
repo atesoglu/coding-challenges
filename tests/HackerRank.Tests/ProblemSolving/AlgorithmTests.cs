@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Solutions.HackerRank.ProblemSolving.Algorithms;
+using HackerRank.Tests.ProblemSolving.Algorithms;
 
-namespace Tests.HackerRank.ProblemSolving;
+namespace HackerRank.Tests.ProblemSolving;
 
 public class AlgorithmTests
 {

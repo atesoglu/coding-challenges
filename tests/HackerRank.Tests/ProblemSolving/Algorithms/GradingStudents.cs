@@ -1,8 +1,6 @@
-﻿using Solutions.Base;
+﻿namespace HackerRank.Tests.ProblemSolving.Algorithms;
 
-namespace Solutions.HackerRank.ProblemSolving.Algorithms;
-
-public abstract class GradingStudents : SolutionBase
+public abstract class GradingStudents
 {
     public static List<int> Solve(List<int>? grades)
     {

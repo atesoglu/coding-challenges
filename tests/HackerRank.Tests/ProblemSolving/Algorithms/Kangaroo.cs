@@ -1,8 +1,6 @@
-﻿using Solutions.Base;
+﻿namespace HackerRank.Tests.ProblemSolving.Algorithms;
 
-namespace Solutions.HackerRank.ProblemSolving.Algorithms;
-
-public abstract class Kangaroo : SolutionBase
+public abstract class Kangaroo
 {
     public static string Solve(int xPosition, int xRate, int yPosition, int yRate)
     {

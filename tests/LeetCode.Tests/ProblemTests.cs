@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Solutions.LeetCode.Problems;
+using LeetCode.Tests.Problems;
 
-namespace Tests.LeetCode.Problems;
+namespace LeetCode.Tests;
 
 public class ProblemTests
 {

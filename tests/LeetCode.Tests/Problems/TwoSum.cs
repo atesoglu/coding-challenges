@@ -1,8 +1,6 @@
-﻿using Solutions.Base;
+﻿namespace LeetCode.Tests.Problems;
 
-namespace Solutions.LeetCode.Problems;
-
-public abstract class TwoSum : SolutionBase
+public abstract class TwoSum
 {
     public static int[] Solve(int[] nums, int target)
     {
