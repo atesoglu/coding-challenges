@@ -1,7 +1,7 @@
 using System.Text;
 using FluentAssertions;
 
-namespace advent_of_code.tests._2023.day_02;
+namespace AdventOfCode.Tests._2023.day_02;
 
 /// --- Day 2: Cube Conundrum ---
 /// You're launched high into the atmosphere! The apex of your trajectory just barely reaches the surface of a large island floating in the sky.

@@ -1,4 +1,4 @@
-namespace advent_of_code.tests._2023.day_02;
+namespace AdventOfCode.Tests._2023.day_02;
 
 public class GameSet
 {

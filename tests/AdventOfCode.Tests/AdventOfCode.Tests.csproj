@@ -20,9 +20,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="2015\Year2015Day01NotQuiteLisp-Input.txt">
+      <None Update="Y2015\D01\Y2015D01NotQuiteLisp-input.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Y2015\D02\Y2015D02IWasToldThereWouldBeNoMath-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Y2016\" />
+      <Folder Include="Y2017\" />
+      <Folder Include="Y2018\" />
+      <Folder Include="Y2019\" />
+      <Folder Include="Y2020\" />
+      <Folder Include="Y2021\" />
+      <Folder Include="Y2022\" />
+      <Folder Include="Y2023\" />
+      <Folder Include="Y2024\" />
+      <Folder Include="Y2025\" />
+      <Folder Include="Y2026\" />
     </ItemGroup>
 
 </Project>

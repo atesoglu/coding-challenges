@@ -1,7 +1,7 @@
 using System.Text;
 using FluentAssertions;
 
-namespace advent_of_code.tests._2023.day_01;
+namespace AdventOfCode.Tests._2023.day_01;
 
 /// <summary>
 /// --- Day 1: Trebuchet?! ---
