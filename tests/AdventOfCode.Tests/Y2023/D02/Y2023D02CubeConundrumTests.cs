@@ -1,54 +1,87 @@
 ﻿using System.Text;
 using FluentAssertions;
+using static AdventOfCode.Tests.Y2023.D02.CubeColors;
 
 namespace AdventOfCode.Tests.Y2023.D02;
 
 public class Y2023D02CubeConundrumTests
 {
-    [Theory]
-    [InlineData("1abc2", 12)]
-    [InlineData("pqr3stu8vwx", 38)]
-    [InlineData("a1b2c3d4e5f", 15)]
-    [InlineData("treb7uchet", 77)]
-    public void TestPartOne(string input, int expected)
-    {
-        var output = Y2023D02CubeConundrum.PartOne(input);
+    private readonly Game[] _games = File.ReadAllLines(@"Y2023\D02\Y2023D02CubeConundrum-input.txt", Encoding.UTF8).Select(line =>
+        {
+            var parts = line.Split(":");
+            var gameId = int.Parse(parts[0].Split(" ")[1]);
 
-        output.Should().Be(expected);
+            var sets = parts[1]
+                .Split(";", StringSplitOptions.RemoveEmptyEntries)
+                .Select(set => Set(
+                    set.Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(cube =>
+                        {
+                            var cubeInfo = cube.Trim().Split(" ");
+                            var count = int.Parse(cubeInfo[0]);
+                            Enum.TryParse(cubeInfo[1], true, out CubeColors color);
+                            return (color, count);
+                        })
+                        .ToArray()
+                ))
+                .ToArray();
+
+            return G(gameId, sets);
+        })
+        .ToArray();
+
+    [Fact]
+    public void TestPartOne()
+    {
+        var games = new[]
+        {
+            G(1, Set((Blue, 3), (Red, 4)), Set((Red, 1), (Green, 2)), Set((Blue, 6), (Green, 2))),
+            G(2, Set((Blue, 1), (Green, 2)), Set((Green, 3), (Blue, 4), (Red, 1)), Set((Green, 1), (Blue, 1))),
+            G(3, Set((Green, 8), (Blue, 6), (Red, 20)), Set((Blue, 5), (Red, 4), (Green, 13)), Set((Green, 5), (Red, 1))),
+            G(4, Set((Green, 1), (Red, 3), (Blue, 6)), Set((Green, 3), (Red, 6)), Set((Green, 3), (Blue, 15), (Red, 14))),
+            G(5, Set((Red, 6), (Blue, 1), (Green, 3)), Set((Blue, 2), (Red, 1), (Green, 2))),
+        };
+
+        var output = Y2023D02CubeConundrum.PartOne(games, 12, 13, 14);
+
+        output.Should().Be(8);
     }
 
-    [Theory]
-    [InlineData("two1nine", 29)]
-    [InlineData("eightwothree", 83)]
-    [InlineData("abcone2threexyz", 13)]
-    [InlineData("xtwone3four", 24)]
-    [InlineData("4nineeightseven2", 42)]
-    [InlineData("zoneight234", 14)]
-    [InlineData("7pqrstsixteen", 76)]
-    public void TestPartTwo(string input, int expected)
+    [Fact]
+    public void TestPartTwo()
     {
-        var output = Y2023D02CubeConundrum.PartTwo(input);
+        var games = new[]
+        {
+            G(1, Set((Blue, 3), (Red, 4)), Set((Red, 1), (Green, 2)), Set((Blue, 6), (Green, 2))),
+            G(2, Set((Blue, 1), (Green, 2)), Set((Green, 3), (Blue, 4), (Red, 1)), Set((Green, 1), (Blue, 1))),
+            G(3, Set((Green, 8), (Blue, 6), (Red, 20)), Set((Blue, 5), (Red, 4), (Green, 13)), Set((Green, 5), (Red, 1))),
+            G(4, Set((Green, 1), (Red, 3), (Blue, 6)), Set((Green, 3), (Red, 6)), Set((Green, 3), (Blue, 15), (Red, 14))),
+            G(5, Set((Red, 6), (Blue, 1), (Green, 3)), Set((Blue, 2), (Red, 1), (Green, 2))),
+        };
 
-        output.Should().Be(expected);
+        var output = Y2023D02CubeConundrum.PartTwo(games);
+
+        output.Should().Be(2286);
     }
 
     [Fact]
     public async Task SolvePartOne()
     {
-        var lines = await File.ReadAllLinesAsync(@"Y2023\D02\Y2023D02CubeConundrum-input.txt", Encoding.UTF8);
+        var output = Y2023D02CubeConundrum.PartOne(_games, 12, 13, 14);
 
-        var sum = lines.Sum(Y2023D02CubeConundrum.PartOne);
-
-        sum.Should().Be(54667);
+        output.Should().Be(2149);
     }
 
     [Fact]
     public async Task SolvePartTwo()
     {
-        var lines = await File.ReadAllLinesAsync(@"Y2023\D02\Y2023D02CubeConundrum-input.txt", Encoding.UTF8);
+        var output = Y2023D02CubeConundrum.PartTwo(_games);
 
-        var sum = lines.Sum(Y2023D02CubeConundrum.PartTwo);
-
-        sum.Should().Be(54203);
+        output.Should().Be(71274);
     }
+
+
+    private static GameSet Set(params (CubeColors color, int count)[] cubes) => new() { Cubes = cubes.Select(c => new CubeInfo(c.color, c.count)).ToList() };
+
+    private static Game G(int id, params GameSet[] sets) => new(id, sets.ToList());
 }

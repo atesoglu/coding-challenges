@@ -1,6 +1,3 @@
-using System.Text;
-using FluentAssertions;
-
 namespace AdventOfCode.Tests.Y2023.D02;
 
 /// --- Day 2: Cube Conundrum ---
@@ -20,29 +17,6 @@ namespace AdventOfCode.Tests.Y2023.D02;
 /// Each game is listed with its ID number (like the 11 in Game 11: ...) followed by a semicolon-separated list of subsets of cubes that were revealed from the bag (like 3 red, 5 green, 4 blue).
 public static class Y2023D02CubeConundrum
 {
-    private readonly Game[] _games = File.ReadAllLines(@"2023\day-02\input.txt", Encoding.UTF8).Select(x =>
-    {
-        var parts = x.Split(":");
-        var game = new Game(int.Parse(parts[0].Split(" ")[1]), new List<GameSet>());
-        var sets = parts[1].Split(";");
-        foreach (var set in sets)
-        {
-            var gameSet = new GameSet();
-            var cubes = set.Split(",");
-            foreach (var cube in cubes)
-            {
-                var cubeInfo = cube.Trim().Split(" ");
-                Enum.TryParse(cubeInfo[1].Trim(), true, out CubeColors color);
-                gameSet.Cubes.Add(new CubeInfo(color, int.Parse(cubeInfo[0])));
-            }
-
-            game.Sets.Add(gameSet);
-        }
-
-        return game;
-    }).ToArray();
-
-
     /// For example, the record of a few games might look like this:
     ///
     /// Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
@@ -61,17 +35,14 @@ public static class Y2023D02CubeConundrum
     /// If you add up the IDs of the games that would have been possible, you get 8.
     ///
     /// Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
-    [Fact]
-    public void PartOne()
+    public static int PartOne(Game[] games, int red, int green, int blue)
     {
-        var sum = _games.Sum(game =>
-            game.Sets.Any(a => a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Red)?.Count > 12
-                               || a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Green)?.Count > 13
-                               || a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Blue)?.Count > 14)
+        return games.Sum(game =>
+            game.Sets.Any(a => a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Red)?.Count > red
+                               || a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Green)?.Count > green
+                               || a.Cubes.FirstOrDefault(w => w.Color == CubeColors.Blue)?.Count > blue)
                 ? 0
                 : game.Number);
-
-        sum.Should().Be(2149);
     }
 
     /// The Elf says they've stopped producing snow because they aren't getting any water!
@@ -95,45 +66,41 @@ public static class Y2023D02CubeConundrum
     /// In games 2-5 it was 12, 1560, 630, and 36, respectively. Adding up these five powers produces the sum 2286.
     ///
     /// For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?
-    [Fact]
-    public void PartTwo()
+    public static int PartTwo(Game[] games)
     {
-        var sum = _games.Sum(game => Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Red)).Select(c => c.Count).Max(), 1)
-                                     * Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Green)).Select(c => c.Count).Max(), 1)
-                                     * Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Blue)).Select(c => c.Count).Max(), 1)
+        return games.Sum(game => Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Red)).Select(c => c.Count).Max(), 1)
+                                 * Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Green)).Select(c => c.Count).Max(), 1)
+                                 * Math.Max(game.Sets.SelectMany(set => set.Cubes.Where(cube => cube.Color == CubeColors.Blue)).Select(c => c.Count).Max(), 1)
         );
-
-        sum.Should().Be(71274);
     }
+}
 
-    public enum CubeColors
-    {
-        Red,
-        Blue,
-        Green
-    }
+public enum CubeColors
+{
+    Red,
+    Blue,
+    Green
+}
 
-    public class CubeInfo(CubeColors color, int count)
-    {
-        public CubeColors Color { get; } = color;
-        public int Count { get; } = count;
+public class CubeInfo(CubeColors color, int count)
+{
+    public CubeColors Color { get; } = color;
+    public int Count { get; } = count;
 
-        public override string ToString() => $"{Count} {Color}";
-    }
+    public override string ToString() => $"{Count} {Color}";
+}
 
+public class Game(int number, ICollection<GameSet> sets)
+{
+    public int Number { get; } = number;
+    public ICollection<GameSet> Sets { get; } = sets;
 
-    public class Game(int number, ICollection<GameSet> sets)
-    {
-        public int Number { get; } = number;
-        public ICollection<GameSet> Sets { get; } = sets;
+    public override string ToString() => $"Game {Number}: {string.Join("; ", Sets)}";
+}
 
-        public override string ToString() => $"Game {Number}: {string.Join("; ", Sets)}";
-    }
+public class GameSet
+{
+    public ICollection<CubeInfo> Cubes { get; set; } = new List<CubeInfo>();
 
-    public class GameSet
-    {
-        public ICollection<CubeInfo> Cubes { get; } = new List<CubeInfo>();
-
-        public override string ToString() => string.Join(", ", Cubes);
-    }
+    public override string ToString() => string.Join(", ", Cubes);
 }
