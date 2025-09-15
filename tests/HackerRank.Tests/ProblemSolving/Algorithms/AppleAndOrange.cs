@@ -1,9 +1,6 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿namespace HackerRank.Tests.ProblemSolving.Algorithms;
 
-namespace HackerRank.Tests.ProblemSolving.Algorithms;
-
-public abstract class AppleAndOrange
+public static class AppleAndOrange
 {
     /// <summary>
     /// Prints the number of apples and oranges that land on Sam's house, each on a separate line.

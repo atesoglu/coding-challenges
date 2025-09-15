@@ -1,6 +1,6 @@
 ﻿namespace HackerRank.Tests.ProblemSolving.Algorithms;
 
-public abstract class GradingStudents
+public static class GradingStudents
 {
     public static List<int> Solve(List<int>? grades)
     {

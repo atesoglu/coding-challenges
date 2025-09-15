@@ -26,6 +26,9 @@
       <None Update="Y2015\D02\Y2015D02IWasToldThereWouldBeNoMath-input.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Y2023\D01\Y2023D01Trebuchet-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

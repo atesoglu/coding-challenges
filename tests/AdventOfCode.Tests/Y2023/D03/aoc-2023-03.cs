@@ -1,7 +1,7 @@
 using System.Text;
 using FluentAssertions;
 
-namespace AdventOfCode.Tests._2023.day_03;
+namespace AdventOfCode.Tests.Y2023.D03;
 
 /// <summary>
 /// --- Day 3: Gear Ratios ---

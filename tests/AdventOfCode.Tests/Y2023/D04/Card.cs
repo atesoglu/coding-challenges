@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Tests._2023.day_04;
+﻿namespace AdventOfCode.Tests.Y2023.D04;
 
 public class Card(int number, IEnumerable<int> winningNumbers, IEnumerable<int> ourNumbers)
 {

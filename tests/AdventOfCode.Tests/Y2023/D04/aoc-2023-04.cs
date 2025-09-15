@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace AdventOfCode.Tests._2023.day_04;
+namespace AdventOfCode.Tests.Y2023.D04;
 
 /// <summary>
 /// --- Day 4: Scratchcards ---

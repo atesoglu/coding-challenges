@@ -1,7 +1,4 @@
-using System.Text;
-using FluentAssertions;
-
-namespace AdventOfCode.Tests._2023.day_01;
+namespace AdventOfCode.Tests.Y2023.D01;
 
 /// <summary>
 /// --- Day 1: Trebuchet?! ---
@@ -20,9 +17,21 @@ namespace AdventOfCode.Tests._2023.day_01;
 /// As they're making the final adjustments, they discover that their calibration document (your puzzle input) has been amended by a very young Elf
 /// who was apparently just excited to show off her art skills. Consequently, the Elves are having trouble reading the values on the document.
 /// </summary>
-public class AoC202301
+public static class Y2023D01Trebuchet
 {
-    private readonly string[] _lines = File.ReadAllLines(@"2023\day-01\input.txt", Encoding.UTF8);
+    private static readonly Dictionary<string, string> Replacer = new Dictionary<string, string>
+    {
+        { "0", "zero" },
+        { "1", "one" },
+        { "2", "two" },
+        { "3", "three" },
+        { "4", "four" },
+        { "5", "five" },
+        { "6", "six" },
+        { "7", "seven" },
+        { "8", "eight" },
+        { "9", "nine" }
+    };
 
     /// <summary>
     /// The newly-improved calibration document consists of lines of text; each line originally contained a specific calibration value that the Elves now need to recover.
@@ -34,21 +43,15 @@ public class AoC202301
     /// pqr3stu8vwx
     /// a1b2c3d4e5f
     /// treb7uchet
+    ///
     /// In this example, the calibration values of these four lines are 12, 38, 15, and 77. Adding these together produces 142.
     ///
     /// Consider your entire calibration document. What is the sum of all of the calibration values?
     /// </summary>
-    [Fact]
-    public void PartOne()
+    public static int PartOne(string input)
     {
-        var total = (from line in _lines
-            select new string(line.Where(char.IsDigit).ToArray())
-            into digits
-            select $"{digits[0]}{digits[^1]}"
-            into digit
-            select int.Parse(digit)).Sum();
-
-        total.Should().Be(54667);
+        var digits = new string(input.Where(char.IsDigit).ToArray());
+        return int.Parse($"{digits[0]}{digits[^1]}");
     }
 
     /// <summary>
@@ -67,30 +70,10 @@ public class AoC202301
     ///
     /// What is the sum of all of the calibration values?
     /// </summary>
-    [Fact]
-    public void PartTwo()
+    public static int PartTwo(string input)
     {
-        var replacer = new Dictionary<string, string>
-        {
-            { "0", "zero" },
-            { "1", "one" },
-            { "2", "two" },
-            { "3", "three" },
-            { "4", "four" },
-            { "5", "five" },
-            { "6", "six" },
-            { "7", "seven" },
-            { "8", "eight" },
-            { "9", "nine" }
-        };
+        var edited = Replacer.Aggregate(input, (current, pair) => current.Replace(pair.Value, $"{pair.Value}{pair.Key}{pair.Value}"));
 
-        var total = (from element in _lines
-            select replacer.Aggregate(element, (current, pair) => current.Replace(pair.Value, $"{pair.Value}{pair.Key}{pair.Value}"))
-            into replacedElement
-            select new string(replacedElement.Where(char.IsDigit).ToArray())
-            into digits
-            select int.Parse($"{digits[0]}{digits[^1]}")).ToList();
-
-        total.Sum().Should().Be(54203);
+        return PartOne(edited);
     }
 }

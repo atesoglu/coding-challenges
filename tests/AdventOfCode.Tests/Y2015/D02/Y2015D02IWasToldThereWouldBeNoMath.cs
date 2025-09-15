@@ -56,6 +56,12 @@ public static class Y2015D02IWasToldThereWouldBeNoMath
     /// <returns>The total feet of ribbon required for the present, including the ribbon for the bow.</returns>
     public static int PartTwo(int length, int width, int height)
     {
-        return 0;
+        var dimensions = new[] { length, width, height };
+        Array.Sort(dimensions);
+
+        var smallestPerimeter = (dimensions[0] * 2) + (dimensions[1] * 2);
+        var bowLength = dimensions[0] *  dimensions[1] * dimensions[2];
+
+        return smallestPerimeter + bowLength;
     }
 }

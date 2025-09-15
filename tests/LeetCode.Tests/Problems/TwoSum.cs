@@ -1,6 +1,6 @@
 ﻿namespace LeetCode.Tests.Problems;
 
-public abstract class TwoSum
+public static class TwoSum
 {
     public static int[] Solve(int[] nums, int target)
     {

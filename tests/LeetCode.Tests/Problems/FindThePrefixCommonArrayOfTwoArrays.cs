@@ -1,6 +1,6 @@
 ﻿namespace LeetCode.Tests.Problems;
 
-public abstract class FindThePrefixCommonArrayOfTwoArrays
+public static class FindThePrefixCommonArrayOfTwoArrays
 {
     public static int[] Solve(int[] inputA, int[] inputB)
     {

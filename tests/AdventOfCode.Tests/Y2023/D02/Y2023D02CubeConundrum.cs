@@ -1,7 +1,7 @@
 using System.Text;
 using FluentAssertions;
 
-namespace AdventOfCode.Tests._2023.day_02;
+namespace AdventOfCode.Tests.Y2023.D02;
 
 /// --- Day 2: Cube Conundrum ---
 /// You're launched high into the atmosphere! The apex of your trajectory just barely reaches the surface of a large island floating in the sky.
@@ -18,7 +18,7 @@ namespace AdventOfCode.Tests._2023.day_02;
 ///
 /// You play several games and record the information from each game (your puzzle input).
 /// Each game is listed with its ID number (like the 11 in Game 11: ...) followed by a semicolon-separated list of subsets of cubes that were revealed from the bag (like 3 red, 5 green, 4 blue).
-public class AoC202302
+public static class Y2023D02CubeConundrum
 {
     private readonly Game[] _games = File.ReadAllLines(@"2023\day-02\input.txt", Encoding.UTF8).Select(x =>
     {
@@ -104,5 +104,36 @@ public class AoC202302
         );
 
         sum.Should().Be(71274);
+    }
+
+    public enum CubeColors
+    {
+        Red,
+        Blue,
+        Green
+    }
+
+    public class CubeInfo(CubeColors color, int count)
+    {
+        public CubeColors Color { get; } = color;
+        public int Count { get; } = count;
+
+        public override string ToString() => $"{Count} {Color}";
+    }
+
+
+    public class Game(int number, ICollection<GameSet> sets)
+    {
+        public int Number { get; } = number;
+        public ICollection<GameSet> Sets { get; } = sets;
+
+        public override string ToString() => $"Game {Number}: {string.Join("; ", Sets)}";
+    }
+
+    public class GameSet
+    {
+        public ICollection<CubeInfo> Cubes { get; } = new List<CubeInfo>();
+
+        public override string ToString() => string.Join(", ", Cubes);
     }
 }
