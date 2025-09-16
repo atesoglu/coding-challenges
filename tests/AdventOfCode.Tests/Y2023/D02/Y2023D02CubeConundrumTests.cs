@@ -30,42 +30,33 @@ public class Y2023D02CubeConundrumTests
         })
         .ToArray();
 
-    [Fact]
-    public void TestPartOne()
-    {
-        var games = new[]
-        {
-            G(1, Set((Blue, 3), (Red, 4)), Set((Red, 1), (Green, 2)), Set((Blue, 6), (Green, 2))),
-            G(2, Set((Blue, 1), (Green, 2)), Set((Green, 3), (Blue, 4), (Red, 1)), Set((Green, 1), (Blue, 1))),
-            G(3, Set((Green, 8), (Blue, 6), (Red, 20)), Set((Blue, 5), (Red, 4), (Green, 13)), Set((Green, 5), (Red, 1))),
-            G(4, Set((Green, 1), (Red, 3), (Blue, 6)), Set((Green, 3), (Red, 6)), Set((Green, 3), (Blue, 15), (Red, 14))),
-            G(5, Set((Red, 6), (Blue, 1), (Green, 3)), Set((Blue, 2), (Red, 1), (Green, 2))),
-        };
+    private readonly Game[] _sampleData =
+    [
+        G(1, Set((Blue, 3), (Red, 4)), Set((Red, 1), (Green, 2)), Set((Blue, 6), (Green, 2))),
+        G(2, Set((Blue, 1), (Green, 2)), Set((Green, 3), (Blue, 4), (Red, 1)), Set((Green, 1), (Blue, 1))),
+        G(3, Set((Green, 8), (Blue, 6), (Red, 20)), Set((Blue, 5), (Red, 4), (Green, 13)), Set((Green, 5), (Red, 1))),
+        G(4, Set((Green, 1), (Red, 3), (Blue, 6)), Set((Green, 3), (Red, 6)), Set((Green, 3), (Blue, 15), (Red, 14))),
+        G(5, Set((Red, 6), (Blue, 1), (Green, 3)), Set((Blue, 2), (Red, 1), (Green, 2)))
+    ];
 
-        var output = Y2023D02CubeConundrum.PartOne(games, 12, 13, 14);
+    [Fact]
+    public void PartOneWithSampleData()
+    {
+        var output = Y2023D02CubeConundrum.PartOne(_sampleData, 12, 13, 14);
 
         output.Should().Be(8);
     }
 
     [Fact]
-    public void TestPartTwo()
+    public void PartTwoWithSampleData()
     {
-        var games = new[]
-        {
-            G(1, Set((Blue, 3), (Red, 4)), Set((Red, 1), (Green, 2)), Set((Blue, 6), (Green, 2))),
-            G(2, Set((Blue, 1), (Green, 2)), Set((Green, 3), (Blue, 4), (Red, 1)), Set((Green, 1), (Blue, 1))),
-            G(3, Set((Green, 8), (Blue, 6), (Red, 20)), Set((Blue, 5), (Red, 4), (Green, 13)), Set((Green, 5), (Red, 1))),
-            G(4, Set((Green, 1), (Red, 3), (Blue, 6)), Set((Green, 3), (Red, 6)), Set((Green, 3), (Blue, 15), (Red, 14))),
-            G(5, Set((Red, 6), (Blue, 1), (Green, 3)), Set((Blue, 2), (Red, 1), (Green, 2))),
-        };
-
-        var output = Y2023D02CubeConundrum.PartTwo(games);
+        var output = Y2023D02CubeConundrum.PartTwo(_sampleData);
 
         output.Should().Be(2286);
     }
 
     [Fact]
-    public async Task SolvePartOne()
+    public void PartOneWithRealInput()
     {
         var output = Y2023D02CubeConundrum.PartOne(_games, 12, 13, 14);
 
@@ -73,15 +64,13 @@ public class Y2023D02CubeConundrumTests
     }
 
     [Fact]
-    public async Task SolvePartTwo()
+    public void PartTwoWithRealInput()
     {
         var output = Y2023D02CubeConundrum.PartTwo(_games);
 
         output.Should().Be(71274);
     }
 
-
-    private static GameSet Set(params (CubeColors color, int count)[] cubes) => new() { Cubes = cubes.Select(c => new CubeInfo(c.color, c.count)).ToList() };
-
     private static Game G(int id, params GameSet[] sets) => new(id, sets.ToList());
+    private static GameSet Set(params (CubeColors color, int count)[] cubes) => new() { Cubes = cubes.Select(c => new CubeInfo(c.color, c.count)).ToList() };
 }

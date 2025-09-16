@@ -32,6 +32,12 @@
       <None Update="Y2023\D02\Y2023D02CubeConundrum-input.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Y2023\D03\Y2023D03GearRatios-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Y2023\D04\Y2023D04Scratchcards-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

@@ -5,6 +5,8 @@ namespace AdventOfCode.Tests.Y2015.D01;
 
 public class Y2015D01NotQuiteLispTests
 {
+    private readonly string _input = File.ReadAllText(@"Y2015\D01\Y2015D01NotQuiteLisp-input.txt", Encoding.UTF8);
+
     [Theory]
     [InlineData("(())", 0)]
     [InlineData("()()", 0)]
@@ -15,7 +17,7 @@ public class Y2015D01NotQuiteLispTests
     [InlineData("))(", -1)]
     [InlineData(")))", -3)]
     [InlineData(")())())", -3)]
-    public void TestPartOne(string input, int expected)
+    public void PartOneWithSampleData(string input, int expected)
     {
         var output = Y2015D01NotQuiteLisp.PartOne(input);
 
@@ -25,7 +27,7 @@ public class Y2015D01NotQuiteLispTests
     [Theory]
     [InlineData("(())", 0)]
     [InlineData("()()", 0)]
-    public void TestPartTwo(string input, int expected)
+    public void PartTwoWithSampleData(string input, int expected)
     {
         var output = Y2015D01NotQuiteLisp.PartTwo(input);
 
@@ -33,19 +35,17 @@ public class Y2015D01NotQuiteLispTests
     }
 
     [Fact]
-    public async Task SolvePartOne()
+    public void PartOneWithRealInput()
     {
-        var input = await File.ReadAllTextAsync(@"Y2015\D01\Y2015D01NotQuiteLisp-input.txt", Encoding.UTF8);
-        var output = Y2015D01NotQuiteLisp.PartOne(input);
+        var output = Y2015D01NotQuiteLisp.PartOne(_input);
 
         output.Should().Be(74);
     }
 
     [Fact]
-    public async Task SolvePartTwo()
+    public void PartTwoWithRealInput()
     {
-        var input = await File.ReadAllTextAsync(@"Y2015\D01\Y2015D01NotQuiteLisp-input.txt", Encoding.UTF8);
-        var output = Y2015D01NotQuiteLisp.PartTwo(input);
+        var output = Y2015D01NotQuiteLisp.PartTwo(_input);
 
         output.Should().Be(1795);
     }

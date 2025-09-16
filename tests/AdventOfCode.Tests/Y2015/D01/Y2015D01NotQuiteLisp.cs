@@ -62,7 +62,7 @@ public static class Y2015D01NotQuiteLisp
         }
 
         var step = EnumerateFloors(input).FirstOrDefault(p => p.Floor == -1);
-        return step == null ? 0 : step.Position;
+        return step?.Position ?? 0;
     }
 
     private static IEnumerable<FloorStep> EnumerateFloors(string input)
@@ -75,5 +75,5 @@ public static class Y2015D01NotQuiteLisp
         }
     }
 
-    private readonly record struct FloorStep(int Position, int Floor);
+    private record FloorStep(int Position, int Floor);
 }

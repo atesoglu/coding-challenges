@@ -1,6 +1,3 @@
-using System.Text;
-using FluentAssertions;
-
 namespace AdventOfCode.Tests.Y2023.D03;
 
 /// <summary>
@@ -21,71 +18,8 @@ namespace AdventOfCode.Tests.Y2023.D03;
 /// There are lots of numbers and symbols you don't really understand, but apparently any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum.
 /// (Periods (.) do not count as a symbol.)
 /// </summary>
-public class AoC202303
+public static class Y2023D03GearRatios
 {
-    private readonly string[] _lines = File.ReadAllLines(@"2023\day-03\input.txt", Encoding.UTF8).Select(x => $"{x}.").ToArray();
-    private readonly Dictionary<(int x, int y), List<int>> _gears;
-
-    public AoC202303()
-    {
-        _gears = new Dictionary<(int x, int y), List<int>>();
-        var neighbors = new Dictionary<(int x, int y), (int x, int y)>();
-        for (var y = 0; y < _lines.Length; y++)
-        {
-            for (var x = 0; x < _lines[y].Length; x++)
-            {
-                if (_lines[y][x] == '.' || char.IsDigit(_lines[y][x]))
-                {
-                    continue;
-                }
-
-                _gears[(x, y)] = new List<int>();
-
-                neighbors[(x - 1, y - 1)] = (x, y);
-                neighbors[(x, y - 1)] = (x, y);
-                neighbors[(x + 1, y - 1)] = (x, y);
-
-                neighbors[(x - 1, y)] = (x, y);
-                neighbors[(x + 1, y)] = (x, y);
-
-                neighbors[(x - 1, y + 1)] = (x, y);
-                neighbors[(x, y + 1)] = (x, y);
-                neighbors[(x + 1, y + 1)] = (x, y);
-            }
-        }
-
-        for (var y = 0; y < _lines.Length; y++)
-        {
-            var buf = "";
-            var adjacentGears = new HashSet<(int x, int y)>();
-            for (var x = 0; x < _lines[y].Length; x++)
-            {
-                if (char.IsDigit(_lines[y][x]))
-                {
-                    buf += _lines[y][x];
-                    if (neighbors.ContainsKey((x, y)))
-                    {
-                        adjacentGears.Add(neighbors[(x, y)]);
-                    }
-                }
-                else
-                {
-                    if (buf.Length > 0 && adjacentGears.Count > 0)
-                    {
-                        var num = int.Parse(buf);
-                        foreach (var adjacentGear in adjacentGears)
-                        {
-                            _gears[adjacentGear].Add(num);
-                        }
-                    }
-
-                    adjacentGears.Clear();
-                    buf = "";
-                }
-            }
-        }
-    }
-
     /// <summary>
     /// Here is an example engine schematic:
     ///
@@ -104,11 +38,9 @@ public class AoC202303
     ///
     /// Of course, the actual engine schematic is much larger. What is the sum of all of the part numbers in the engine schematic?
     /// </summary>
-    [Fact]
-    public void PartOne()
+    public static int PartOne(Dictionary<(int x, int y), List<int>> gears)
     {
-        var sum = _gears.Sum(x => x.Value.Sum());
-        sum.Should().Be(531561);
+        return gears.Sum(x => x.Value.Sum());
     }
 
     /// <summary>
@@ -139,10 +71,8 @@ public class AoC202303
     ///
     /// What is the sum of all of the gear ratios in your engine schematic?
     /// </summary>
-    [Fact]
-    public void PartTwo()
+    public static int PartTwo(Dictionary<(int x, int y), List<int>> gears)
     {
-        var sum = _gears.Where(x => x.Value.Count == 2).Sum(x => x.Value[0] * x.Value[1]);
-        sum.Should().Be(83279367);
+        return gears.Where(x => x.Value.Count == 2).Sum(x => x.Value[0] * x.Value[1]);
     }
 }

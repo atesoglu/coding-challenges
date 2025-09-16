@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace AdventOfCode.Tests.Y2023.D04;
 
 /// <summary>
@@ -24,29 +22,8 @@ namespace AdventOfCode.Tests.Y2023.D04;
 /// As far as the Elf has been able to figure out, you have to figure out which of the numbers you have appear in the list of winning numbers.
 /// The first match makes the card worth one point and each match after the first doubles the point value of that card.
 /// </summary>
-public class AoC202304
+public static class Y2023D04Scratchcards
 {
-    private readonly IEnumerable<Card> _cards = File.ReadAllLines(@"2023\day-04\input.txt")
-        .Where(line => !line.Equals(string.Empty))
-        .Select(line => line.Split(": "))
-        .Select(line => (CardInfo: line.First(), NumberInfo: line.Last()))
-        .Select(line => (
-            CardInfo: line.CardInfo.Split(" ").Last(),
-            NumberInfo: line.NumberInfo.Split(" | ")))
-        .Select(line => (
-            CardInfo: int.Parse(line.CardInfo),
-            WinningNumbers: line.NumberInfo.First(),
-            OurNumbers: line.NumberInfo.Last()))
-        .Select(line => (
-            line.CardInfo,
-            WinningNumbers: line.WinningNumbers.Split(" ").Where(w => !w.Equals(string.Empty)),
-            OurNumbers: line.OurNumbers.Split(" ").Where(w => !w.Equals(string.Empty))))
-        .Select(line => (
-            line.CardInfo,
-            WinningNumbers: line.WinningNumbers.Select(int.Parse),
-            OurNumbers: line.OurNumbers.Select(int.Parse)))
-        .Select(line => new Card(line.CardInfo, line.WinningNumbers, line.OurNumbers));
-
     /// <summary>
     /// For example:
     ///
@@ -67,17 +44,13 @@ public class AoC202304
     ///
     /// Take a seat in the large pile of colorful cards. How many points are they worth in total?
     /// </summary>
-    [Fact]
-    public void PartOne()
+    public static int PartOne(Card[] cards)
     {
-        var sum = _cards
-            .Select(card => card.WinningNumbers.Intersect(card.OurNumbers))
-            .Select(bothSides => bothSides.Count())
-            .Select(numberCount => Math.Pow(2, numberCount - 1))
-            .Select(points => (int)Math.Round(points))
-            .Sum();
-
-        sum.Should().Be(20107);
+        return cards.Sum(card =>
+        {
+            var matches = card.WinningNumbers.Intersect(card.OurNumbers).Count();
+            return matches == 0 ? 0 : 1 << (matches - 1);
+        });
     }
 
     /// <summary>
@@ -109,12 +82,11 @@ public class AoC202304
     ///
     /// Process all of the original and copied scratchcards until no more scratchcards are won. Including the original set of scratchcards, how many total scratchcards do you end up with?
     /// </summary>
-    [Fact]
-    public void PartTwo()
+    public static int PartTwo(Card[] cards)
     {
-        var numberOfCards = _cards.ToDictionary(card => card.Number, _ => 1);
+        var numberOfCards = cards.ToDictionary(card => card.Number, _ => 1);
 
-        foreach (var card in _cards)
+        foreach (var card in cards)
         {
             var wins = card.WinningNumbers.Intersect(card.OurNumbers).Count();
             var copies = numberOfCards[card.Number];
@@ -125,8 +97,8 @@ public class AoC202304
             }
         }
 
-        var sum = numberOfCards.Select(card => card.Value).Sum();
-
-        sum.Should().Be(8172507);
+        return numberOfCards.Select(card => card.Value).Sum();
     }
 }
+
+public record Card(int Number, IEnumerable<int> WinningNumbers, IEnumerable<int> OurNumbers);
