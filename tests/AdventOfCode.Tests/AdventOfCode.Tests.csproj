@@ -38,6 +38,9 @@
       <None Update="Y2023\D04\Y2023D04Scratchcards-input.txt">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="Y2015\D03\Y2015D03PerfectlySphericalHousesInAVacuum-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

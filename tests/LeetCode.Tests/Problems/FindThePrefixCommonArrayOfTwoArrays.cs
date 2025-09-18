@@ -1,8 +1,20 @@
-﻿namespace LeetCode.Tests.Problems;
+﻿using FluentAssertions;
 
-public static class FindThePrefixCommonArrayOfTwoArrays
+namespace LeetCode.Tests.Problems;
+
+public class FindThePrefixCommonArrayOfTwoArrays
 {
-    public static int[] Solve(int[] inputA, int[] inputB)
+    [Theory]
+    [InlineData(new[] { 1, 3, 2, 4 }, new[] { 3, 1, 2, 4 }, new[] { 0, 2, 3, 4 })]
+    [InlineData(new[] { 2, 3, 1 }, new[] { 3, 1, 2 }, new[] { 0, 1, 3 })]
+    public void FindThePrefixCommonArrayOfTwoArraysTest(int[] inputA, int[] inputB, int[] expected)
+    {
+        var output = Solve(inputA, inputB);
+
+        output.Should().BeEquivalentTo(expected);
+    }
+
+    private static int[] Solve(int[] inputA, int[] inputB)
     {
         var result = new int[inputA.Length];
         var seenA = new HashSet<int>();
