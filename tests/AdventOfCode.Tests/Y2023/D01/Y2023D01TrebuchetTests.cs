@@ -1,0 +1,52 @@
+﻿using System.Text;
+using FluentAssertions;
+
+namespace AdventOfCode.Tests.Y2023.D01;
+
+public class Y2023D01TrebuchetTests
+{
+    private readonly IEnumerable<string> _lines = File.ReadAllLines(@"Y2023\D01\Y2023D01Trebuchet-input.txt", Encoding.UTF8);
+
+    [Theory]
+    [InlineData("1abc2", 12)]
+    [InlineData("pqr3stu8vwx", 38)]
+    [InlineData("a1b2c3d4e5f", 15)]
+    [InlineData("treb7uchet", 77)]
+    public void PartOneWithSampleData(string input, int expected)
+    {
+        var output = Y2023D01Trebuchet.PartOne(input);
+
+        output.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("two1nine", 29)]
+    [InlineData("eightwothree", 83)]
+    [InlineData("abcone2threexyz", 13)]
+    [InlineData("xtwone3four", 24)]
+    [InlineData("4nineeightseven2", 42)]
+    [InlineData("zoneight234", 14)]
+    [InlineData("7pqrstsixteen", 76)]
+    public void PartTwoWithSampleData(string input, int expected)
+    {
+        var output = Y2023D01Trebuchet.PartTwo(input);
+
+        output.Should().Be(expected);
+    }
+
+    [Fact]
+    public void PartOneWithRealInput()
+    {
+        var sum = _lines.Sum(Y2023D01Trebuchet.PartOne);
+
+        sum.Should().Be(54667);
+    }
+
+    [Fact]
+    public void PartTwoWithRealInput()
+    {
+        var sum = _lines.Sum(Y2023D01Trebuchet.PartTwo);
+
+        sum.Should().Be(54203);
+    }
+}
