@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.2"/>
+        <PackageReference Include="FluentAssertions" Version="8.4.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+        <PackageReference Include="xunit" Version="2.9.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Xunit"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- Include all input files with wildcard pattern for efficiency -->
+      <None Update="Y*\D*\*-input.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="oldies\2019\IntCode\" />
+      <Folder Include="Y2026\D02\" />
+      <Folder Include="Y2026\D03\" />
+      <Folder Include="Y2026\D04\" />
+      <Folder Include="Y2026\D05\" />
+      <Folder Include="Y2026\D06\" />
+      <Folder Include="Y2026\D07\" />
+      <Folder Include="Y2026\D08\" />
+      <Folder Include="Y2026\D09\" />
+      <Folder Include="Y2026\D10\" />
+      <Folder Include="Y2026\D11\" />
+      <Folder Include="Y2026\D12\" />
+      <Folder Include="Y2026\D13\" />
+      <Folder Include="Y2026\D14\" />
+      <Folder Include="Y2026\D15\" />
+      <Folder Include="Y2026\D16\" />
+      <Folder Include="Y2026\D17\" />
+      <Folder Include="Y2026\D18\" />
+      <Folder Include="Y2026\D19\" />
+      <Folder Include="Y2026\D20\" />
+      <Folder Include="Y2026\D21\" />
+      <Folder Include="Y2026\D22\" />
+      <Folder Include="Y2026\D23\" />
+      <Folder Include="Y2026\D24\" />
+      <Folder Include="Y2026\D25\" />
+    </ItemGroup>
+
+
+</Project>
