@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2016.D06;
 [ChallengeName("Signals and Noise")]
 public class Y2016D06
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D06\Y2016D06-input.txt", Encoding.UTF8);
+    private readonly IEnumerable<string> _lines = File.ReadAllLines(@"Y2016\D06\Y2016D06-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Decode(_input).mostFrequent;
+        var output = Decode().MostFrequent;
 
         output.Should().Be("wkbvmikb");
     }
@@ -19,24 +19,25 @@ public class Y2016D06
     [Fact]
     public void PartTwo()
     {
-        var output = Decode(_input).leastFrequent;
+        var output = Decode().LeastFrequent;
 
         output.Should().Be("evakwaga");
     }
 
 
-    (string mostFrequent, string leastFrequent) Decode(string input)
+    private (string MostFrequent, string LeastFrequent) Decode()
     {
-        var lines = input.Split('\n');
         var mostFrequent = "";
         var leastFrequent = "";
-        for (var i = 0; i < lines[0].Length; i++)
+
+        for (var i = 0; i < _lines.First().Length; i++)
         {
-            var items = (from line in lines group line by line[i] into g orderby g.Count() select g.Key);
+            var items = _lines.GroupBy(line => line[i]).OrderBy(g => g.Count()).Select(g => g.Key);
+
             mostFrequent += items.Last();
             leastFrequent += items.First();
         }
 
-        return (mostFrequent: mostFrequent, leastFrequent: leastFrequent);
+        return (MostFrequent: mostFrequent, LeastFrequent: leastFrequent);
     }
 }
