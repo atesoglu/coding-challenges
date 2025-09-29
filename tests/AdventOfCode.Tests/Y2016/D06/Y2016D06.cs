@@ -27,17 +27,29 @@ public class Y2016D06
 
     private (string MostFrequent, string LeastFrequent) Decode()
     {
-        var mostFrequent = "";
-        var leastFrequent = "";
+        var columnCount = _lines.First().Length;
+        var mostFrequentBuilder = new StringBuilder();
+        var leastFrequentBuilder = new StringBuilder();
 
-        for (var i = 0; i < _lines.First().Length; i++)
+        for (var columnIndex = 0; columnIndex < columnCount; columnIndex++)
         {
-            var items = _lines.GroupBy(line => line[i]).OrderBy(g => g.Count()).Select(g => g.Key);
+            // Get all characters at the current column
+            var charactersInColumn = _lines.Select(line => line[columnIndex]);
 
-            mostFrequent += items.Last();
-            leastFrequent += items.First();
+            // Group by character and sort by frequency
+            var frequencyGroups = charactersInColumn
+                .GroupBy(c => c)
+                .OrderBy(g => g.Count()) // ascending by frequency
+                .ToList();
+
+            // Least frequent is first, most frequent is last
+            var leastFrequentChar = frequencyGroups.First().Key;
+            var mostFrequentChar = frequencyGroups.Last().Key;
+
+            leastFrequentBuilder.Append(leastFrequentChar);
+            mostFrequentBuilder.Append(mostFrequentChar);
         }
 
-        return (MostFrequent: mostFrequent, LeastFrequent: leastFrequent);
+        return (mostFrequentBuilder.ToString(), leastFrequentBuilder.ToString());
     }
 }
