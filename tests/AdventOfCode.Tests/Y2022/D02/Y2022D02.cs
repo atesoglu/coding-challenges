@@ -13,7 +13,7 @@ public class Y2022D02
     {
         var output = Total(_input, Elf, Human1);
 
-        output.Should().Be(0);
+        output.Should().Be(15632);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2022D02
     {
         var output = Total(_input, Elf, Human2);
 
-        output.Should().Be(0);
+        output.Should().Be(14416);
     }
 
 

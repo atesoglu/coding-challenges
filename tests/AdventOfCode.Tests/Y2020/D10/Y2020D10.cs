@@ -1,7 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
 using FluentAssertions;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D10;
 
@@ -13,33 +12,19 @@ public class Y2020D10
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var jolts = Parse(_input);
+        var window = jolts.Skip(1).Zip(jolts).Select(p => (current: p.First, prev: p.Second));
 
-        output.Should().Be(0);
+        var output = window.Count(pair => pair.current - pair.prev == 1) *
+                     window.Count(pair => pair.current - pair.prev == 3);
+
+        output.Should().Be(2775);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var jolts = Parse(input);
-        var window = jolts.Skip(1).Zip(jolts).Select(p => (current: p.First, prev: p.Second));
-
-        return
-            window.Count(pair => pair.current - pair.prev == 1) *
-            window.Count(pair => pair.current - pair.prev == 3);
-    }
-
-    private object PartTwo(string input)
-    {
-        var jolts = Parse(input);
+        var jolts = Parse(_input);
 
         // dynamic programming with rolling variables a, b, c for the function values at i + 1, i + 2 and i + 3.
         var (a, b, c) = (1L, 0L, 0L);
@@ -52,7 +37,9 @@ public class Y2020D10
             (a, b, c) = (s, a, b);
         }
 
-        return a;
+        var output = a;
+
+        output.Should().Be(518344341716992);
     }
 
     ImmutableList<int> Parse(string input)

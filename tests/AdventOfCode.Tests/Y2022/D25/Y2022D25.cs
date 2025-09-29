@@ -13,7 +13,7 @@ public class Y2022D25
     {
         var output = LongToSnafu(_input.Split("\n").Select(SnafuToLong).Sum());
 
-        output.Should().Be("0");
+        output.Should().Be("2=01-0-2-0=-0==-1=01");
     }
 
 
@@ -21,7 +21,7 @@ public class Y2022D25
     // with the two special digits that's worth -2 and -1.
     long SnafuToLong(string snafu)
     {
-        long res = 0L;
+        var res = 0L;
         foreach (var digit in snafu)
         {
             res = res * 5;

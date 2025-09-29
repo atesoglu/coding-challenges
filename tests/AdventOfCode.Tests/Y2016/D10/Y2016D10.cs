@@ -14,7 +14,7 @@ public class Y2016D10
     {
         var output = Execute(Parse(_input)).Single(v => v.min == 17 && v.max == 61).id.Split(' ')[1];
 
-        output.Should().Be("0");
+        output.Should().Be("157");
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2016D10
         var m = Execute(Parse(_input)).Last().machine;
         var output = m["output 0"].values.Single() * m["output 1"].values.Single() * m["output 2"].values.Single();
 
-        output.Should().Be(0);
+        output.Should().Be(1085);
     }
 
     IEnumerable<(Dictionary<string, Node> machine, string id, int min, int max)> Execute(Dictionary<string, Node> machine)

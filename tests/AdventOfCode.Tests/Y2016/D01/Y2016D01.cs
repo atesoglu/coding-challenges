@@ -13,7 +13,7 @@ public class Y2016D01
         var (x, y) = FollowInstructions(_input).Last();
         var distance = Math.Abs(x) + Math.Abs(y);
 
-        distance.Should().Be(0);
+        distance.Should().Be(271);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class Y2016D01
             }
         }
 
-        distance.Should().Be(0);
+        distance.Should().Be(153);
     }
 
     private IEnumerable<(int x, int y)> FollowInstructions(string input)

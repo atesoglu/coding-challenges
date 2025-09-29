@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D01;
 
@@ -14,22 +11,19 @@ public class Y2019D01
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(3488702);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(5230169);
     }
 
-
-    private object PartOne(string input) => Solve(input, false);
-    private object PartTwo(string input) => Solve(input, true);
 
     int Solve(string input, bool recursive)
     {

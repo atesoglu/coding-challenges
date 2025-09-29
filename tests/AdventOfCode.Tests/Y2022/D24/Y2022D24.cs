@@ -14,7 +14,7 @@ public class Y2022D24
         var (entry, exit, maps) = Parse(_input);
         var output = WalkTo(entry, exit, maps).time;
 
-        output.Should().Be(0);
+        output.Should().Be(274);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2022D24
 
         var output = pos.time;
 
-        output.Should().Be(0);
+        output.Should().Be(839);
     }
 
 
@@ -53,7 +53,7 @@ public class Y2022D24
         }
 
         q.Enqueue(start, f(start));
-        HashSet<Pos> seen = new HashSet<Pos>();
+        var seen = new HashSet<Pos>();
 
         while (q.Count > 0)
         {

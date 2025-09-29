@@ -13,7 +13,7 @@ public class Y2022D01
     {
         var output = GetCaloriesPerElf(_input).First();
 
-        output.Should().Be(0);
+        output.Should().Be(71023);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2022D01
     {
         var output = GetCaloriesPerElf(_input).Take(3).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(206289);
     }
 
 

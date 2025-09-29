@@ -13,7 +13,7 @@ public class Y2017D11
     {
         var output = Distances(_input).Last();
 
-        output.Should().Be(0);
+        output.Should().Be(715);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2017D11
     {
         var output = Distances(_input).Max();
 
-        output.Should().Be(0);
+        output.Should().Be(1512);
     }
 
 

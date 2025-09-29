@@ -14,7 +14,7 @@ public class Y2016D09
     {
         var output = Expand(_input, 0, _input.Length, false);
 
-        output.Should().Be(0);
+        output.Should().Be(150914);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2016D09
     {
         var output = Expand(_input, 0, _input.Length, true);
 
-        output.Should().Be(0);
+        output.Should().Be(11052855125);
     }
 
     long Expand(string input, int i, int lim, bool recursive)

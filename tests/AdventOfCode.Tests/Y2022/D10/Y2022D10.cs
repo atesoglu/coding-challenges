@@ -17,7 +17,7 @@ public class Y2022D10
             .Select(signal => signal.x * signal.cycle)
             .Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(14320);
     }
 
     [Fact]
@@ -33,9 +33,9 @@ public class Y2022D10
             .Chunk(40)
             .Select(line => new string(line))
             .Aggregate("", (screen, line) => screen + line + "\n")
-            .Ocr();
+            .Ocr().ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("PCPBKAPJ");
     }
 
     IEnumerable<(int cycle, int x)> Signal(string input)

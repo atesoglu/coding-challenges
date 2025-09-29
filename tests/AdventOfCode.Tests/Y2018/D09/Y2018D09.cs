@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D09;
 
@@ -13,23 +12,19 @@ public class Y2018D09
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, 1);
 
-        output.Should().Be(0);
+        output.Should().Be(439341);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, 100);
 
-        output.Should().Be(0);
+        output.Should().Be(3566801385);
     }
 
-
-    private object PartOne(string input) => Solve(input, 1);
-
-    private object PartTwo(string input) => Solve(input, 100);
 
     long Solve(string input, int mul)
     {
@@ -75,4 +70,11 @@ public class Y2018D09
 
         return players.Max();
     }
+}
+
+class Node
+{
+    public int value;
+    public Node left;
+    public Node right;
 }

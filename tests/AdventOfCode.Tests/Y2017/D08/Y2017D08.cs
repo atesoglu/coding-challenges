@@ -16,7 +16,7 @@ public class Y2017D08
     {
         var output = Run(_input).lastMax;
 
-        output.Should().Be(0);
+        output.Should().Be(5102);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class Y2017D08
     {
         var output = Run(_input).runningMax;
 
-        output.Should().Be(0);
+        output.Should().Be(6056);
     }
 
 

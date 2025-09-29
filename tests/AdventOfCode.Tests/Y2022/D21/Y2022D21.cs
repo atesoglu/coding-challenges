@@ -11,9 +11,9 @@ public class Y2022D21
     [Fact]
     public void PartOne()
     {
-        var output = Parse(_input, "root", false).Simplify();
+        var output = Parse(_input, "root", false).Simplify().ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("41857219607906");
     }
 
     [Fact]
@@ -27,9 +27,9 @@ public class Y2022D21
         }
 
 
-        var output = expr.right;
+        var output = expr.right.ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("3916936880448");
     }
 
     // One step in rearranging the equation to <variable> = <constant> form.

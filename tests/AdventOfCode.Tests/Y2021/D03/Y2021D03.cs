@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D03;
 
@@ -13,30 +11,19 @@ public class Y2021D03
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var diagnosticReport = _input.Split("\n");
+        var output = GammaRate(diagnosticReport) * EpsilonRate(diagnosticReport);
 
-        output.Should().Be(0);
+        output.Should().Be(1997414);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var diagnosticReport = _input.Split("\n");
+        var output = OxygenGeneratorRating(diagnosticReport) * Co2ScruberRating(diagnosticReport);
 
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var diagnosticReport = input.Split("\n");
-        return GammaRate(diagnosticReport) * EpsilonRate(diagnosticReport);
-    }
-
-    private object PartTwo(string input)
-    {
-        var diagnosticReport = input.Split("\n");
-        return OxygenGeneratorRating(diagnosticReport) * Co2ScruberRating(diagnosticReport);
+        output.Should().Be(1032597);
     }
 
     int GammaRate(string[] diagnosticReport) => Extract1(diagnosticReport, MostCommonBitAt);

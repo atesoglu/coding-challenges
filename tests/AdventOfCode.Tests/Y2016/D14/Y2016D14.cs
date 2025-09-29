@@ -15,7 +15,7 @@ public class Y2016D14
     {
         var output = Solve(Hashes(_input, 0));
 
-        output.Should().Be(0);
+        output.Should().Be(35186);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2016D14
     {
         var output = Solve(Hashes(_input, 2016));
 
-        output.Should().Be(0);
+        output.Should().Be(22429);
     }
 
 
@@ -39,7 +39,7 @@ public class Y2016D14
         {
             hashQueue.Enqueue(hashEnd);
 
-            for (int i = 0; i < hashEnd.Length - 5; i++)
+            for (var i = 0; i < hashEnd.Length - 5; i++)
             {
                 if (hashEnd[i] == hashEnd[i + 1] &&
                     hashEnd[i + 1] == hashEnd[i + 2] &&
@@ -57,7 +57,7 @@ public class Y2016D14
             if (hashQueue.Count() == 1001)
             {
                 var hash = hashQueue.Dequeue();
-                for (int i = 0; i < hash.Length - 2; i++)
+                for (var i = 0; i < hash.Length - 2; i++)
                 {
                     if (hash[i] == hash[i + 1] && hash[i + 2] == hash[i + 1])
                     {
@@ -107,7 +107,7 @@ public class Y2016D14
 
                     for (var r = 0; r < rehash; r++)
                     {
-                        for (int ib = 0; ib < 16; ib++)
+                        for (var ib = 0; ib < 16; ib++)
                         {
                             newInput[2 * ib] = (byte)btoh[(hash[ib] >> 4) & 15];
                             newInput[2 * ib + 1] = (byte)btoh[hash[ib] & 15];

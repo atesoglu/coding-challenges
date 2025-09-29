@@ -13,7 +13,7 @@ public class Y2022D17
     {
         var output = new Tunnel(_input, 100).AddRocks(2022).Height;
 
-        output.Should().Be(0);
+        output.Should().Be(3069);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2022D17
     {
         var output = new Tunnel(_input, 100).AddRocks(1000000000000).Height;
 
-        output.Should().Be(0);
+        output.Should().Be(1523167155404);
     }
 
     class Tunnel

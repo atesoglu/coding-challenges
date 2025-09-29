@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D01;
 
@@ -13,41 +11,32 @@ public class Y2020D01
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var numbers = Numbers(_input);
 
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var numbers = Numbers(input);
-        return (
+        var output = (
             from x in numbers
             let y = 2020 - x
             where numbers.Contains(y)
             select x * y
         ).First();
+
+        output.Should().Be(787776);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var numbers = Numbers(input);
-        return (
+        var numbers = Numbers(_input);
+
+        var output = (
             from x in numbers
             from y in numbers
             let z = 2020 - x - y
             where numbers.Contains(z)
             select x * y * z
         ).First();
+
+        output.Should().Be(262738554);
     }
 
     HashSet<int> Numbers(string input)

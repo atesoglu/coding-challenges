@@ -13,7 +13,7 @@ public class Y2017D01
     {
         var output = InverseCaptcha(_input, 1);
 
-        output.Should().Be(0);
+        output.Should().Be(1216);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2017D01
     {
         var output = InverseCaptcha(_input, _input.Length / 2);
 
-        output.Should().Be(0);
+        output.Should().Be(1072);
     }
 
 

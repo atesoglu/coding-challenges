@@ -19,7 +19,7 @@ public class Y2024D14
             .Where(group => group.Key.x != 0 && group.Key.y != 0)
             .Aggregate(1, (acc, group) => acc * group.Value);
 
-        output.Should().Be(0);
+        output.Should().Be(229421808);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class Y2024D14
             .TakeWhile(robots => !Plot(robots).Contains("#################"))
             .Count();
 
-        output.Should().Be(0);
+        output.Should().Be(6577);
     }
 
 

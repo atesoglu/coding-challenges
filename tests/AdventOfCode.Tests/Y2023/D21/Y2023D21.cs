@@ -14,7 +14,7 @@ public class Y2023D21
     {
         var output = Steps(ParseMap(_input)).ElementAt(64);
 
-        output.Should().Be(0);
+        output.Should().Be(3682);
     }
 
     [Fact]
@@ -29,15 +29,15 @@ public class Y2023D21
         (decimal x1, decimal y1) = (196, steps[196]);
         (decimal x2, decimal y2) = (327, steps[327]);
 
-        decimal y01 = (y1 - y0) / (x1 - x0);
-        decimal y12 = (y2 - y1) / (x2 - x1);
-        decimal y012 = (y12 - y01) / (x2 - x0);
+        var y01 = (y1 - y0) / (x1 - x0);
+        var y12 = (y2 - y1) / (x2 - x1);
+        var y012 = (y12 - y01) / (x2 - x0);
 
         var n = 26501365;
 
         var output = decimal.Round(y0 + y01 * (n - x0) + y012 * (n - x0) * (n - x1));
 
-        output.Should().Be(0);
+        output.Should().Be(609012263058042);
     }
 
     // walks around and returns the number of available positions at each step

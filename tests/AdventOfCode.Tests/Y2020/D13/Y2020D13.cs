@@ -1,7 +1,6 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 using FluentAssertions;
-using System.Linq;
-using System.Numerics;
 
 namespace AdventOfCode.Tests.Y2020.D13;
 
@@ -13,24 +12,8 @@ public class Y2020D13
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var problem = Parse(input);
-        return problem.buses.Aggregate(
+        var problem = Parse(_input);
+        var output = problem.buses.Aggregate(
             (wait: long.MaxValue, bus: long.MaxValue),
             (min, bus) =>
             {
@@ -39,14 +22,22 @@ public class Y2020D13
             },
             min => min.wait * min.bus
         );
+
+        output.Should().Be(3246);
     }
 
-    private object PartTwo(string input) =>
-        ChineseRemainderTheorem(
-            Parse(input).buses
+    [Fact]
+    public void PartTwo()
+    {
+        var output = ChineseRemainderTheorem(
+            Parse(_input).buses
                 .Select(bus => (mod: bus.period, a: bus.period - bus.delay))
                 .ToArray()
         );
+
+        output.Should().Be(1010182346291467);
+    }
+
 
     (int earliestDepart, (long period, int delay)[] buses) Parse(string input)
     {

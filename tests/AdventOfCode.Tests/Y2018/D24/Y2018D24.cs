@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D24;
 
@@ -15,17 +12,32 @@ public class Y2018D24
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Fight(_input, 0).units;
 
-        output.Should().Be(0);
+        output.Should().Be(18346);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var l = 0;
+        var h = int.MaxValue / 2;
+        while (h - l > 1)
+        {
+            var m = (h + l) / 2;
+            if (Fight(_input, m).immuneSystem)
+            {
+                h = m;
+            }
+            else
+            {
+                l = m;
+            }
+        }
 
-        output.Should().Be(0);
+        var output = Fight(_input, h).units;
+
+        output.Should().Be(8698);
     }
 
 
@@ -81,28 +93,6 @@ public class Y2018D24
         return (army.All(x => x.immuneSystem), army.Select(x => x.units).Sum());
     }
 
-    private object PartOne(string input) => Fight(input, 0).units;
-
-    private object PartTwo(string input)
-    {
-        var l = 0;
-        var h = int.MaxValue / 2;
-        while (h - l > 1)
-        {
-            var m = (h + l) / 2;
-            if (Fight(input, m).immuneSystem)
-            {
-                h = m;
-            }
-            else
-            {
-                l = m;
-            }
-        }
-
-        return Fight(input, h).units;
-    }
-
     List<Group> Parse(string input)
     {
         var lines = input.Split("\n");
@@ -124,7 +114,7 @@ public class Y2018D24
                 var m = Regex.Match(line, rx);
                 if (m.Success)
                 {
-                    Group g = new Group();
+                    var g = new Group();
                     g.immuneSystem = immuneSystem;
                     g.units = int.Parse(m.Groups[1].Value);
                     g.hp = int.Parse(m.Groups[2].Value);
@@ -164,5 +154,43 @@ public class Y2018D24
             }
 
         return res;
+    }
+}
+
+class Group
+{
+    //4 units each with 9798 hit points (immune to bludgeoning) with an attack that does 1151 fire damage at initiative 9
+    public bool immuneSystem;
+    public long units;
+    public int hp;
+    public int damage;
+    public int initiative;
+    public string attackType;
+    public HashSet<string> immuneTo = new HashSet<string>();
+    public HashSet<string> weakTo = new HashSet<string>();
+
+    public long effectivePower
+    {
+        get { return units * damage; }
+    }
+
+    public long DamageDealtTo(Group target)
+    {
+        if (target.immuneSystem == immuneSystem)
+        {
+            return 0;
+        }
+        else if (target.immuneTo.Contains(attackType))
+        {
+            return 0;
+        }
+        else if (target.weakTo.Contains(attackType))
+        {
+            return effectivePower * 2;
+        }
+        else
+        {
+            return effectivePower;
+        }
     }
 }

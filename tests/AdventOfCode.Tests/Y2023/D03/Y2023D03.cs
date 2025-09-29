@@ -25,7 +25,7 @@ public class Y2023D03
             select n.Int
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(531561);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class Y2023D03
             select neighbours.First() * neighbours.Last()
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(83279367);
     }
 
     // checks that the parts are touching each other, i.e. rows are within 1 

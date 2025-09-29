@@ -1,7 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D13;
 
@@ -13,31 +12,17 @@ public class Y2019D13
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var icm = new IntCodeMachine(_input);
+        var chunks = Chunk(icm.Run(), 3);
+        var output = chunks.Count(x => x[2] == 2);
 
-        output.Should().Be(0);
+        output.Should().Be(318);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var icm = new IntCodeMachine(input);
-        var output = icm.Run();
-        var chunks = Chunk(output, 3);
-        return chunks.Count(x => x[2] == 2);
-    }
-
-    private object PartTwo(string input)
-    {
-        var icm = new IntCodeMachine(input);
+        var icm = new IntCodeMachine(_input);
         icm.memory[0] = 2;
         var score = 0;
         var icolBall = -1;
@@ -45,8 +30,7 @@ public class Y2019D13
         var dir = 0;
         while (true)
         {
-            var output = icm.Run(dir);
-            var chunks = Chunk(output, 3);
+            var chunks = Chunk(icm.Run(dir), 3);
             foreach (var chunk in chunks)
             {
                 var (icol, irow, block) = (chunk[0], chunk[1], chunk[2]);
@@ -76,7 +60,9 @@ public class Y2019D13
                 0;
         }
 
-        return score;
+        var output = score;
+
+        output.Should().Be(16309);
     }
 
     private T[][] Chunk<T>(IEnumerable<T> source, int chunksize)

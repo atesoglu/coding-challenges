@@ -14,7 +14,7 @@ public class Y2017D16
     {
         var output = ParseStep(_input)("abcdefghijklmnop");
 
-        output.Should().Be("0");
+        output.Should().Be("kpbodeajhlicngmf");
     }
 
     [Fact]
@@ -26,21 +26,21 @@ public class Y2017D16
         var mod = Mod(step, startState);
 
         var state = startState;
-        for (int i = 0; i < 1000000000 % mod; i++)
+        for (var i = 0; i < 1000000000 % mod; i++)
         {
             state = step(state);
         }
 
         var output = state;
 
-        output.Should().Be("0");
+        output.Should().Be("ahgpjdkcbfmneloi");
     }
 
 
     int Mod(Func<string, string> step, string startState)
     {
         var state = startState;
-        for (int i = 0;; i++)
+        for (var i = 0;; i++)
         {
             state = step(state);
             if (startState == state)
@@ -57,13 +57,13 @@ public class Y2017D16
             select
                 ParseMove(stm, "s([0-9]+)", m =>
                 {
-                    int n = int.Parse(m[0]);
+                    var n = int.Parse(m[0]);
                     return (order) => { return order.Skip(order.Count - n).Concat(order.Take(order.Count - n)).ToList(); };
                 }) ??
                 ParseMove(stm, "x([0-9]+)/([0-9]+)", m =>
                 {
-                    int idx1 = int.Parse(m[0]);
-                    int idx2 = int.Parse(m[1]);
+                    var idx1 = int.Parse(m[0]);
+                    var idx2 = int.Parse(m[1]);
                     return (order) =>
                     {
                         (order[idx1], order[idx2]) = (order[idx2], order[idx1]);

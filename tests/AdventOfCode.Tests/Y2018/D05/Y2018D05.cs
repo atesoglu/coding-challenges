@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D05;
 
@@ -13,47 +11,40 @@ public class Y2018D05
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
+        var output = React(_input);
+        output.Should().Be(9822);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
+        var output = (from ch in "abcdefghijklmnopqrstuvwxyz" select React(_input, ch)).Min();
+        output.Should().Be(5726);
     }
-
-
-    private object PartOne(string input) => React(input);
-
-    private object PartTwo(string input) => (from ch in "abcdefghijklmnopqrstuvwxyz" select React(input, ch)).Min();
-
-    char ToLower(char ch) => ch <= 'Z' ? (char)(ch - 'A' + 'a') : ch;
 
     int React(string input, char? skip = null)
     {
-        var stack = new Stack<char>("âŠ¥");
+        var stack = new Stack<char>();
 
         foreach (var ch in input)
         {
-            var top = stack.Peek();
-            if (ToLower(ch) == skip)
-            {
+            if (skip.HasValue && char.ToLowerInvariant(ch) == skip.Value)
                 continue;
-            }
-            else if (top != ch && ToLower(ch) == ToLower(top))
+
+            if (stack.Count > 0)
             {
-                stack.Pop();
+                var top = stack.Peek();
+                if (char.ToLowerInvariant(ch) == char.ToLowerInvariant(top) &&
+                    ch != top)
+                {
+                    stack.Pop();
+                    continue;
+                }
             }
-            else
-            {
-                stack.Push(ch);
-            }
+
+            stack.Push(ch);
         }
 
-        return stack.Count() - 1;
+        return stack.Count;
     }
 }

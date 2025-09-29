@@ -17,7 +17,7 @@ public class Y2016D21
     {
         var output = string.Join("", Parse(_input)("abcdefgh"));
 
-        output.Should().Be("0");
+        output.Should().Be("gfdhebac");
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Y2016D21
 
         var output = string.Join("", Permutations("abcdefgh".ToArray()).First(p => scramble(p).SequenceEqual("fbgdceah")));
 
-        output.Should().Be("0");
+        output.Should().Be("dhaegfbc");
     }
 
     IEnumerable<T[]> Permutations<T>(T[] rgt)
@@ -177,7 +177,7 @@ public class Y2016D21
         var d = x < y ? 1 : -1;
 
         var ch = chars[x];
-        for (int i = x + d; i != y + d; i += d)
+        for (var i = x + d; i != y + d; i += d)
         {
             chars[i - d] = chars[i];
         }

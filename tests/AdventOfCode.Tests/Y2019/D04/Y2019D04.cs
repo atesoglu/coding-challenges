@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2019.D04;
 
@@ -14,22 +12,19 @@ public class Y2019D04
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(966);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(628);
     }
 
-
-    private object PartOne(string input) => Solve(input, true);
-    private object PartTwo(string input) => Solve(input, false);
 
     private int Solve(string input, bool trippletsAllowed)
     {

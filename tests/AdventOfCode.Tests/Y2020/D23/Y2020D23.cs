@@ -13,27 +13,18 @@ public class Y2020D23
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = string.Join("", Solve(_input, 9, 100).Take(8));
 
-        output.Should().Be(0);
+        output.Should().Be("46978532");
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var labels = Solve(_input, 1000000, 10000000).Take(2).ToArray();
+        var output = labels[0] * labels[1];
 
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) =>
-        string.Join("", Solve(input, 9, 100).Take(8));
-
-    private object PartTwo(string input)
-    {
-        var labels = Solve(input, 1000000, 10000000).Take(2).ToArray();
-        return labels[0] * labels[1];
+        output.Should().Be(163035127721);
     }
 
     private IEnumerable<long> Solve(string input, int maxLabel, int rotate)
@@ -41,7 +32,7 @@ public class Y2020D23
         var digits = input.Select(d => int.Parse(d.ToString())).ToArray();
 
         // A compact linked list representation. The cup's label can be used as the index into the array. 
-        int[] next = Enumerable.Range(1, maxLabel + 1).ToArray();
+        var next = Enumerable.Range(1, maxLabel + 1).ToArray();
         next[0] = -1; // not used
 
         for (var i = 0; i < digits.Length; i++)

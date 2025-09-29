@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D10;
 
@@ -13,22 +11,19 @@ public class Y2021D10
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = GetScores(_input, getSyntaxErrorScore: true).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(345441);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Median(GetScores(_input, getSyntaxErrorScore: false));
 
-        output.Should().Be(0);
+        output.Should().Be(3235371166);
     }
 
-
-    private object PartOne(string input) => GetScores(input, getSyntaxErrorScore: true).Sum();
-    private object PartTwo(string input) => Median(GetScores(input, getSyntaxErrorScore: false));
 
     private long Median(IEnumerable<long> items) =>
         items.OrderBy(x => x).ElementAt(items.Count() / 2);

@@ -17,7 +17,7 @@ public class Y2022D13
             .Select((pair, index) => Compare(pair[0], pair[1]) < 0 ? index + 1 : 0)
             .Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(5013);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Y2022D13
         packets.Sort(Compare);
         var output = (packets.IndexOf(divider[0]) + 1) * (packets.IndexOf(divider[1]) + 1);
 
-        output.Should().Be(0);
+        output.Should().Be(25038);
     }
 
     IEnumerable<JsonNode> GetPackets(string input) =>

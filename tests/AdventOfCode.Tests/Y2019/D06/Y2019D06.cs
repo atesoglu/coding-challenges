@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 using ChildToParent = System.Collections.Generic.Dictionary<string, string>;
 
 namespace AdventOfCode.Tests.Y2019.D06;
@@ -14,32 +12,19 @@ public class Y2019D06
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var childToParent = ParseTree(_input);
+        var output = (
+            from node in childToParent.Keys
+            select GetAncestors(childToParent, node).Count()
+        ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(117672);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var childToParent = ParseTree(input);
-        return (
-            from node in childToParent.Keys
-            select GetAncestors(childToParent, node).Count()
-        ).Sum();
-    }
-
-    private object PartTwo(string input)
-    {
-        var childToParent = ParseTree(input);
+        var childToParent = ParseTree(_input);
         var ancestors1 = new Stack<string>(GetAncestors(childToParent, "YOU"));
         var ancestors2 = new Stack<string>(GetAncestors(childToParent, "SAN"));
         while (ancestors1.Peek() == ancestors2.Peek())
@@ -48,7 +33,9 @@ public class Y2019D06
             ancestors2.Pop();
         }
 
-        return ancestors1.Count + ancestors2.Count;
+        var output = ancestors1.Count + ancestors2.Count;
+
+        output.Should().Be(277);
     }
 
     ChildToParent ParseTree(string input) =>

@@ -16,7 +16,7 @@ public class Y2023D16
     {
         var output = EnergizedCells(ParseMap(_input), (Complex.Zero, Right));
 
-        output.Should().Be(0);
+        output.Should().Be(7927);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2023D16
         var map = ParseMap(_input);
         var output = (from beam in StartBeams(map) select EnergizedCells(map, beam)).Max();
 
-        output.Should().Be(0);
+        output.Should().Be(8246);
     }
 
 
@@ -61,20 +61,23 @@ public class Y2023D16
     // and return the inward pointing directions
     IEnumerable<Beam> StartBeams(Map map)
     {
-        var br = map.Keys.MaxBy(pos => pos.Imaginary + pos.Real);
+        var maxX = map.Keys.Max(p => p.Real);
+        var maxY = map.Keys.Max(p => p.Imaginary);
+
         return
         [
-            ..from pos in map.Keys where pos.Real == 0 select (pos, Down),
-            ..from pos in map.Keys where pos.Real == br.Real select (pos, Left),
-            ..from pos in map.Keys where pos.Imaginary == br.Imaginary select (pos, Up),
-            ..from pos in map.Keys where pos.Imaginary == 0 select (pos, Right),
+            ..from pos in map.Keys where pos.Real == 0      select (pos, Right),
+            ..from pos in map.Keys where pos.Real == maxX   select (pos, Left),
+            ..from pos in map.Keys where pos.Imaginary == 0 select (pos, Down),
+            ..from pos in map.Keys where pos.Imaginary == maxY select (pos, Up),
         ];
     }
+
 
     // using a dictionary helps with bounds check (simply containskey):
     Map ParseMap(string input)
     {
-        var lines = input.Split('\n');
+        var lines = input.TrimEnd().Split('\n');
         return (
             from irow in Enumerable.Range(0, lines.Length)
             from icol in Enumerable.Range(0, lines[0].Length)

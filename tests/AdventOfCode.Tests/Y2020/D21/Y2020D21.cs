@@ -13,35 +13,23 @@ public class Y2020D21
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var problem = Parse(_input);
+        var suspiciousIngredients = GetIngredientsByAllergene(problem).SelectMany(kvp => kvp.Value).ToHashSet();
 
-        output.Should().Be(0);
+        var output = problem.mapping
+            .Select(entry => entry.ingredients.Count(ingredient => !suspiciousIngredients.Contains(ingredient)))
+            .Sum();
+
+        output.Should().Be(2542);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var problem = Parse(input);
-        var suspiciousIngredients = GetIngredientsByAllergene(problem).SelectMany(kvp => kvp.Value).ToHashSet();
-        return problem.mapping
-            .Select(entry => entry.ingredients.Count(ingredient => !suspiciousIngredients.Contains(ingredient)))
-            .Sum();
-    }
-
-    private object PartTwo(string input)
-    {
-        var problem = Parse(input);
+        var problem = Parse(_input);
         var ingredientsByAllergene = GetIngredientsByAllergene(problem);
 
-        // The problem is set up in a way that we can identify the allergene - ingredient pairs one by one. 
+        // The problem is set up in a way that we can identify the allergene - ingredient pairs one by one.
         while (ingredientsByAllergene.Values.Any(ingredients => ingredients.Count > 1))
         {
             foreach (var allergen in problem.allergens)
@@ -60,7 +48,9 @@ public class Y2020D21
             }
         }
 
-        return string.Join(",", problem.allergens.OrderBy(a => a).Select(a => ingredientsByAllergene[a].Single()));
+        var output = string.Join(",", problem.allergens.OrderBy(a => a).Select(a => ingredientsByAllergene[a].Single()));
+
+        output.Should().Be("hkflr,ctmcqjf,bfrq,srxphcm,snmxl,zvx,bd,mqvk");
     }
 
     private Problem Parse(string input)
@@ -90,3 +80,7 @@ public class Y2020D21
                     (res, entry) => res.Intersect(entry.ingredients))
                 .ToHashSet());
 }
+record Problem(
+    HashSet<string> allergens,
+    HashSet<string> ingredients,
+    (HashSet<string> ingredients, HashSet<string> allergens)[] mapping);

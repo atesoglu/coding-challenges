@@ -13,7 +13,7 @@ public class Y2016D12
     {
         var output = Solve(_input, 0);
 
-        output.Should().Be(0);
+        output.Should().Be(318009);
     }
 
     [Fact]
@@ -21,14 +21,14 @@ public class Y2016D12
     {
         var output = Solve(_input, 1);
 
-        output.Should().Be(0);
+        output.Should().Be(9227663);
     }
 
 
     int Solve(string input, int c)
     {
         var regs = new Dictionary<string, int>();
-        int ip = 0;
+        var ip = 0;
 
         int getReg(string reg)
         {

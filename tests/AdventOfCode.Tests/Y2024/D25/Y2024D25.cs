@@ -26,6 +26,6 @@ public class Y2024D25
 
         var output = keys.Sum(k => locks.Count(l => match(l, k)));
 
-        output.Should().Be(0);
+        output.Should().Be(3317);
     }
 }

@@ -14,7 +14,7 @@ public class Y2023D01
     {
         var output = Solve(_input, @"\d");
 
-        output.Should().Be(0);
+        output.Should().Be(54667);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2023D01
     {
         var output = Solve(_input, @"\d|one|two|three|four|five|six|seven|eight|nine");
 
-        output.Should().Be(0);
+        output.Should().Be(54203);
     }
 
 

@@ -15,7 +15,7 @@ public class Y2017D18
             .Execute(_input)
             .First(received => received != null).Value;
 
-        output.Should().Be(0);
+        output.Should().Be(9423);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Y2017D18
             .First(x => !x.state0.running && !x.state1.running)
             .state1.valueSent;
 
-        output.Should().Be(0);
+        output.Should().Be(7620);
     }
 
     abstract class Machine<TState>

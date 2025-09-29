@@ -17,7 +17,7 @@ public class Y2022D11
 
         var output = GetMonkeyBusinessLevel(monkeys);
 
-        output.Should().Be(0);
+        output.Should().Be(102399);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class Y2022D11
 
         var output = GetMonkeyBusinessLevel(monkeys);
 
-        output.Should().Be(0);
+        output.Should().Be(23641658401);
     }
 
     Monkey[] ParseMonkeys(string input) => input.Split("\n\n").Select(ParseMonkey).ToArray();

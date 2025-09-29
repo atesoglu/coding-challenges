@@ -13,7 +13,7 @@ public class Y2016D24
     {
         var output = Routes(_input, false).Min();
 
-        output.Should().Be(0);
+        output.Should().Be(430);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2016D24
     {
         var output = Routes(_input, true).Min();
 
-        output.Should().Be(0);
+        output.Should().Be(700);
     }
 
 
@@ -38,7 +38,7 @@ public class Y2016D24
             }
 
             var l = 0;
-            for (int i = 0; i < perm.Count - 1; i++)
+            for (var i = 0; i < perm.Count - 1; i++)
             {
                 l += map.ShortestPathLength(map.poi[perm[i]], map.poi[perm[i + 1]]);
             }
@@ -109,8 +109,7 @@ public class Y2016D24
             {
                 var q = new Queue<(int steps, int irow, int icol)>();
                 q.Enqueue((0, from.irow, from.icol));
-                var seen = new HashSet<(int, int)>();
-                seen.Add(from);
+                var seen = new HashSet<(int, int)> { from };
                 while (q.Any())
                 {
                     var p = q.Dequeue();

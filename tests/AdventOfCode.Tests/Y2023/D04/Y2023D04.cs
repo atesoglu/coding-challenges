@@ -19,7 +19,7 @@ public class Y2023D04
             select Math.Pow(2, card.matches - 1)
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(20107);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class Y2023D04
 
         var output = counts.Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(8172507);
     }
 
     // Only the match count is relevant for a card

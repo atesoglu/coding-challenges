@@ -13,7 +13,7 @@ public class Y2022D09
     {
         var output = Tails(_input, 2).ToHashSet().Count;
 
-        output.Should().Be(0);
+        output.Should().Be(6243);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2022D09
     {
         var output = Tails(_input, 10).ToHashSet().Count;
 
-        output.Should().Be(0);
+        output.Should().Be(2630);
     }
 
 

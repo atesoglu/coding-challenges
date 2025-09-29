@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D06;
 
@@ -13,23 +11,7 @@ public class Y2018D06
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var coords = Parse(input);
+        var coords = Parse(_input);
 
         var minX = coords.Min(coord => coord.x) - 1;
         var maxX = coords.Max(coord => coord.x) + 1;
@@ -73,12 +55,15 @@ public class Y2018D06
             }
         }
 
-        return area.Max();
+        var output = area.Max();
+
+        output.Should().Be(4398);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var coords = Parse(input);
+        var coords = Parse(_input);
 
         var minX = coords.Min(coord => coord.x) - 1;
         var maxX = coords.Max(coord => coord.x) + 1;
@@ -97,7 +82,9 @@ public class Y2018D06
             }
         }
 
-        return area;
+        var output = area;
+
+        output.Should().Be(39560);
     }
 
     int Dist((int x, int y) c1, (int x, int y) c2)

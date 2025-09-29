@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D08;
 
@@ -9,23 +7,6 @@ namespace AdventOfCode.Tests.Y2021.D08;
 public class Y2021D08
 {
     private readonly string _input = File.ReadAllText(@"Y2021\D08\Y2021D08-input.txt", Encoding.UTF8);
-
-    [Fact]
-    public void PartOne()
-    {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
 
     /*
     0:      1:      2:      3:      4:      5:      6:      7:      8:      9:
@@ -38,24 +19,28 @@ public class Y2021D08
     gggg    ....    gggg    gggg    ....    gggg    gggg    ....    gggg    gggg
     */
 
-    private object PartOne(string input)
+    [Fact]
+    public void PartOne()
     {
         // we can identify digits 1, 7, 4 and 8 by their active segments count:
         var segmentCounts = new[] { "cd", "acf", "bcdf", "abcdefg" }.Select(x => x.Length).ToHashSet();
 
-        return (
-            from line in input.Split("\n")
+        var output = (
+            from line in _input.Split("\n")
             let parts = line.Split(" | ")
             from segment in parts[1].Split(" ")
             where segmentCounts.Contains(segment.Length)
             select 1
         ).Count();
+
+        output.Should().Be(261);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var res = 0;
-        foreach (var line in input.Split("\n"))
+        foreach (var line in _input.Split("\n"))
         {
             var parts = line.Split(" | ");
             var patterns = parts[0].Split(" ").Select(x => x.ToHashSet()).ToArray();
@@ -91,6 +76,8 @@ public class Y2021D08
             res += parts[1].Split(" ").Aggregate(0, (n, digit) => n * 10 + decode(digit));
         }
 
-        return res;
+        var output = res;
+
+        output.Should().Be(987553);
     }
 }

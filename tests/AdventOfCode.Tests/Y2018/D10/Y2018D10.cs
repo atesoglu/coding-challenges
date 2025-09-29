@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D10;
 
@@ -14,23 +12,19 @@ public class Y2018D10
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solver(_input).st.Ocr().ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("RRANZLAC");
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solver(_input).seconds;
 
-        output.Should().Be(0);
+        output.Should().Be(10942);
     }
 
-
-    private object PartOne(string input) => Solver(input).st.Ocr();
-
-    private object PartTwo(string input) => Solver(input).seconds;
 
     (string st, int seconds) Solver(string input)
     {
@@ -100,4 +94,10 @@ public class Y2018D10
             area = areaNew;
         }
     }
+}
+class Point {
+    public int x;
+    public int y;
+    public int vx;
+    public int vy;
 }

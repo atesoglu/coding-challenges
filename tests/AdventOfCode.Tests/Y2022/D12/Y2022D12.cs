@@ -16,7 +16,7 @@ public class Y2022D12
             .Single(poi => poi.symbol == startSymbol)
             .distanceFromGoal;
 
-        output.Should().Be(0);
+        output.Should().Be(380);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2022D12
             .Select(poi => poi.distanceFromGoal)
             .Min();
 
-        output.Should().Be(0);
+        output.Should().Be(375);
     }
 
 

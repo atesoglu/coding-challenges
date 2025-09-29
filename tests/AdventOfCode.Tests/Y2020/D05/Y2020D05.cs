@@ -14,27 +14,20 @@ public class Y2020D05
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Seats(_input).Max();
 
-        output.Should().Be(0);
+        output.Should().Be(822);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => Seats(input).Max();
-
-    private object PartTwo(string input)
-    {
-        var seats = Seats(input);
+        var seats = Seats(_input);
         var (min, max) = (seats.Min(), seats.Max());
-        return Enumerable.Range(min, max - min + 1).Single(id => !seats.Contains(id));
+
+        var output = Enumerable.Range(min, max - min + 1).Single(id => !seats.Contains(id));
+
+        output.Should().Be(705);
     }
 
     HashSet<int> Seats(string input) =>

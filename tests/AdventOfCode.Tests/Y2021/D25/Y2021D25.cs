@@ -12,21 +12,13 @@ public class Y2021D25
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = SolvePartOne(_input);
 
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
+        output.Should().Be(489);
     }
 
 
-    private object PartOne(string input)
+    private object SolvePartOne(string input)
     {
         var map = input.Split('\n');
         var (ccol, crow) = (map[0].Length, map.Length);

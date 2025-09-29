@@ -15,7 +15,7 @@ public class Y2023D09
     {
         var output = Solve(_input, ExtrapolateRight);
 
-        output.Should().Be(0);
+        output.Should().Be(1842168671);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2023D09
     {
         var output = Solve(_input, ExtrapolateLeft);
 
-        output.Should().Be(0);
+        output.Should().Be(903);
     }
 
     long Solve(string input, Func<long[], long> extrapolate) =>

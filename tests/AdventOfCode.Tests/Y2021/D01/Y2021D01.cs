@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D01;
 
@@ -13,23 +11,19 @@ public class Y2021D01
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = DepthIncrease(Numbers(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(1655);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = DepthIncrease(ThreeMeasurements(Numbers(_input)));
 
-        output.Should().Be(0);
+        output.Should().Be(1683);
     }
 
-
-    private object PartOne(string input) => DepthIncrease(Numbers(input));
-
-    private object PartTwo(string input) => DepthIncrease(ThreeMeasurements(Numbers(input)));
 
     int DepthIncrease(IEnumerable<int> ns) => (
         from p in Enumerable.Zip(ns, ns.Skip(1))

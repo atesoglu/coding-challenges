@@ -14,7 +14,7 @@ public class Y2016D15
     {
         var output = Iterate(Parse(_input)).First(v => v.ok).t;
 
-        output.Should().Be(0);
+        output.Should().Be(376777);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2016D15
     {
         var output = Iterate(Parse(_input).Concat(new[] { (pos: 0, mod: 11) }).ToArray()).First(v => v.ok).t;
 
-        output.Should().Be(0);
+        output.Should().Be(3903937);
     }
 
     (int pos, int mod)[] Parse(string input) => (
@@ -33,7 +33,7 @@ public class Y2016D15
 
     IEnumerable<(int t, bool ok)> Iterate((int pos, int mod)[] discs)
     {
-        for (int t = 0;; t++)
+        for (var t = 0;; t++)
         {
             var ok = Enumerable.Range(0, discs.Length)
                 .All(i => (discs[i].pos + t + i + 1) % discs[i].mod == 0);

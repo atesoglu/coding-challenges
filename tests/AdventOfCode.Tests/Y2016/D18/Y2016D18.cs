@@ -14,7 +14,7 @@ public class Y2016D18
     {
         var output = SafeCount(_input, 40);
 
-        output.Should().Be(0);
+        output.Should().Be(1982);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2016D18
     {
         var output = SafeCount(_input, 400000);
 
-        output.Should().Be(0);
+        output.Should().Be(20005203);
     }
 
 
@@ -30,10 +30,10 @@ public class Y2016D18
     {
         var rowPrev = input;
         var safeCount = rowPrev.Count(ch => ch == '.');
-        for (int i = 0; i < lines - 1; i++)
+        for (var i = 0; i < lines - 1; i++)
         {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < rowPrev.Length; j++)
+            var sb = new StringBuilder();
+            for (var j = 0; j < rowPrev.Length; j++)
             {
                 var leftTrap = j != 0 && rowPrev[j - 1] == '^';
                 var centerTrap = rowPrev[j] == '^';

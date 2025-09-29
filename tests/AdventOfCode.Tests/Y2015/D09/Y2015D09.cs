@@ -53,7 +53,7 @@ public class Y2015D09
             yield break;
         }
 
-        for (int i = start; i < items.Length; i++)
+        for (var i = start; i < items.Length; i++)
         {
             (items[start], items[i]) = (items[i], items[start]);
             foreach (var p in Recurse(items, start + 1))

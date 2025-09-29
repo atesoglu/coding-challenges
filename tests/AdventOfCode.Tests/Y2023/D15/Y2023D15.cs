@@ -18,7 +18,7 @@ public class Y2023D15
     {
         var output = _input.Split(',').Select(Hash).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(513643);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2023D15
         // "funcionally imperative of imperatively functional", only for ðŸŽ„
         var output = ParseSteps(_input).Aggregate(MakeBoxes(256), UpdateBoxes, GetFocusingPower);
 
-        output.Should().Be(0);
+        output.Should().Be(265345);
     }
 
     Boxes UpdateBoxes(Boxes boxes, Step step)

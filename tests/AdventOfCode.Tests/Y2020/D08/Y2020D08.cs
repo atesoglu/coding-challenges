@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D08;
 
@@ -14,26 +11,21 @@ public class Y2020D08
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Run(Parse(_input)).acc;
 
-        output.Should().Be(0);
+        output.Should().Be(1859);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => Run(Parse(input)).acc;
-
-    private object PartTwo(string input) =>
-        Patches(Parse(input))
+        var output = Patches(Parse(_input))
             .Select(Run)
             .First(res => res.terminated).acc;
+
+        output.Should().Be(1235);
+    }
+
 
     Stm[] Parse(string input) =>
         input.Split("\n")
@@ -86,3 +78,4 @@ public class Y2020D08
         }
     }
 }
+record Stm(string op, int arg);

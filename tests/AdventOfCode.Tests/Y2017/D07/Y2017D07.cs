@@ -14,7 +14,7 @@ public class Y2017D07
     {
         var output = Root(Parse(_input)).Id;
 
-        output.Should().Be("0");
+        output.Should().Be("cyrupz");
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Y2017D07
 
         var output = Fix(bogusChild, desiredWeight, tree);
 
-        output.Should().Be(0);
+        output.Should().Be(193);
     }
 
     Tree Parse(string input)

@@ -1,9 +1,6 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 
 namespace AdventOfCode.Tests.Y2019.D16;
 
@@ -14,22 +11,6 @@ public class Y2019D16
 
     [Fact]
     public void PartOne()
-    {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
     {
         int[] Fft(int[] digits)
         {
@@ -56,17 +37,20 @@ public class Y2019D16
             ).ToArray();
         }
 
-        var digits = input.Select(ch => int.Parse(ch.ToString())).ToArray();
+        var digits = _input.Select(ch => int.Parse(ch.ToString())).ToArray();
 
         for (var i = 0; i < 100; i++)
         {
             digits = Fft(digits);
         }
 
-        return string.Join("", digits.Take(8));
+        var output = string.Join("", digits.Take(8));
+
+        output.Should().Be("96136976");
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         /*
         Let's introduce the following matrix:
@@ -145,12 +129,12 @@ public class Y2019D16
         we need to compute [B]_{1..7} * xs % 10, where xs is the digits of input repeated 10000 times shifted with t
         */
 
-        var xs = input.Select(ch => int.Parse(ch.ToString())).ToArray();
+        var xs = _input.Select(ch => int.Parse(ch.ToString())).ToArray();
         var res = "";
 
-        var t = int.Parse(input.Substring(0, 7));
+        var t = int.Parse(_input.Substring(0, 7));
         var crow = 8;
-        var ccol = input.Length * 10000 - t;
+        var ccol = _input.Length * 10000 - t;
 
         var bijMods = new int[ccol + 1];
         var bij = new BigInteger(1);
@@ -165,13 +149,15 @@ public class Y2019D16
             var s = 0;
             for (var j = i; j <= ccol; j++)
             {
-                var x = xs[(t + j - 1) % input.Length];
+                var x = xs[(t + j - 1) % _input.Length];
                 s += x * bijMods[j - i + 1];
             }
 
             res += (s % 10).ToString();
         }
 
-        return res;
+        var output = res;
+
+        output.Should().Be("85600369");
     }
 }

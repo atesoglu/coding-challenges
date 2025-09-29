@@ -31,7 +31,7 @@ public class Y2022D15
 
         var output = res;
 
-        output.Should().Be(0);
+        output.Should().Be(5394423);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class Y2022D15
 
         var output = area.X * 4000000L + area.Y;
 
-        output.Should().Be(0);
+        output.Should().Be(11840879211051);
     }
 
 

@@ -13,7 +13,7 @@ public class Y2023D07
     {
         var output = Solve(_input, Part1Points);
 
-        output.Should().Be(0);
+        output.Should().Be(248179786);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2023D07
     {
         var output = Solve(_input, Part2Points);
 
-        output.Should().Be(0);
+        output.Should().Be(247885995);
     }
 
 

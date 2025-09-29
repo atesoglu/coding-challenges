@@ -22,7 +22,7 @@ public class Y2023D20
 
         var output = values.Count(v => v) * values.Count(v => !v);
 
-        output.Should().Be(0);
+        output.Should().Be(886347020);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class Y2023D20
 
         var output = branches.Aggregate(1L, (m, branch) => m * LoopLength(_input, branch));
 
-        output.Should().Be(0);
+        output.Should().Be(233283622908263);
     }
 
     int LoopLength(string input, string output)

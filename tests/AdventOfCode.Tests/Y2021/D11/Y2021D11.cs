@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D11;
 
@@ -13,22 +11,19 @@ public class Y2021D11
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Simulate(_input).Take(100).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(1625);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Simulate(_input).TakeWhile(flash => flash != 100).Count() + 1;
 
-        output.Should().Be(0);
+        output.Should().Be(244);
     }
 
-
-    private object PartOne(string input) => Simulate(input).Take(100).Sum();
-    private object PartTwo(string input) => Simulate(input).TakeWhile(flash => flash != 100).Count() + 1;
 
     // run the simulation in an endless loop, yield flash counts in each step
     IEnumerable<int> Simulate(string input)
@@ -93,3 +88,4 @@ public class Y2021D11
         where dx != 0 || dy != 0
         select new Pos(pos.x + dx, pos.y + dy);
 }
+record Pos(int x, int y);

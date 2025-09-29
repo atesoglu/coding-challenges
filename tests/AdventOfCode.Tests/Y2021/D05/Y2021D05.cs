@@ -14,22 +14,19 @@ public class Y2021D05
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = GetIntersections(ParseLines(_input, skipDiagonals: true)).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(6007);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = GetIntersections(ParseLines(_input, skipDiagonals: false)).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(19349);
     }
 
-
-    private object PartOne(string input) => GetIntersections(ParseLines(input, skipDiagonals: true)).Count();
-    private object PartTwo(string input) => GetIntersections(ParseLines(input, skipDiagonals: false)).Count();
 
     IEnumerable<Vec2> GetIntersections(IEnumerable<IEnumerable<Vec2>> lines) =>
         // group all the points and return the intersections:
@@ -59,3 +56,4 @@ public class Y2021D05
         where !skipDiagonals || dir.x == 0 || dir.y == 0
         select points;
 }
+record Vec2(int x, int y);

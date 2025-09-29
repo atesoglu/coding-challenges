@@ -17,7 +17,7 @@ public class Y2017D02
             select numbers.Max() - numbers.Min()
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(42378);
     }
 
     [Fact]
@@ -32,6 +32,6 @@ public class Y2017D02
             select a / b
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(246);
     }
 }

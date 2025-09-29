@@ -13,27 +13,23 @@ public class Y2020D02
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = ValidCount(_input, (PasswordEntry pe) =>
+        {
+            var count = pe.password.Count(ch => ch == pe.ch);
+            return pe.a <= count && count <= pe.b;
+        });
 
-        output.Should().Be(0);
+        output.Should().Be(465);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = ValidCount(_input, (PasswordEntry pe) => (pe.password[pe.a - 1] == pe.ch) ^ (pe.password[pe.b - 1] == pe.ch));
 
-        output.Should().Be(0);
+        output.Should().Be(294);
     }
 
-
-    private object PartOne(string input) => ValidCount(input, (PasswordEntry pe) =>
-    {
-        var count = pe.password.Count(ch => ch == pe.ch);
-        return pe.a <= count && count <= pe.b;
-    });
-
-    private object PartTwo(string input) => ValidCount(input, (PasswordEntry pe) => { return (pe.password[pe.a - 1] == pe.ch) ^ (pe.password[pe.b - 1] == pe.ch); });
 
     int ValidCount(string input, Func<PasswordEntry, bool> isValid) =>
         input
@@ -47,3 +43,4 @@ public class Y2020D02
             })
             .Count(isValid);
 }
+record PasswordEntry(int a, int b, char ch, string password);

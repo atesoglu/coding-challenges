@@ -16,7 +16,7 @@ public class Y2024D16
     {
         var output = FindBestScore(GetMap(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(72400);
     }
 
     [Fact]
@@ -24,9 +24,8 @@ public class Y2024D16
     {
         var output = FindBestSpots(GetMap(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(435);
     }
-
 
     static readonly Complex North = -Complex.ImaginaryOne;
     static readonly Complex South = Complex.ImaginaryOne;
@@ -40,7 +39,6 @@ public class Y2024D16
         var dist = Dijkstra(map, Goal(map));
         var start = Start(map);
 
-        // track the shortest paths using the distance map as guideline.
         var q = new PriorityQueue<State, int>();
         q.Enqueue(start, dist[start]);
 
@@ -63,11 +61,9 @@ public class Y2024D16
 
     Dictionary<State, int> Dijkstra(Map map, Complex goal)
     {
-        // Dijkstra algorithm; works backwards from the goal, returns the
-        // distances to _all_ tiles and directions.
         var dist = new Dictionary<State, int>();
-
         var q = new PriorityQueue<State, int>();
+
         foreach (var dir in new[] { North, East, West, South })
         {
             q.Enqueue((goal, dir), 0);
@@ -79,9 +75,16 @@ public class Y2024D16
             foreach (var (next, score) in Steps(map, cur, forward: false))
             {
                 var nextCost = totalDistance + score;
-                if (nextCost < dist.GetOrDefault(next, int.MaxValue))
+
+                // ✅ replacement for dist.GetOrDefault(next, int.MaxValue)
+                if (!dist.TryGetValue(next, out var oldCost))
                 {
-                    q.Remove(next, out _, out _, null);
+                    oldCost = int.MaxValue;
+                }
+
+                if (nextCost < oldCost)
+                {
+                    // no PriorityQueue.Remove in .NET, but it still works fine
                     dist[next] = nextCost;
                     q.Enqueue(next, nextCost);
                 }
@@ -91,9 +94,6 @@ public class Y2024D16
         return dist;
     }
 
-    // returns the possible next or previous states and the associated costs for a given state.
-    // in forward mode we scan the possible states from the start state towards the goal.
-    // in backward mode we are working backwards from the goal to the start.
     IEnumerable<(State, int cost)> Steps(Map map, State state, bool forward)
     {
         foreach (var dir in new[] { North, East, West, South })
@@ -101,7 +101,9 @@ public class Y2024D16
             if (dir == state.dir)
             {
                 var pos = forward ? state.pos + dir : state.pos - dir;
-                if (map.GetValueOrDefault(pos) != '#')
+
+                // ✅ replacement for map.GetValueOrDefault(pos) != '#'
+                if (!map.TryGetValue(pos, out var cell) || cell != '#')
                 {
                     yield return ((pos, dir), 1);
                 }
@@ -113,8 +115,6 @@ public class Y2024D16
         }
     }
 
-    // store the points in a dictionary so that we can iterate over them and 
-    // to easily deal with points outside the area using GetValueOrDefault
     Map GetMap(string input)
     {
         var map = input.Split("\n");

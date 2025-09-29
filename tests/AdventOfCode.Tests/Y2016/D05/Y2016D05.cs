@@ -15,7 +15,7 @@ public class Y2016D05
     {
         var output = string.Join("", Hashes(_input).Select(hash => hash[5]).Take(8));
 
-        output.Should().Be("0");
+        output.Should().Be("f97c354d");
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Y2016D05
 
         var output = string.Join("", res);
 
-        output.Should().Be("0");
+        output.Should().Be("863dde27");
     }
 
     private IEnumerable<string> Hashes(string input)

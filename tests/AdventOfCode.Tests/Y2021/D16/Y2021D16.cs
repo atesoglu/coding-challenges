@@ -1,9 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D16;
 
@@ -15,25 +12,18 @@ public class Y2021D16
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = GetTotalVersion(GetPacket(GetReader(_input)));
 
-        output.Should().Be(0);
+        output.Should().Be(904);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Evaluate(GetPacket(GetReader(_input)));
 
-        output.Should().Be(0);
+        output.Should().Be(200476472872);
     }
-
-
-    private object PartOne(string input) =>
-        GetTotalVersion(GetPacket(GetReader(input)));
-
-    private object PartTwo(string input) =>
-        Evaluate(GetPacket(GetReader(input)));
 
     // recursively sum the versions of a packet and its content for part 1:
     int GetTotalVersion(Packet packet) =>
@@ -110,3 +100,45 @@ public class Y2021D16
         return new Packet(version, type, payload, packets.ToArray());
     }
 }
+
+// Reader class with convenience methods to retrieve n-bit integers and subreaders as needed
+class BitSequenceReader
+{
+    private BitArray bits;
+    private int ptr;
+
+    public BitSequenceReader(BitArray bits)
+    {
+        this.bits = bits;
+    }
+
+    public bool Any()
+    {
+        return ptr < bits.Length;
+    }
+
+    public BitSequenceReader GetBitSequenceReader(int bitCount)
+    {
+        var bitArray = new BitArray(bitCount);
+        for (var i = 0; i < bitCount; i++)
+        {
+            bitArray.Set(i, bits[ptr++]);
+        }
+
+        return new BitSequenceReader(bitArray);
+    }
+
+    public int ReadInt(int bitCount)
+    {
+        var res = 0;
+        for (var i = 0; i < bitCount; i++)
+        {
+            res = res * 2 + (bits[ptr++] ? 1 : 0);
+        }
+
+        return res;
+    }
+}
+
+// Each packet has all fields, type tag tells how to interpret the contents
+record Packet(int version, int type, long payload, Packet[] packets);

@@ -1,67 +1,110 @@
 ﻿using System.Text;
 using FluentAssertions;
 
-namespace AdventOfCode.Tests.Y2017.D19;
-
-[ChallengeName("A Series of Tubes")]
-public class Y2017D19
+namespace AdventOfCode.Tests.Y2017.D19
 {
-    private readonly string _input = File.ReadAllText(@"Y2017\D19\Y2017D19-input.txt", Encoding.UTF8);
-
-    [Fact]
-    public void PartOne()
+    [ChallengeName("A Series of Tubes")]
+    public class Y2017D19
     {
-        var output = FollowPath(_input).msg;
+        private readonly string _input = File.ReadAllText(@"Y2017\D19\Y2017D19-input.txt", Encoding.UTF8);
 
-        output.Should().Be("0");
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = FollowPath(_input).steps;
-
-        output.Should().Be(0);
-    }
-
-    (string msg, int steps) FollowPath(string input)
-    {
-        var map = input.Split('\n');
-        var (ccol, crow) = (map[0].Length, map.Length);
-        var (icol, irow) = (map[0].IndexOf('|'), 0);
-        var (dcol, drow) = (0, 1);
-
-        var msg = "";
-        var steps = 0;
-
-        while (true)
+        [Fact]
+        public void PartOne()
         {
-            irow += drow;
-            icol += dcol;
-            steps++;
-
-            if (icol < 0 || icol >= ccol || irow < 0 || irow >= crow || map[irow][icol] == ' ')
-            {
-                break;
-            }
-
-            switch (map[irow][icol])
-            {
-                case '+':
-                    (dcol, drow) = (
-                        from q in new[] { (drow: dcol, dcol: -drow), (drow: -dcol, dcol: drow) }
-                        let icolT = icol + q.dcol
-                        let irowT = irow + q.drow
-                        where icolT >= 0 && icolT < ccol && irowT >= 0 && irowT < crow && map[irowT][icolT] != ' '
-                        select (q.dcol, q.drow)
-                    ).Single();
-                    break;
-                case char ch when (ch >= 'A' && ch <= 'Z'):
-                    msg += ch;
-                    break;
-            }
+            var output = FollowPath(_input).msg;
+            output.Should().Be("ITSZCJNMUO");
         }
 
-        return (msg, steps);
+        [Fact]
+        public void PartTwo()
+        {
+            var output = FollowPath(_input).steps;
+            output.Should().Be(17420);
+        }
+
+        (string msg, int steps) FollowPath(string input)
+        {
+            var map = input.Split('\n');
+            var rows = map.Length;
+            var cols = 0;
+
+            foreach (var line in map)
+                if (line.Length > cols)
+                    cols = line.Length;
+
+            // Pad all lines so that indexing is safe
+            for (var i = 0; i < map.Length; i++)
+                map[i] = map[i].PadRight(cols);
+
+            int irow = 0, icol = map[0].IndexOf('|');
+            int drow = 1, dcol = 0; // initial direction: down
+
+            var msg = "";
+            var steps = 0;
+
+            while (true)
+            {
+                // Move
+                irow += drow;
+                icol += dcol;
+                steps++;
+
+                // Check boundaries
+                if (irow < 0 || irow >= rows || icol < 0 || icol >= cols)
+                    break;
+
+                var current = map[irow][icol];
+
+                if (current == ' ')
+                    break;
+
+                if (current == '+')
+                {
+                    // Try two perpendicular directions
+                    if (drow != 0)
+                    {
+                        // Coming vertically, try left and right
+                        if (icol + 1 < cols && map[irow][icol + 1] != ' ')
+                        {
+                            dcol = 1;
+                            drow = 0;
+                        }
+                        else if (icol - 1 >= 0 && map[irow][icol - 1] != ' ')
+                        {
+                            dcol = -1;
+                            drow = 0;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"No valid turn at {irow},{icol}");
+                        }
+                    }
+                    else
+                    {
+                        // Coming horizontally, try up and down
+                        if (irow + 1 < rows && map[irow + 1][icol] != ' ')
+                        {
+                            drow = 1;
+                            dcol = 0;
+                        }
+                        else if (irow - 1 >= 0 && map[irow - 1][icol] != ' ')
+                        {
+                            drow = -1;
+                            dcol = 0;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"No valid turn at {irow},{icol}");
+                        }
+                    }
+                }
+                else if (char.IsLetter(current))
+                {
+                    msg += current;
+                }
+            }
+
+            return (msg, steps);
+        }
     }
 }

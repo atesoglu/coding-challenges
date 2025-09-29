@@ -15,7 +15,7 @@ public class Y2017D06
     {
         var output = GetStepCount(Parse(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(3156);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2017D06
 
         var output = GetStepCount(numbers);
 
-        output.Should().Be(0);
+        output.Should().Be(1610);
     }
 
 

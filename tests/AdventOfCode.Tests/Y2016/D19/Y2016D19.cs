@@ -16,7 +16,7 @@ public class Y2016D19
         var elves = Elves(int.Parse(_input));
         var output = Solve(elves[0], elves[1], elves.Length, (elfVictim, count) => elfVictim.next.next);
 
-        output.Should().Be(0);
+        output.Should().Be(1830117);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2016D19
         var elves = Elves(int.Parse(_input));
         var output = Solve(elves[0], elves[elves.Length / 2], elves.Length, (elfVictim, count) => count % 2 == 1 ? elfVictim.next : elfVictim.next.next);
 
-        output.Should().Be(0);
+        output.Should().Be(1417887);
     }
 
     int Solve(Elf elf, Elf elfVictim, int elfCount, Func<Elf, int, Elf> nextVictim)

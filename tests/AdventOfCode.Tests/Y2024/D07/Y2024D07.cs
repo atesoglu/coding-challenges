@@ -17,7 +17,7 @@ public class Y2024D07
     {
         var output = Filter(_input, Check1).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(4555081946288);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2024D07
     {
         var output = Filter(_input, Check2).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(227921760109726);
     }
 
 

@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2020.D16;
 
@@ -15,38 +12,23 @@ public class Y2020D16
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    Field[] FieldCandidates(IEnumerable<Field> fields, params int[] values) =>
-        fields.Where(field => values.All(field.isValid)).ToArray();
-
-    private object PartOne(string input)
-    {
-        var problem = Parse(input);
+        var problem = Parse(_input);
         // add the values that cannot be associated with any of the fields
-        return (
+
+        var output = (
             from ticket in problem.tickets
             from value in ticket
             where !FieldCandidates(problem.fields, value).Any()
             select value
         ).Sum();
+
+        output.Should().Be(24110);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var problem = Parse(input);
+        var problem = Parse(_input);
         // keep valid tickets only
         var tickets = (
             from ticket in problem.tickets
@@ -82,8 +64,13 @@ public class Y2020D16
             }
         }
 
-        return res;
+        var output = res;
+
+        output.Should().Be(6766503490793);
     }
+
+
+    Field[] FieldCandidates(IEnumerable<Field> fields, params int[] values) => fields.Where(field => values.All(field.isValid)).ToArray();
 
     Problem Parse(string input)
     {
@@ -119,3 +106,7 @@ public class Y2020D16
         return new Problem(fields, tickets);
     }
 }
+
+record Field(string name, Func<int, bool> isValid);
+
+record Problem(Field[] fields, int[][] tickets);

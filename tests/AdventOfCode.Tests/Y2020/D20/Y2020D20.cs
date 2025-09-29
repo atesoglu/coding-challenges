@@ -15,31 +15,25 @@ public class Y2020D20
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var tiles = AssemblePuzzle(_input);
 
-        output.Should().Be(0);
+        var output = tiles.First().First().id *
+                     tiles.First().Last().id *
+                     tiles.Last().First().id *
+                     tiles.Last().Last().id;
+
+        output.Should().Be(15670959891893);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = SolvePartTwo(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(1964);
     }
 
-
-    private object PartOne(string input)
-    {
-        var tiles = AssemblePuzzle(input);
-        return
-            tiles.First().First().id *
-            tiles.First().Last().id *
-            tiles.Last().First().id *
-            tiles.Last().Last().id;
-    }
-
-    private object PartTwo(string input)
+    private object SolvePartTwo(string input)
     {
         var image = MergeTiles(AssemblePuzzle(input));
 
@@ -210,5 +204,66 @@ public class Y2020D20
         }
 
         return res;
+    }
+}
+class Tile {
+    public long id;
+    public int size;
+    string[] image;
+
+    // This is a bit tricky, but makes operations fast and easy to implement.
+    //
+    // - orentation % 4 specifies the rotation of the tile
+    // - orientation % 8 >= 4 means the tile is flipped.
+    //
+    // The actual rotation and flipping happens in the indexer,
+    // where the input coordinates are adjusted accordingly.
+    //
+    // Checking each 8 possible orientation for a tile requires just 7 incrementation of this value.
+    int orentation = 0;
+
+    public Tile(long id, string[] image) {
+        this.id = id;
+        this.image = image;
+        this.size = image.Length;
+    }
+
+    public void ChangeOrientation() {
+        this.orentation++;
+    }
+
+    public char this[int irow, int icol] {
+        get {
+            for (var i = 0; i < orentation % 4; i++) {
+                (irow, icol) = (icol, size - 1 - irow); // rotate
+            }
+
+            if (orentation % 8 >= 4) {
+                icol = size - 1 - icol; // flip vertical axis
+            }
+
+            return this.image[irow][icol];
+        }
+    }
+
+    public string Row(int irow) => GetSlice(irow, 0, 0, 1);
+    public string Col(int icol) => GetSlice(0, icol, 1, 0);
+    public string Top() => Row(0);
+    public string Bottom() => Row(size - 1);
+    public string Left() => Col(0);
+    public string Right() => Col(size - 1);
+
+    public override string ToString() {
+        return $"Tile {id}:\n" + string.Join("\n", Enumerable.Range(0, size).Select(i => Row(i)));
+    }
+
+    string GetSlice(int irow, int icol, int drow, int dcol) {
+        var st = "";
+        for (var i = 0; i < size; i++) {
+            st += this[irow, icol];
+            irow += drow;
+            icol += dcol;
+        }
+        return st;
     }
 }

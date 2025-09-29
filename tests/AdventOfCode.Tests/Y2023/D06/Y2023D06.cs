@@ -14,7 +14,7 @@ public class Y2023D06
     {
         var output = Solve(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(32076);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2023D06
     {
         var output = Solve(_input.Replace(" ", ""));
 
-        output.Should().Be(0);
+        output.Should().Be(34278221);
     }
 
 

@@ -14,7 +14,7 @@ public class Y2023D14
     {
         var output = Measure(Tilt(Parse(_input)));
 
-        output.Should().Be(0);
+        output.Should().Be(106186);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2023D14
     {
         var output = Measure(Iterate(Parse(_input), Cycle, 1_000_000_000));
 
-        output.Should().Be(0);
+        output.Should().Be(106390);
     }
 
 

@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2020.D04;
 
@@ -12,34 +9,7 @@ public class Y2020D04
 {
     private readonly string _input = File.ReadAllText(@"Y2020\D04\Y2020D04-input.txt", Encoding.UTF8);
 
-    [Fact]
-    public void PartOne()
-    {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => ValidCount(input, cred =>
-        rxs.All(kvp => cred.ContainsKey(kvp.Key))
-    );
-
-    private object PartTwo(string input) => ValidCount(input, cred =>
-        rxs.All(kvp =>
-            cred.TryGetValue(kvp.Key, out var value) && Regex.IsMatch(value, "^(" + kvp.Value + ")$")
-        )
-    );
-
-    Dictionary<string, string> rxs = new Dictionary<string, string>()
+    private readonly Dictionary<string, string> rxs = new Dictionary<string, string>()
     {
         { "byr", "19[2-9][0-9]|200[0-2]" },
         { "iyr", "201[0-9]|2020" },
@@ -49,6 +19,29 @@ public class Y2020D04
         { "ecl", "amb|blu|brn|gry|grn|hzl|oth" },
         { "pid", "[0-9]{9}" },
     };
+
+    [Fact]
+    public void PartOne()
+    {
+        var output = ValidCount(_input, cred =>
+            rxs.All(kvp => cred.ContainsKey(kvp.Key))
+        );
+
+        output.Should().Be(233);
+    }
+
+    [Fact]
+    public void PartTwo()
+    {
+        var output = ValidCount(_input, cred =>
+            rxs.All(kvp =>
+                cred.TryGetValue(kvp.Key, out var value) && Regex.IsMatch(value, "^(" + kvp.Value + ")$")
+            )
+        );
+
+        output.Should().Be(111);
+    }
+
 
     int ValidCount(string input, Func<Dictionary<string, string>, bool> isValid) =>
         input

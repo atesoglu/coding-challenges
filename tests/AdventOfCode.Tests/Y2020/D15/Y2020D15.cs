@@ -12,22 +12,18 @@ public class Y2020D15
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = NumberAt(_input, 2020);
 
-        output.Should().Be(0);
+        output.Should().Be(234);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = NumberAt(_input, 30000000);
 
-        output.Should().Be(0);
+        output.Should().Be(8984);
     }
-
-
-    private object PartOne(string input) => NumberAt(input, 2020);
-    private object PartTwo(string input) => NumberAt(input, 30000000);
 
     private int NumberAt(string input, int count)
     {

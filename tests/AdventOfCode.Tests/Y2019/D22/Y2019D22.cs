@@ -1,8 +1,7 @@
-﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Numerics;
+﻿using System.Numerics;
+using System.Text;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2019.D22;
 
@@ -14,35 +13,25 @@ public class Y2019D22
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var m = 10007;
+        var iter = 1;
+        var (a, b) = Parse(_input, m, iter);
 
-        output.Should().Be(0);
+        var output = Mod(a * 2019 + b, m);
+
+        output.Should().Be(8191);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var m = 10007;
-        var iter = 1;
-        var (a, b) = Parse(input, m, iter);
-        return Mod(a * 2019 + b, m);
-    }
-
-    private object PartTwo(string input)
-    {
         var m = 119315717514047;
         var iter = 101741582076661;
-        var (a, b) = Parse(input, m, iter);
+        var (a, b) = Parse(_input, m, iter);
 
-        return Mod(ModInv(a, m) * (2020 - b), m);
+        var output = Mod(ModInv(a, m) * (2020 - b), m);
+
+        output.Should().Be(1644352419829);
     }
 
     BigInteger Mod(BigInteger a, BigInteger m) => ((a % m) + m) % m;

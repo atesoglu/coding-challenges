@@ -20,7 +20,7 @@ public class Y2017D20
             select particle
         ).First().i;
 
-        output.Should().Be(0);
+        output.Should().Be(258);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class Y2017D20
 
             var particlePrev = particlesByPos[0];
 
-            for (int i = 1; i < particlesByPos.Length; i++)
+            for (var i = 1; i < particlesByPos.Length; i++)
             {
                 var particle = particlesByPos[i];
                 if (particlePrev.pos.x == particle.pos.x && particlePrev.pos.y == particle.pos.y && particlePrev.pos.z == particle.pos.z)
@@ -70,7 +70,7 @@ public class Y2017D20
 
         var output = particles.Count;
 
-        output.Should().Be(0);
+        output.Should().Be(707);
     }
 
 

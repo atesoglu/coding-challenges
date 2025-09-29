@@ -16,7 +16,7 @@ public class Y2024D08
     {
         var output = GetUniquePositions(_input, GetAntinodes1).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(413);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class Y2024D08
     {
         var output = GetUniquePositions(_input, GetAntinodes2).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(1417);
     }
 
 

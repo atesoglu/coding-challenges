@@ -14,7 +14,7 @@ public class Y2022D14
     {
         var output = new Cave(_input, hasFloor: false).FillWithSand(new Complex(500, 0));
 
-        output.Should().Be(0);
+        output.Should().Be(961);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2022D14
     {
         var output = new Cave(_input, hasFloor: true).FillWithSand(new Complex(500, 0));
 
-        output.Should().Be(0);
+        output.Should().Be(26375);
     }
 }
 

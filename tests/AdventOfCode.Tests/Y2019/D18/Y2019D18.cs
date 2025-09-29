@@ -1,9 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D18;
 
@@ -15,34 +12,20 @@ public class Y2019D18
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var maze = new Maze(_input);
 
-        output.Should().Be(0);
+
+        var dependencies = GenerateDependencies(maze);
+        var output = Solve(maze);
+
+        output.Should().Be(4350);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var maze = new Maze(input);
-
-
-        var dependencies = GenerateDependencies(maze);
-        return Solve(maze);
-    }
-
-
-    private object PartTwo(string input)
-    {
         var d = 0;
-        foreach (var subMaze in GenerateSubMazes(input))
+        foreach (var subMaze in GenerateSubMazes(_input))
         {
             var maze = new Maze(subMaze);
 
@@ -50,7 +33,9 @@ public class Y2019D18
             d += Solve(maze);
         }
 
-        return d;
+        var output = d;
+
+        output.Should().Be(2348);
     }
 
     IEnumerable<string> GenerateSubMazes(string input)
@@ -135,8 +120,7 @@ public class Y2019D18
         q.Enqueue((pos, dependsOn));
 
         var res = new Dictionary<char, ImmutableHashSet<char>>();
-        var seen = new HashSet<(int irow, int icol)>();
-        seen.Add(pos);
+        var seen = new HashSet<(int irow, int icol)> { pos };
         while (q.Any())
         {
             (pos, dependsOn) = q.Dequeue();
@@ -169,5 +153,111 @@ public class Y2019D18
         }
 
         return res;
+    }
+}
+
+class Maze
+{
+    string[] maze;
+
+    public Maze(string st)
+    {
+        this.maze = st.Split("\n");
+    }
+
+    int ccol => maze[0].Length;
+    int crow => maze.Length;
+    Dictionary<char, (int, int)> positionCache = new Dictionary<char, (int, int)>();
+    Dictionary<(char, char), int> distanceCache = new Dictionary<(char, char), int>();
+
+    public char Look((int irow, int icol) pos)
+    {
+        var (irow, icol) = pos;
+        if (irow < 0 || irow >= crow || icol < 0 || icol >= ccol)
+        {
+            return '#';
+        }
+
+        return maze[irow][icol];
+    }
+
+    public (int irow, int icol) Find(char ch)
+    {
+        if (!positionCache.ContainsKey(ch))
+        {
+            for (var irow = 0; irow < crow; irow++)
+            {
+                for (var icol = 0; icol < ccol; icol++)
+                {
+                    if (maze[irow][icol] == ch)
+                    {
+                        positionCache[ch] = (irow, icol);
+                        return positionCache[ch];
+                    }
+                }
+            }
+
+            throw new Exception();
+        }
+        else
+        {
+            return positionCache[ch];
+        }
+    }
+
+
+    public int Distance(char chA, char chB)
+    {
+        var key = (chA, chB);
+        if (!distanceCache.ContainsKey(key))
+        {
+            distanceCache[key] = ComputeDistance(chA, chB);
+        }
+
+        return distanceCache[key];
+    }
+
+    int ComputeDistance(char chA, char chB)
+    {
+        var pos = Find(chA);
+        if (chA == chB)
+        {
+            return 0;
+        }
+
+        var q = new Queue<((int irow, int icol) pos, int dist)>();
+        var dist = 0;
+        q.Enqueue((pos, dist));
+
+        var seen = new HashSet<(int irow, int icol)> { pos };
+        while (q.Any())
+        {
+            (pos, dist) = q.Dequeue();
+
+            foreach (var (drow, dcol) in new[] { (-1, 0), (1, 0), (0, -1), (0, 1) })
+            {
+                var posT = (pos.irow + drow, pos.icol + dcol);
+                var ch = Look(posT);
+
+                if (seen.Contains(posT) || ch == '#')
+                {
+                    continue;
+                }
+
+                seen.Add(posT);
+                var distT = dist + 1;
+
+                if (ch == chB)
+                {
+                    return distT;
+                }
+                else
+                {
+                    q.Enqueue((posT, distT));
+                }
+            }
+        }
+
+        throw new Exception();
     }
 }

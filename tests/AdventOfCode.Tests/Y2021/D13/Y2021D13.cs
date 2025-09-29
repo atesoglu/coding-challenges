@@ -13,22 +13,19 @@ public class Y2021D13
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = GetFolds(_input).First().Count();
 
-        output.Should().Be(0);
+        output.Should().Be(802);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = ToString(GetFolds(_input).Last()).Ocr().ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("RKHFZGUB");
     }
 
-
-    private object PartOne(string input) => GetFolds(input).First().Count();
-    private object PartTwo(string input) => ToString(GetFolds(input).Last()).Ocr();
 
     IEnumerable<HashSet<Point>> GetFolds(string input)
     {
@@ -80,4 +77,4 @@ public class Y2021D13
 
     HashSet<Point> FoldY(int y, HashSet<Point> d) =>
         d.Select(p => p.y > y ? p with { y = 2 * y - p.y } : p).ToHashSet();
-}
+}record Point(int x, int y);

@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D16;
 
@@ -15,24 +12,8 @@ public class Y2018D16
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var res = 0;
-        var (testCases, prg) = Parse(input);
+        var (testCases, prg) = Parse(_input);
         foreach (var testCase in testCases)
         {
             var match = 0;
@@ -52,13 +33,16 @@ public class Y2018D16
             }
         }
 
-        return res;
+        var output = res;
+
+        output.Should().Be(646);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var constraints = Enumerable.Range(0, 16).ToDictionary(i => i, i => Enumerable.Range(0, 16).ToList());
-        var (testCases, prg) = Parse(input);
+        var (testCases, prg) = Parse(_input);
         foreach (var testCase in testCases)
         {
             var op = testCase.stm[0];
@@ -85,7 +69,9 @@ public class Y2018D16
             regs = Step(regs, stm);
         }
 
-        return regs[0];
+        var output = regs[0];
+
+        output.Should().Be(681);
     }
 
     Dictionary<int, int> WorkOutMapping(Dictionary<int, List<int>> constaints, bool[] used, Dictionary<int, int> res)
@@ -184,4 +170,11 @@ public class Y2018D16
         };
         return regs;
     }
+}
+
+class TestCase
+{
+    public int[] regsBefore;
+    public int[] regsAfter;
+    public int[] stm;
 }

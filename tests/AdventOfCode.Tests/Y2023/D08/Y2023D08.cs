@@ -15,7 +15,7 @@ public class Y2023D08
     {
         var output = Solve(_input, "AAA", "ZZZ");
 
-        output.Should().Be(0);
+        output.Should().Be(12599);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2023D08
     {
         var output = Solve(_input, "A", "Z");
 
-        output.Should().Be(0);
+        output.Should().Be(8245452805243);
     }
 
     long Solve(string input, string aMarker, string zMarker)

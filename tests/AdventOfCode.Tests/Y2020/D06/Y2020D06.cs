@@ -1,8 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D06;
 
@@ -14,22 +12,18 @@ public class Y2020D06
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, (a, b) => a.Union(b));
 
-        output.Should().Be(0);
+        output.Should().Be(6775);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, (a, b) => a.Intersect(b));
 
-        output.Should().Be(0);
+        output.Should().Be(3356);
     }
-
-
-    private object PartOne(string input) => Solve(input, (a, b) => a.Union(b));
-    private object PartTwo(string input) => Solve(input, (a, b) => a.Intersect(b));
 
     int Solve(string input, Func<ImmutableHashSet<char>, ImmutableHashSet<char>, ImmutableHashSet<char>> combine)
     {

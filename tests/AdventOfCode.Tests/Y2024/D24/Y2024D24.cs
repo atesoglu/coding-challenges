@@ -26,7 +26,7 @@ public class Y2024D24
 
         var output = res;
 
-        output.Should().Be(0);
+        output.Should().Be(51715173446832);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public class Y2024D24
         var circuit = Parse(_input).circuit;
         var output = string.Join(",", Fix(circuit).OrderBy(label => label));
 
-        output.Should().Be("0");
+        output.Should().Be("dpg,kmb,mmf,tvp,vdk,z10,z15,z25");
     }
 
     int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)

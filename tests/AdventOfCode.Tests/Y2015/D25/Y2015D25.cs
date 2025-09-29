@@ -31,7 +31,7 @@ public partial class Y2015D25
         const long factor = 252533;
         const long mod = 33554393;
 
-        long code = start;
+        var code = start;
         for (long i = 1; i < position; i++)
         {
             code = (code * factor) % mod;
@@ -46,7 +46,7 @@ public partial class Y2015D25
         long diagonalNumber = row + col - 1;
 
         // Each diagonal starts at a triangular number + 1.
-        long firstPositionOnDiagonal = diagonalNumber * (diagonalNumber - 1) / 2 + 1;
+        var firstPositionOnDiagonal = diagonalNumber * (diagonalNumber - 1) / 2 + 1;
 
         // Offset within that diagonal is (col - 1).
         return firstPositionOnDiagonal + (col - 1);

@@ -14,7 +14,7 @@ public class Y2017D12
     {
         var output = GetPartitions(_input).Single(x => x.Contains("0")).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(239);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2017D12
     {
         var output = GetPartitions(_input).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(215);
     }
 
 

@@ -14,22 +14,18 @@ public class Y2020D18
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(464478013511);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(85660197232452);
     }
-
-
-    private object PartOne(string input) => Solve(input, true);
-    private object PartTwo(string input) => Solve(input, false);
 
     long Solve(string input, bool part1)
     {

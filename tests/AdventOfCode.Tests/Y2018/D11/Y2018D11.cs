@@ -11,30 +11,20 @@ public class Y2018D11
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var res = Solver(int.Parse(_input), 3);
 
-        output.Should().Be(0);
+        var output = $"{res.xMax},{res.yMax}";
+
+        output.Should().Be("21,53");
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var res = Solver(int.Parse(_input), 300);
+        var output = $"{res.xMax},{res.yMax},{res.dMax}";
 
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var res = Solver(int.Parse(input), 3);
-        return $"{res.xMax},{res.yMax}";
-    }
-
-    private object PartTwo(string input)
-    {
-        var res = Solver(int.Parse(input), 300);
-        return $"{res.xMax},{res.yMax},{res.dMax}";
+        output.Should().Be("233,250,12");
     }
 
     (int xMax, int yMax, int dMax) Solver(int gridSerialNumber, int D)

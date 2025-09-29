@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D19;
 
@@ -14,30 +11,20 @@ public class Y2021D19
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = LocateScanners(_input)
+            .SelectMany(scanner => scanner.GetBeaconsInWorld())
+            .Distinct()
+            .Count();
 
-        output.Should().Be(0);
+        output.Should().Be(436);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var scanners = LocateScanners(_input);
 
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) =>
-        LocateScanners(input)
-            .SelectMany(scanner => scanner.GetBeaconsInWorld())
-            .Distinct()
-            .Count();
-
-    private object PartTwo(string input)
-    {
-        var scanners = LocateScanners(input);
-        return (
+        var output = (
             from sA in scanners
             from sB in scanners
             where sA != sB
@@ -46,6 +33,8 @@ public class Y2021D19
                 Math.Abs(sA.center.y - sB.center.y) +
                 Math.Abs(sA.center.z - sB.center.z)
         ).Max();
+
+        output.Should().Be(10918);
     }
 
     HashSet<Scanner> LocateScanners(string input)
@@ -166,4 +155,48 @@ public class Y2021D19
             select new Coord(parts[0], parts[1], parts[2])
         select new Scanner(new Coord(0, 0, 0), 0, beacons.ToList())
     ).ToArray();
+}
+
+record Coord(int x, int y, int z);
+
+record Scanner(Coord center, int rotation, List<Coord> beaconsInLocal)
+{
+    public Scanner Rotate() => new Scanner(center, rotation + 1, beaconsInLocal);
+
+    public Scanner Translate(Coord t) => new Scanner(
+        new Coord(center.x + t.x, center.y + t.y, center.z + t.z), rotation, beaconsInLocal);
+
+    public Coord Transform(Coord coord)
+    {
+        var (x, y, z) = coord;
+
+#pragma warning disable 1717
+        // rotate coordinate system so that x-axis points in the possible 6 directions
+        switch (rotation % 6)
+        {
+            case 0: (x, y, z) = (x, y, z); break;
+            case 1: (x, y, z) = (-x, y, -z); break;
+            case 2: (x, y, z) = (y, -x, z); break;
+            case 3: (x, y, z) = (-y, x, z); break;
+            case 4: (x, y, z) = (z, y, -x); break;
+            case 5: (x, y, z) = (-z, y, x); break;
+        }
+
+        // rotate around x-axis:
+        switch ((rotation / 6) % 4)
+        {
+            case 0: (x, y, z) = (x, y, z); break;
+            case 1: (x, y, z) = (x, -z, y); break;
+            case 2: (x, y, z) = (x, -y, -z); break;
+            case 3: (x, y, z) = (x, z, -y); break;
+        }
+#pragma warning restore
+
+        return new Coord(center.x + x, center.y + y, center.z + z);
+    }
+
+    public IEnumerable<Coord> GetBeaconsInWorld()
+    {
+        return beaconsInLocal.Select(Transform);
+    }
 }

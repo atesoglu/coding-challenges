@@ -11,7 +11,7 @@ public class Y2023D25
     [Fact]
     public void PartOne()
     {
-        Random r = new Random(25);
+        var r = new Random(25);
 
         // run Karger's algorithm until it finds a cut with 3 edges
         var (cutSize, c1, c2) = FindCut(_input, r);
@@ -23,7 +23,7 @@ public class Y2023D25
 
         var output = c1 * c2;
 
-        output.Should().Be(0);
+        output.Should().Be(568214);
     }
 
     // https://en.wikipedia.org/wiki/Karger%27s_algorithm

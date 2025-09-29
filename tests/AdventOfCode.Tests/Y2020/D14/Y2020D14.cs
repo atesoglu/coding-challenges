@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2020.D14;
 
@@ -15,26 +12,10 @@ public class Y2020D14
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var mem = new Dictionary<long, long>();
         var orMask = 0L;
         var andMask = 0xffffffffffffffL;
-        foreach (var line in input.Split("\n"))
+        foreach (var line in _input.Split("\n"))
         {
             if (line.StartsWith("mask"))
             {
@@ -49,14 +30,17 @@ public class Y2020D14
             }
         }
 
-        return mem.Values.Sum();
+        var output = mem.Values.Sum();
+
+        output.Should().Be(10885823581193);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var mem = new Dictionary<long, long>();
         var mask = "";
-        foreach (var line in input.Split("\n"))
+        foreach (var line in _input.Split("\n"))
         {
             if (line.StartsWith("mask"))
             {
@@ -73,7 +57,9 @@ public class Y2020D14
             }
         }
 
-        return mem.Values.Sum();
+        var output = mem.Values.Sum();
+
+        output.Should().Be(3816594901962);
     }
 
     IEnumerable<long> Addresses(long baseAddr, string mask, int i)

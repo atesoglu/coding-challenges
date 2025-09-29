@@ -14,22 +14,19 @@ public class Y2021D24
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = GetSerials(_input).max;
 
-        output.Should().Be(0);
+        output.Should().Be("49917929934999");
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = GetSerials(_input).min;
 
-        output.Should().Be(0);
+        output.Should().Be("11911316711816");
     }
 
-
-    private object PartOne(string input) => GetSerials(input).max;
-    private object PartTwo(string input) => GetSerials(input).min;
 
     (string min, string max) GetSerials(string input)
     {

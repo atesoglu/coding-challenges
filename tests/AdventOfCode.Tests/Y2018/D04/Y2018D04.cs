@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D04;
 
@@ -15,23 +12,7 @@ public class Y2018D04
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var foo = from day in Parse(input)
+        var foo = from day in Parse(_input)
             group day by day.guard
             into g
             select new
@@ -44,12 +25,16 @@ public class Y2018D04
         var fooT = foo.Single(g => g.totalSleeps == maxSleep);
         var maxSleepByMin = Enumerable.Range(0, 60).Max(minT => fooT.sleepByMin[minT]);
         var min = Enumerable.Range(0, 60).Single(minT => fooT.sleepByMin[minT] == maxSleepByMin);
-        return fooT.guard * min;
+
+        var output = fooT.guard * min;
+
+        output.Should().Be(76357);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var foo = from day in Parse(input)
+        var foo = from day in Parse(_input)
             group day by day.guard
             into g
             select new
@@ -63,7 +48,9 @@ public class Y2018D04
         var fooT = foo.Single(x => x.sleepByMin.Max() == maxMaxSleep);
         var min = Enumerable.Range(0, 60).Single(minT => fooT.sleepByMin[minT] == maxMaxSleep);
 
-        return fooT.guard * min;
+        var output = fooT.guard * min;
+
+        output.Should().Be(41668);
     }
 
     IEnumerable<Day> Parse(string input)
@@ -99,13 +86,13 @@ public class Y2018D04
         bool Int(string pattern, out int r)
         {
             r = 0;
-            return String(pattern, out string st) && int.TryParse(st, out r);
+            return String(pattern, out var st) && int.TryParse(st, out r);
         }
 
         bool Date(string pattern, out DateTime r)
         {
             r = DateTime.MinValue;
-            return String(pattern, out string st) && DateTime.TryParse(st, out r);
+            return String(pattern, out var st) && DateTime.TryParse(st, out r);
         }
 
         bool String(string pattern, out string st)
@@ -126,4 +113,11 @@ public class Y2018D04
             return m.Success;
         }
     }
+}
+
+class Day
+{
+    public int guard;
+    public int[] sleep;
+    public int totalSleep => sleep.Sum();
 }

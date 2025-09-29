@@ -13,7 +13,7 @@ public class Y2017D24
     {
         var output = StrongestBridge(_input, (a, b) => a.strength - b.strength);
 
-        output.Should().Be(0);
+        output.Should().Be(1868);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2017D24
     {
         var output = StrongestBridge(_input, (a, b) => a.CompareTo(b));
 
-        output.Should().Be(0);
+        output.Should().Be(1841);
     }
 
 

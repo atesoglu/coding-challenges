@@ -1,8 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D07;
 
@@ -14,22 +12,18 @@ public class Y2019D07
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, false, new[] { 0, 1, 2, 3, 4 });
 
-        output.Should().Be(0);
+        output.Should().Be(21760);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, true, new[] { 5, 6, 7, 8, 9 });
 
-        output.Should().Be(0);
+        output.Should().Be(69816958);
     }
-
-
-    private object PartOne(string prg) => Solve(prg, false, new[] { 0, 1, 2, 3, 4 });
-    private object PartTwo(string prg) => Solve(prg, true, new[] { 5, 6, 7, 8, 9 });
 
     long Solve(string prg, bool loop, int[] prgids)
     {

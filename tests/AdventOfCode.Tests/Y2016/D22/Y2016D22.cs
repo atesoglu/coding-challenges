@@ -30,7 +30,7 @@ public class Y2016D22
 
         var output = r;
 
-        output.Should().Be(0);
+        output.Should().Be(1034);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class Y2016D22
 
         var output = grid.moves;
 
-        output.Should().Be(0);
+        output.Should().Be(261);
     }
 
     Node[,] Parse(string input)

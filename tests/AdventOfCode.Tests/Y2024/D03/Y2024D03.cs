@@ -14,7 +14,7 @@ public class Y2024D03
     {
         var output = Solve(_input, @"mul\((\d{1,3}),(\d{1,3})\)");
 
-        output.Should().Be(0);
+        output.Should().Be(168539636);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2024D03
     {
         var output = Solve(_input, @"mul\((\d{1,3}),(\d{1,3})\)|don't\(\)|do\(\)");
 
-        output.Should().Be(0);
+        output.Should().Be(97529391);
     }
 
     long Solve(string input, string rx)

@@ -22,7 +22,7 @@ public class Y2022D03
             .Select(GetCommonItemPriority)
             .Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(7746);
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class Y2022D03
             .Select(GetCommonItemPriority)
             .Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(2604);
     }
 
     private int GetCommonItemPriority(IEnumerable<IEnumerable<char>> texts) => (

@@ -21,7 +21,7 @@ public class Y2022D19
 
         var output = res;
 
-        output.Should().Be(0);
+        output.Should().Be(1418);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class Y2022D19
 
         var output = res;
 
-        output.Should().Be(0);
+        output.Should().Be(4114);
     }
 
     // Priority queue based maximum search with LOTS OF PRUNING

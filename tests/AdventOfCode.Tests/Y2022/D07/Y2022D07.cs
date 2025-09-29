@@ -14,7 +14,7 @@ public class Y2022D07
     {
         var output = GetDirectorySizes(_input).Where(size => size < 100000).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(1391690);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2022D07
 
         var output = directorySizes.Where(size => size + freeSpace >= 30000000).Min();
 
-        output.Should().Be(0);
+        output.Should().Be(5469168);
     }
 
     private List<int> GetDirectorySizes(string input)

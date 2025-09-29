@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdventOfCode.Tests.Y2019.D02;
 
 namespace AdventOfCode.Tests.Y2019.D25;
 
@@ -15,21 +16,13 @@ public class Y2019D25
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = SolvePartOne(_input);
 
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
+        output.Should().Be(268468864);
     }
 
 
-    private object PartOne(string input)
+    private object SolvePartOne(string input)
     {
         var securityRoom = "== Security Checkpoint ==";
         var icm = new IntCodeMachine(input);
@@ -57,7 +50,7 @@ public class Y2019D25
         var door = VisitRooms(securityRoom, icm, description, args =>
             args.room == securityRoom ? args.doors.Single(door => door != ReverseDir(args.doorTaken)) : null);
 
-        Random r = new Random();
+        var r = new Random();
 
         void TakeOrDrop(string cmd, List<string> from, List<string> to)
         {

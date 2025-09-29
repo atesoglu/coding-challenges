@@ -18,7 +18,7 @@ public class Y2022D08
             forest.IsTallest(tree, Up) || forest.IsTallest(tree, Down)
         );
 
-        output.Should().Be(0);
+        output.Should().Be(1823);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class Y2022D08
             forest.ViewDistance(tree, Up) * forest.ViewDistance(tree, Down)
         ).Max();
 
-        output.Should().Be(0);
+        output.Should().Be(211680);
     }
 
 

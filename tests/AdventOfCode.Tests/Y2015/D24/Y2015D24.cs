@@ -53,7 +53,7 @@ public class Y2015D24
 
         if (count == 0 || target < 0) yield break;
 
-        for (int i = start; i < nums.Length; i++)
+        for (var i = start; i < nums.Length; i++)
         {
             foreach (var subset in Subsets(nums, count - 1, target - nums[i], i + 1))
             {

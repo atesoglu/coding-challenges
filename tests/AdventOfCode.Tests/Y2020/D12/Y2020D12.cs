@@ -14,22 +14,18 @@ public class Y2020D12
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = MoveShip(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(2879);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = MoveShip(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(178986);
     }
-
-
-    private object PartOne(string input) => MoveShip(input, true);
-    private object PartTwo(string input) => MoveShip(input, false);
 
     double MoveShip(string input, bool part1) =>
         input
@@ -56,3 +52,4 @@ public class Y2020D12
                     },
                 state => Math.Abs(state.pos.Imaginary) + Math.Abs(state.pos.Real));
 }
+record State(Complex pos, Complex dir);

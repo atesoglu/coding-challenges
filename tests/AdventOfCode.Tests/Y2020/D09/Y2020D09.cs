@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D09;
 
@@ -14,23 +11,23 @@ public class Y2020D09
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = SolvePartOne(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(530627549);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = SolvePartTwo(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(77730285);
     }
 
 
     IEnumerable<int> Range(int min, int lim) => Enumerable.Range(min, lim - min);
 
-    private object PartOne(string input)
+    private object SolvePartOne(string input)
     {
         var numbers = input.Split("\n").Select(long.Parse).ToArray();
 
@@ -43,9 +40,9 @@ public class Y2020D09
         return numbers[Range(25, input.Length).First(Mismatch)];
     }
 
-    private object PartTwo(string input)
+    private object SolvePartTwo(string input)
     {
-        var d = (long)PartOne(input);
+        var d = (long)SolvePartOne(input);
         var lines = input.Split("\n").Select(long.Parse).ToList();
 
         foreach (var j in Range(0, lines.Count))

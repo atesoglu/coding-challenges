@@ -28,7 +28,7 @@ public class Y2016D20
 
         var output = k;
 
-        output.Should().Be(0);
+        output.Should().Be(22887907);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class Y2016D20
 
         var output = sum;
 
-        output.Should().Be(0);
+        output.Should().Be(109);
     }
 
     IEnumerable<(long min, long max)> Parse(string input) => (

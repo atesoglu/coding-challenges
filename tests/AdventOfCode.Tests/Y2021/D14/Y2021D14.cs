@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace AdventOfCode.Tests.Y2021.D14;
 
@@ -13,22 +11,19 @@ public class Y2021D14
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, 10);
 
-        output.Should().Be(0);
+        output.Should().Be(3697);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, 40);
 
-        output.Should().Be(0);
+        output.Should().Be(4371307836157);
     }
 
-
-    private object PartOne(string input) => Solve(input, 10);
-    private object PartTwo(string input) => Solve(input, 40);
 
     long Solve(string input, int steps)
     {

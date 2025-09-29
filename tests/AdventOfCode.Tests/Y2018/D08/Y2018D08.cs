@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D08;
 
@@ -13,33 +11,23 @@ public class Y2018D08
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Parse(_input).fold(0, (cur, node) => cur + node.metadata.Sum());
 
-        output.Should().Be(0);
+        output.Should().Be(40848);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Parse(_input).value();
 
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) =>
-        Parse(input).fold(0, (cur, node) => cur + node.metadata.Sum());
-
-
-    private object PartTwo(string input)
-    {
-        return Parse(input).value();
+        output.Should().Be(34466);
     }
 
     Node Parse(string input)
     {
         var nums = input.Split(" ").Select(int.Parse).GetEnumerator();
-        Func<int> next = () =>
+        var next = () =>
         {
             nums.MoveNext();
             return nums.Current;
@@ -66,5 +54,35 @@ public class Y2018D08
             return node;
         };
         return read();
+    }
+}
+
+class Node
+{
+    public Node[] children;
+    public int[] metadata;
+
+    public T fold<T>(T seed, Func<T, Node, T> aggregate)
+    {
+        return children.Aggregate(aggregate(seed, this), (cur, child) => child.fold(cur, aggregate));
+    }
+
+    public int value()
+    {
+        if (children.Length == 0)
+        {
+            return metadata.Sum();
+        }
+
+        var res = 0;
+        foreach (var i in metadata)
+        {
+            if (i >= 1 && i <= children.Length)
+            {
+                res += children[i - 1].value();
+            }
+        }
+
+        return res;
     }
 }

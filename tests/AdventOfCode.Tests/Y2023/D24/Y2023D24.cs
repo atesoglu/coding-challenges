@@ -42,7 +42,7 @@ public class Y2023D24
 
         var output = res;
 
-        output.Should().Be(0);
+        output.Should().Be(25433);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class Y2023D24
 
         var output = Math.Round(stoneXY.x0 + stoneXY.x1 + stoneXZ.x1);
 
-        output.Should().Be(0);
+        output.Should().Be(885093461440405);
     }
 
     Vec2 Solve2D(Particle2[] particles)
@@ -95,6 +95,7 @@ public class Y2023D24
 
     bool Hits(Particle2 p, Vec2 pos)
     {
+        if (pos == null) return false;
         var d = (pos.x0 - p.pos.x0) * p.vel.x1 - (pos.x1 - p.pos.x1) * p.vel.x0;
         return Math.Abs(d) < (decimal)0.0001;
     }

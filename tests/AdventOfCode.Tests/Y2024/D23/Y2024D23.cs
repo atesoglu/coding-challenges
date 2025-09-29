@@ -20,7 +20,7 @@ public class Y2024D23
 
         var output = components.Count(c => Members(c).Any(m => m.StartsWith("t")));
 
-        output.Should().Be(0);
+        output.Should().Be(1302);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class Y2024D23
 
         var output = components.Single();
 
-        output.Should().Be("0");
+        output.Should().Be("cb,df,fo,ho,kk,nw,ox,pq,rt,sf,tq,wi,xz");
     }
 
     HashSet<Component> Grow(Graph g, HashSet<Component> components) => (

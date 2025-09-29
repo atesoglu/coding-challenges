@@ -15,7 +15,7 @@ public class Y2015D08
         var output = 0;
         foreach (var line in _lines)
         {
-            string u = Regex.Unescape(line.Substring(1, line.Length - 2));
+            var u = Regex.Unescape(line.Substring(1, line.Length - 2));
             output += line.Length - u.Length;
         }
 
@@ -28,7 +28,7 @@ public class Y2015D08
         var output = 0;
         foreach (var line in _lines)
         {
-            string u = "\"" + line.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+            var u = "\"" + line.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
             output += u.Length - line.Length;
         }
 

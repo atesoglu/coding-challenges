@@ -24,7 +24,7 @@ public class Y2018D02
 
         var output = doubles * tripples;
 
-        output.Should().Be(0);
+        output.Should().Be(9139);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class Y2018D02
                 select Common(line1, line2)
             ).Single();
 
-        output.Should().Be("0");
+        output.Should().Be("uqcidadzwtnhsljvxyobmkfyr");
     }
 
     bool CheckLine(string line, int n)

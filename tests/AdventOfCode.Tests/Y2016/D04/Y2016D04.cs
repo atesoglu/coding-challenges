@@ -20,7 +20,7 @@ public class Y2016D04
             select i.sectorid
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(137896);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class Y2016D04
             select i.sectorid
         ).Single();
 
-        output.Should().Be(0);
+        output.Should().Be(501);
     }
 
     IEnumerable<(string name, int sectorid, string checksum)> Parse(string input)

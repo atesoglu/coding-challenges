@@ -13,22 +13,18 @@ public class Y2020D11
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, 4, _ => true);
 
-        output.Should().Be(0);
+        output.Should().Be(2412);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, 5, place => place != '.');
 
-        output.Should().Be(0);
+        output.Should().Be(2176);
     }
-
-
-    private object PartOne(string input) => Solve(input, 4, _ => true);
-    private object PartTwo(string input) => Solve(input, 5, place => place != '.');
 
     int Solve(string input, int occupiedLimit, Func<char, bool> placeToCheck)
     {

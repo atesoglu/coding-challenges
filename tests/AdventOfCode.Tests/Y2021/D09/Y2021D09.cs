@@ -1,8 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
 using FluentAssertions;
-using System.Collections.Immutable;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D09;
 
@@ -14,38 +12,27 @@ public class Y2021D09
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var map = GetMap(_input);
 
-        output.Should().Be(0);
+        // find the 'low points' and return a hash computed from their heights:
+        var output = GetLowPoints(map).Select(point => 1 + map[point]).Sum();
+
+        output.Should().Be(462);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var map = GetMap(input);
-
-        // find the 'low points' and return a hash computed from their heights:
-        return GetLowPoints(map).Select(point => 1 + map[point]).Sum();
-    }
-
-    private object PartTwo(string input)
-    {
-        var map = GetMap(input);
+        var map = GetMap(_input);
 
         // find the 3 biggest basins and return a hash computed from their size:
-        return GetLowPoints(map)
+        var output = GetLowPoints(map)
             .Select(p => BasinSize(map, p))
             .OrderByDescending(basinSize => basinSize)
             .Take(3)
             .Aggregate(1, (m, basinSize) => m * basinSize);
+
+        output.Should().Be(1397760);
     }
 
     // store the points in a dictionary so that we can iterate over them and 
@@ -96,3 +83,5 @@ public class Y2021D09
         return filled.Count;
     }
 }
+
+record Point(int x, int y);

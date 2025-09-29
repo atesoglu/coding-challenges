@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2021.D17;
 
@@ -15,22 +12,19 @@ public class Y2021D17
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input).Max();
 
-        output.Should().Be(0);
+        output.Should().Be(2775);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(1566);
     }
 
-
-    private object PartOne(string input) => Solve(input).Max();
-    private object PartTwo(string input) => Solve(input).Count();
 
     // For each vx0, vy0 combination that reaches the target, yield the highest y value of the trajectory:
     IEnumerable<int> Solve(string input)

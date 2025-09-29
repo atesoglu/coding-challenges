@@ -17,7 +17,7 @@ public class Y2024D06
         var (map, start) = Parse(_input);
         var output = Walk(map, start).positions.Count();
 
-        output.Should().Be(0);
+        output.Should().Be(4722);
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class Y2024D06
             .AsParallel()
             .Count(pos => Walk(map.SetItem(pos, '#'), start).isLoop);
 
-        output.Should().Be(0);
+        output.Should().Be(1602);
     }
 
 

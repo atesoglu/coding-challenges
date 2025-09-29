@@ -12,57 +12,61 @@ public class Y2016D13
     public void PartOne()
     {
         var output = Steps(int.Parse(_input))
-            .First(s => s.icol == 31 && s.irow == 39)
+            .First(s => s.col == 31 && s.row == 39)
             .steps;
 
-        output.Should().Be(0);
+        output.Should().Be(86);
     }
 
     [Fact]
     public void PartTwo()
     {
         var output = Steps(int.Parse(_input))
-            .TakeWhile(s => s.steps <= 50)
+            .Where(s => s.steps <= 50)
             .Count();
 
-        output.Should().Be(0);
+        output.Should().Be(127);
     }
 
-    IEnumerable<(int steps, int irow, int icol)> Steps(int input)
+    IEnumerable<(int steps, int row, int col)> Steps(int input)
     {
-        var q = new Queue<(int steps, int irow, int icol)>();
-        q.Enqueue((0, 1, 1));
+        var q = new Queue<(int steps, int row, int col)>();
         var seen = new HashSet<(int, int)>();
+
+        q.Enqueue((0, 1, 1));
         seen.Add((1, 1));
-        var n = (
-            from drow in new[] { -1, 0, 1 }
-            from dcol in new[] { -1, 0, 1 }
-            where Math.Abs(drow) + Math.Abs(dcol) == 1
-            select (drow, dcol)
-        ).ToArray();
 
-        while (q.Any())
+        var directions = new[] { (-1,0), (1,0), (0,-1), (0,1) };
+
+        while (q.Count > 0)
         {
-            var (steps, irow, icol) = q.Dequeue();
+            var (steps, row, col) = q.Dequeue();
+            yield return (steps, row, col);
 
-            yield return (steps, irow, icol);
-
-            foreach (var (drow, dcol) in n)
+            foreach (var (dr, dc) in directions)
             {
-                var (irowT, icolT) = (irow + drow, icol + dcol);
-                if (irowT >= 0 && icolT >= 0)
+                int r2 = row + dr, c2 = col + dc;
+                if (r2 < 0 || c2 < 0) continue;
+
+                var w = (long)c2 * c2 + 3L * c2 + 2L * c2 * r2 + r2 + (long)r2 * r2 + input;
+                var isOpen = CountBits(w) % 2 == 0;
+
+                if (isOpen && seen.Add((r2, c2)))
                 {
-                    var w = icolT * icolT + 3 * icolT + 2 * icolT * irowT + irowT + irowT * irowT + input;
-                    if (Convert.ToString(w, 2).Count(ch => ch == '1') % 2 == 0)
-                    {
-                        if (!seen.Contains((irowT, icolT)))
-                        {
-                            q.Enqueue((steps + 1, irowT, icolT));
-                            seen.Add((irowT, icolT));
-                        }
-                    }
+                    q.Enqueue((steps + 1, r2, c2));
                 }
             }
         }
+    }
+
+    int CountBits(long n)
+    {
+        var count = 0;
+        while (n != 0)
+        {
+            count += (int)(n & 1);
+            n >>= 1;
+        }
+        return count;
     }
 }

@@ -13,7 +13,7 @@ public class Y2023D22
     {
         var output = Kaboom(_input).Count(x => x == 0);
 
-        output.Should().Be(0);
+        output.Should().Be(375);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2023D22
     {
         var output = Kaboom(_input).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(72352);
     }
 
 

@@ -1,8 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D12;
 
@@ -14,22 +12,19 @@ public class Y2021D12
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Explore(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(3856);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Explore(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(116692);
     }
 
-
-    private object PartOne(string input) => Explore(input, false);
-    private object PartTwo(string input) => Explore(input, true);
 
     int Explore(string input, bool part2)
     {

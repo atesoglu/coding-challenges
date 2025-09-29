@@ -20,7 +20,7 @@ public class Y2016D08
             select 1
         ).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(110);
     }
 
     [Fact]
@@ -38,9 +38,9 @@ public class Y2016D08
             res += "\n";
         }
 
-        var output = res.Ocr();
+        var output = res.Ocr().ToString();
 
-        output.Should().Be(0);
+        output.Should().Be("ZJHRKCPLYJ");
     }
 
     bool[,] Execute(string input)
@@ -63,7 +63,7 @@ public class Y2016D08
             else if (Match(line, @"rotate row y=(\d+) by (\d+)", out m))
             {
                 var (irow, d) = (int.Parse(m[0]), int.Parse(m[1]));
-                for (int i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     var t = mtx[irow, ccol - 1];
                     for (var icol = ccol - 1; icol >= 1; icol--)
@@ -77,7 +77,7 @@ public class Y2016D08
             else if (Match(line, @"rotate column x=(\d+) by (\d+)", out m))
             {
                 var (icol, d) = (int.Parse(m[0]), int.Parse(m[1]));
-                for (int i = 0; i < d; i++)
+                for (var i = 0; i < d; i++)
                 {
                     var t = mtx[crow - 1, icol];
                     for (var irow = crow - 1; irow >= 1; irow--)

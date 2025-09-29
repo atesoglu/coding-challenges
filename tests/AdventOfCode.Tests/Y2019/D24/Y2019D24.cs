@@ -14,23 +14,7 @@ public class Y2019D24
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        int[] levels = Parse(input);
+        var levels = Parse(_input);
 
         var seen = new HashSet<int>();
         var biodiversity = levels[0];
@@ -41,24 +25,29 @@ public class Y2019D24
             biodiversity = levels[levels.Length >> 1];
         }
 
-        return biodiversity;
+        var output = biodiversity;
+
+        output.Should().Be(7543003);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        int[] levels = Parse(input);
+        var levels = Parse(_input);
 
         for (var i = 0; i < 200; i++)
         {
             levels = Step(levels, RecursiveNeighbours);
         }
 
-        return (
+        var output = (
             from level in levels
             from pos in Positions()
             where pos != (2, 2) && HasBug(level, pos.irow, pos.icol)
             select 1
         ).Count();
+
+        output.Should().Be(1975);
     }
 
     int[] Parse(string input)
@@ -209,3 +198,4 @@ public class Y2019D24
         }
     }
 }
+record Position(int ilevel, int irow, int icol);

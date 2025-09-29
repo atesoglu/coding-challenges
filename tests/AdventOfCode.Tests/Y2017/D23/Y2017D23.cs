@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2017.D23;
@@ -6,13 +7,13 @@ namespace AdventOfCode.Tests.Y2017.D23;
 [ChallengeName("Coprocessor Conflagration")]
 public class Y2017D23
 {
-    private readonly string _input = File.ReadAllText(@"Y2017\D23\Y2017D23-input.txt", Encoding.UTF8);
+    private readonly string _input = System.IO.File.ReadAllText(@"Y2017\D23\Y2017D23-input.txt");
 
     [Fact]
     public void PartOne()
     {
         var regs = new Dictionary<string, int>();
-        int ip = 0;
+        var ip = 0;
 
         int getReg(string reg)
         {
@@ -21,17 +22,14 @@ public class Y2017D23
                 : 0;
         }
 
-        void setReg(string reg, int value)
-        {
-            regs[reg] = value;
-        }
+        void setReg(string reg, int value) => regs[reg] = value;
 
-        var prog = _input.Split('\n');
+        var prog = _input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         var mulCount = 0;
+
         while (ip >= 0 && ip < prog.Length)
         {
-            var line = prog[ip];
-            var parts = line.Split(' ');
+            var parts = prog[ip].Split(' ');
             switch (parts[0])
             {
                 case "set":
@@ -50,37 +48,42 @@ public class Y2017D23
                 case "jnz":
                     ip += getReg(parts[1]) != 0 ? getReg(parts[2]) : 1;
                     break;
-                default: throw new Exception("Cannot parse " + line);
+                default:
+                    throw new Exception("Cannot parse " + prog[ip]);
             }
         }
 
-        var output = mulCount;
-
-        output.Should().Be(0);
+        mulCount.Should().Be(6241);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var c = 0;
-        for (int b = 107900; b <= 124900; b += 17)
+        var h = 0;
+
+        // Loop over b = 108100..125100 stepping by 17
+        for (var b = 108100; b <= 125100; b += 17)
         {
             if (!IsPrime(b))
             {
-                c++;
+                h++;
             }
         }
 
-        var output = c;
-
-        output.Should().Be(0);
+        h.Should().Be(909);
     }
 
+    // Checks if a number is prime
     bool IsPrime(int n)
     {
-        for (int j = 2; j * j <= n; j++)
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+
+        var limit = (int)Math.Sqrt(n);
+        for (var i = 3; i <= limit; i += 2)
         {
-            if (n % j == 0) return false;
+            if (n % i == 0) return false;
         }
 
         return true;

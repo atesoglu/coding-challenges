@@ -46,7 +46,7 @@ public class Y2022D22
             """"
         );
 
-        output.Should().Be(0);
+        output.Should().Be(131052);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class Y2022D22
             """
         );
 
-        output.Should().Be(0);
+        output.Should().Be(4578);
     }
 
 

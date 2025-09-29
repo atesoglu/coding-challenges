@@ -17,7 +17,7 @@ public class Y2023D05
     {
         var output = Solve(_input, PartOneRanges);
 
-        output.Should().Be(0);
+        output.Should().Be(218513636);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2023D05
     {
         var output = Solve(_input, PartTwoRanges);
 
-        output.Should().Be(0);
+        output.Should().Be(81956384);
     }
 
 

@@ -1,8 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2020.D20;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D24;
 
@@ -11,31 +9,7 @@ public class Y2020D24
 {
     private readonly string _input = File.ReadAllText(@"Y2020\D24\Y2020D24-input.txt", Encoding.UTF8);
 
-    [Fact]
-    public void PartOne()
-    {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => ParseBlackTiles(input).Count();
-
-    private object PartTwo(string input) =>
-        Enumerable.Range(0, 100)
-            .Aggregate(ParseBlackTiles(input), (blackTiles, _) => Flip(blackTiles))
-            .Count();
-
-    Dictionary<string, (int x, int y)> HexDirections = new Dictionary<string, (int x, int y)>
+    private readonly Dictionary<string, (int x, int y)> hexDirections = new Dictionary<string, (int x, int y)>
     {
         { "o", (0, 0) },
         { "ne", (1, 1) },
@@ -46,8 +20,27 @@ public class Y2020D24
         { "sw", (-1, -1) },
     };
 
+    [Fact]
+    public void PartOne()
+    {
+        var output = ParseBlackTiles(_input).Count();
+
+        output.Should().Be(465);
+    }
+
+    [Fact]
+    public void PartTwo()
+    {
+        var output = Enumerable.Range(0, 100)
+            .Aggregate(ParseBlackTiles(_input), (blackTiles, _) => Flip(blackTiles))
+            .Count();
+
+        output.Should().Be(4078);
+    }
+
+
     IEnumerable<Tile> Neighbourhood(Tile tile) =>
-        from dir in HexDirections.Values select new Tile(tile.x + dir.x, tile.y + dir.y);
+        from dir in hexDirections.Values select new Tile(tile.x + dir.x, tile.y + dir.y);
 
     HashSet<Tile> Flip(HashSet<Tile> blackTiles)
     {
@@ -83,7 +76,7 @@ public class Y2020D24
         var (x, y) = (0, 0);
         while (line != "")
         {
-            foreach (var kvp in HexDirections)
+            foreach (var kvp in hexDirections)
             {
                 if (line.StartsWith(kvp.Key))
                 {
@@ -96,3 +89,4 @@ public class Y2020D24
         return new Tile(x, y);
     }
 }
+record Tile(int x, int y);

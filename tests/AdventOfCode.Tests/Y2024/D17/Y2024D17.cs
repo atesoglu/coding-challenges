@@ -15,7 +15,7 @@ public class Y2024D17
         var (state, program) = Parse(_input);
         var output = string.Join(",", Run(state, program));
 
-        output.Should().Be("0");
+        output.Should().Be("6,0,6,3,0,2,3,1,6");
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class Y2024D17
         var (_, program) = Parse(_input);
         var output = GenerateA(program, program).Min();
 
-        output.Should().Be(0);
+        output.Should().Be(236539226447469);
     }
 
 

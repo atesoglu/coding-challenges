@@ -21,7 +21,7 @@ public class Y2023D02
             select game.id
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(2149);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class Y2023D02
             select game.red * game.green * game.blue
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(71274);
     }
 
 

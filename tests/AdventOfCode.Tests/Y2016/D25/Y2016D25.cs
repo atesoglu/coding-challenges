@@ -13,7 +13,7 @@ public class Y2016D25
     {
         var output = 0;
 
-        for (int a = 0;; a++)
+        for (var a = 0;; a++)
         {
             var length = 0;
             var expectedBit = 0;
@@ -37,7 +37,7 @@ public class Y2016D25
             }
         }
 
-        output.Should().Be(0);
+        output.Should().Be(196);
     }
 
 

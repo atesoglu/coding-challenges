@@ -19,7 +19,7 @@ public class Y2024D10
     {
         var output = GetAllTrails(_input).Sum(t => t.Value.Distinct().Count());
 
-        output.Should().Be(0);
+        output.Should().Be(550);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2024D10
     {
         var output = GetAllTrails(_input).Sum(t => t.Value.Count());
 
-        output.Should().Be(0);
+        output.Should().Be(1255);
     }
 
 

@@ -27,7 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="oldies\2019\IntCode\" />
       <Folder Include="Y2026\D02\" />
       <Folder Include="Y2026\D03\" />
       <Folder Include="Y2026\D04\" />

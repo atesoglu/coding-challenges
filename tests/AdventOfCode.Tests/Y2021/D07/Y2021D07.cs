@@ -13,25 +13,18 @@ public class Y2021D07
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = FuelMin(_input, fuelConsumption: distance => distance);
 
-        output.Should().Be(0);
+        output.Should().Be(342534);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = FuelMin(_input, fuelConsumption: distance => (1 + distance) * distance / 2);
 
-        output.Should().Be(0);
+        output.Should().Be(94004208);
     }
-
-
-    private object PartOne(string input) =>
-        FuelMin(input, fuelConsumption: distance => distance);
-
-    private object PartTwo(string input) =>
-        FuelMin(input, fuelConsumption: distance => (1 + distance) * distance / 2);
 
     int FuelMin(string input, Func<int, int> fuelConsumption)
     {

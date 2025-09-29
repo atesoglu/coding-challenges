@@ -14,23 +14,7 @@ public class Y2021D02
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        return Parse(input)
+        var output = Parse(_input)
             .Aggregate(
                 new State1(0, 0),
                 (state, step) => step.dir switch
@@ -42,11 +26,14 @@ public class Y2021D02
                 },
                 res => res.x * res.y
             );
+
+        output.Should().Be(2102357);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        return Parse(input)
+        var output = Parse(_input)
             .Aggregate(
                 new State2(0, 0, 0),
                 (state, step) => step.dir switch
@@ -62,6 +49,8 @@ public class Y2021D02
                 },
                 res => res.x * res.y
             );
+
+        output.Should().Be(2101031224);
     }
 
     IEnumerable<Input> Parse(string st) =>
@@ -71,3 +60,6 @@ public class Y2021D02
         select
             new Input(parts[0][0], int.Parse(parts[1]));
 }
+record Input(char dir, int amount);
+record State1(int x, int y);
+record State2(int x, int y, int aim);

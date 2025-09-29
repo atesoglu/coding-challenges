@@ -16,7 +16,7 @@ public class Y2024D01
             .Select(p => Math.Abs(p.First - p.Second))
             .Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(2066446);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Y2024D01
 
         var output = Column(_input, 0).Select(num => weights.GetValueOrDefault(num) * num).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(24931009);
     }
 
     IEnumerable<int> Column(string input, int column) =>

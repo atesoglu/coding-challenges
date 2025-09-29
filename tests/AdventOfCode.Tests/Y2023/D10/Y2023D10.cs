@@ -18,7 +18,7 @@ public class Y2023D10
 
         var output = loop.Count / 2;
 
-        output.Should().Be(0);
+        output.Should().Be(6927);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2023D10
         var map = ParseMap(_input);
         var loop = LoopPositions(map);
         var output = map.Keys.Count(position => Inside(position, map, loop));
-        output.Should().Be(0);
+        output.Should().Be(467);
     }
 
 

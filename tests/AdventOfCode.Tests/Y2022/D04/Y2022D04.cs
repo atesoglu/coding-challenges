@@ -15,7 +15,7 @@ public class Y2022D04
     {
         var output = DuplicatedWorkCount(_input, Contains);
 
-        output.Should().Be(0);
+        output.Should().Be(556);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2022D04
     {
         var output = DuplicatedWorkCount(_input, Overlaps);
 
-        output.Should().Be(0);
+        output.Should().Be(876);
     }
 
 

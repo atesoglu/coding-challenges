@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D08;
 
@@ -14,25 +11,9 @@ public class Y2019D08
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var zeroMin = int.MaxValue;
         var checksum = 0;
-        foreach (var layer in Layers(input))
+        foreach (var layer in Layers(_input))
         {
             var zero = layer.Count(item => item == 0);
             var ones = layer.Count(item => item == 1);
@@ -45,13 +26,16 @@ public class Y2019D08
             }
         }
 
-        return checksum;
+        var output = checksum;
+
+        output.Should().Be(2904);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var img = new char[6 * 25];
-        foreach (var layer in Layers(input).Reverse())
+        foreach (var layer in Layers(_input).Reverse())
         {
             for (var i = 0; i < img.Length; i++)
             {
@@ -64,11 +48,10 @@ public class Y2019D08
             }
         }
 
-        return string.Join("",
-            img.Chunk(25).Select(line => string.Join("", line) + "\n")
-        ).Ocr();
+        var output = string.Join("", img.Chunk(25).Select(line => string.Join("", line) + "\n")).Ocr().ToString();
+
+        output.Should().Be("HGBCF");
     }
 
-    int[][] Layers(string input) =>
-        input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
+    int[][] Layers(string input) => input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
 }

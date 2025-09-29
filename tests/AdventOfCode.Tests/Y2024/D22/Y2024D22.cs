@@ -13,7 +13,7 @@ public class Y2024D22
     {
         var output = GetNums(_input).Select(x => (long)SecretNumbers(x).Last()).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(20215960478);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class Y2024D22
 
         var output = buyingOptions.Values.Max();
 
-        output.Should().Be(0);
+        output.Should().Be(2221);
     }
 
     Dictionary<(int, int, int, int), int> BuyingOptions(int seed)

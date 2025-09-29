@@ -13,7 +13,7 @@ public class Y2016D06
     {
         var output = Decode(_input).mostFrequent;
 
-        output.Should().Be("0");
+        output.Should().Be("wkbvmikb");
     }
 
     [Fact]
@@ -21,16 +21,16 @@ public class Y2016D06
     {
         var output = Decode(_input).leastFrequent;
 
-        output.Should().Be("0");
+        output.Should().Be("evakwaga");
     }
 
 
     (string mostFrequent, string leastFrequent) Decode(string input)
     {
         var lines = input.Split('\n');
-        string mostFrequent = "";
-        string leastFrequent = "";
-        for (int i = 0; i < lines[0].Length; i++)
+        var mostFrequent = "";
+        var leastFrequent = "";
+        for (var i = 0; i < lines[0].Length; i++)
         {
             var items = (from line in lines group line by line[i] into g orderby g.Count() select g.Key);
             mostFrequent += items.Last();

@@ -14,7 +14,7 @@ public class Y2023D18
     {
         var output = Area(Steps1(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(31171);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2023D18
     {
         var output = Area(Steps2(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(131431655002266);
     }
 
 

@@ -14,7 +14,7 @@ public class Y2022D16
     {
         var output = Solve(_input, true, 30);
 
-        output.Should().Be(0);
+        output.Should().Be(2183);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2022D16
     {
         var output = Solve(_input, false, 26);
 
-        output.Should().Be(0);
+        output.Should().Be(2911);
     }
 
 
@@ -86,7 +86,7 @@ public class Y2022D16
         int remainingTime
     )
     {
-        string key =
+        var key =
             remainingTime + "-" +
             currentValve.id + "-" +
             string.Join("-", valves.OrderBy(x => x.id).Select(x => x.id));

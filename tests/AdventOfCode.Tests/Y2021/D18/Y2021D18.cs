@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D18;
 
@@ -13,51 +11,27 @@ public class Y2021D18
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = _input.Split("\n").Select(ParseNumber).Aggregate(
+            new Number(),
+            (acc, number) => !acc.Any() ? number : Sum(acc, number),
+            Magnitude
+        );
 
-        output.Should().Be(0);
+        output.Should().Be(3763);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    // WARNING: What follows is obscure nonsense.
-    //
-    //     .-""-.
-    //    /,..___\
-    //   () {_____}
-    //     (/-@-@-\)
-    //     {`-=^=-'}
-    //     {  `-'  } Max
-    //      {     }
-    //       `---'
-
-    private object PartOne(string input)
-    {
-        // sum up all the 'numbers' in the input
-        return input.Split("\n").Select(ParseNumber).Aggregate(
-            new Number(),
-            (acc, number) => !acc.Any() ? number : Sum(acc, number),
-            Magnitude
-        );
-    }
-
-    private object PartTwo(string input)
-    {
-        // get the highest magnitude resulted from adding any two 'numbers' in the input:
-        var numbers = input.Split("\n").Select(ParseNumber).ToArray();
-        return (
+        var numbers = _input.Split("\n").Select(ParseNumber).ToArray();
+        var output = (
             from i in Enumerable.Range(0, numbers.Length)
             from j in Enumerable.Range(0, numbers.Length)
             where i != j
             select Magnitude(Sum(numbers[i], numbers[j]))
         ).Max();
+
+        output.Should().Be(4664);
     }
 
     long Magnitude(Number number)
@@ -210,3 +184,25 @@ public class Y2021D18
         return res;
     }
 }
+// we will work with a list of tokens directly
+enum TokenKind {
+    Open,
+    Close,
+    Digit
+}
+record Token(TokenKind kind, int value = 0);
+
+class Number : List<Token> {
+    public static Number Digit(int value) =>
+        new Number(){
+            new Token(TokenKind.Digit, value)
+        };
+
+    public static Number Pair(Number a, Number b) {
+        var number = new Number { new Token(TokenKind.Open) };
+        number.AddRange(a);
+        number.AddRange(b);
+        number.Add(new Token(TokenKind.Close));
+        return number;
+    }
+};

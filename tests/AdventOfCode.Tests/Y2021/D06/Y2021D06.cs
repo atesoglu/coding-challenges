@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D06;
 
@@ -12,22 +11,19 @@ public class Y2021D06
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = FishCountAfterNDays(_input, 80);
 
-        output.Should().Be(0);
+        output.Should().Be(375482);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = FishCountAfterNDays(_input, 256);
 
-        output.Should().Be(0);
+        output.Should().Be(1689540415957);
     }
 
-
-    private object PartOne(string input) => FishCountAfterNDays(input, 80);
-    private object PartTwo(string input) => FishCountAfterNDays(input, 256);
 
     long FishCountAfterNDays(string input, int days)
     {

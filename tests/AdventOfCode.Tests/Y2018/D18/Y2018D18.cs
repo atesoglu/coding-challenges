@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D18;
 
@@ -13,22 +12,19 @@ public class Y2018D18
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Iterate(_input, 10);
 
-        output.Should().Be(0);
+        output.Should().Be(483840);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Iterate(_input, 1000000000);
 
-        output.Should().Be(0);
+        output.Should().Be(219919);
     }
 
-
-    private object PartOne(string input) => Iterate(input, 10);
-    private object PartTwo(string input) => Iterate(input, 1000000000);
 
     int Iterate(string input, int lim)
     {

@@ -13,7 +13,7 @@ public class Y2017D14
     {
         var output = Extract(_input).Select(row => row.Count(ch => ch == '#')).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(8226);
     }
 
     [Fact]
@@ -21,9 +21,9 @@ public class Y2017D14
     {
         var mtx = Extract(_input).Select(row => row.ToCharArray()).ToArray();
         var regions = 0;
-        for (int irow = 0; irow < mtx.Count(); irow++)
+        for (var irow = 0; irow < mtx.Count(); irow++)
         {
-            for (int icol = 0; icol < mtx[0].Count(); icol++)
+            for (var icol = 0; icol < mtx[0].Count(); icol++)
             {
                 if (mtx[irow][icol] == '#')
                 {
@@ -36,7 +36,7 @@ public class Y2017D14
 
         var output = regions;
 
-        output.Should().Be(0);
+        output.Should().Be(1128);
     }
 
 
@@ -109,7 +109,7 @@ public class Y2017D14
         {
             foreach (var len in chars)
             {
-                for (int i = 0; i < len / 2; i++)
+                for (var i = 0; i < len / 2; i++)
                 {
                     var from = (current + i) % output.Length;
                     var to = (current + len - 1 - i) % output.Length;

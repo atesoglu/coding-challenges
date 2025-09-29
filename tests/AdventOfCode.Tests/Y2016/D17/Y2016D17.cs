@@ -14,7 +14,7 @@ public class Y2016D17
     {
         var output = Routes(_input).First();
 
-        output.Should().Be("0");
+        output.Should().Be("DDRUDLRRRD");
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2016D17
     {
         var output = Routes(_input).Last().Length;
 
-        output.Should().Be(0);
+        output.Should().Be(398);
     }
 
 

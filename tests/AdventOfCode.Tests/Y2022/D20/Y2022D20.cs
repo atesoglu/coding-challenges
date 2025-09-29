@@ -13,7 +13,7 @@ public class Y2022D20
     {
         var output = GetGrooveCoordinates(Mix(Parse(_input, 1)));
 
-        output.Should().Be(0);
+        output.Should().Be(7395);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2022D20
 
         var output = GetGrooveCoordinates(data);
 
-        output.Should().Be(0);
+        output.Should().Be(1640221678213);
     }
 
 

@@ -13,7 +13,7 @@ public class Y2017D15
     {
         var output = MatchCount(Combine(ParseGenerators(_input)).Take(40000000));
 
-        output.Should().Be(0);
+        output.Should().Be(592);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2017D15
 
         var output = MatchCount(Combine((generators.a.Where(a => (a & 3) == 0), generators.b.Where(a => (a & 7) == 0))).Take(5000000));
 
-        output.Should().Be(0);
+        output.Should().Be(320);
     }
 
     IEnumerable<(long, long)> Combine((IEnumerable<long> a, IEnumerable<long> b) items) => Enumerable.Zip(items.a, items.b, (a, b) => (a, b));

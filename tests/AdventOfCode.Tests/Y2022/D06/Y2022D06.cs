@@ -13,7 +13,7 @@ public class Y2022D06
     {
         var output = StartOfBlock(_input, 4);
 
-        output.Should().Be(0);
+        output.Should().Be(1651);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2022D06
     {
         var output = StartOfBlock(_input, 14);
 
-        output.Should().Be(0);
+        output.Should().Be(3837);
     }
 
 

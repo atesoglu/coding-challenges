@@ -13,23 +13,19 @@ public class Y2018D12
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Iterate(_input, 20);
 
-        output.Should().Be(0);
+        output.Should().Be(2166);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Iterate(_input, 50000000000);
 
-        output.Should().Be(0);
+        output.Should().Be(2100000000061);
     }
 
-
-    private object PartOne(string input) => Iterate(input, 20);
-
-    private object PartTwo(string input) => Iterate(input, 50000000000);
 
     long Iterate(string input, long iterations)
     {
@@ -80,4 +76,8 @@ public class Y2018D12
         var rules = (from line in lines.Skip(2) let parts = line.Split(" => ") select new { key = parts[0], value = parts[1] }).ToDictionary(x => x.key, x => x.value);
         return (state, rules);
     }
+}
+class State {
+    public long left;
+    public string pots;
 }

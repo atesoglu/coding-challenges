@@ -14,28 +14,12 @@ public class Y2020D22
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var (deck1, deck2) = Parse(input);
+        var (deck1, deck2) = Parse(_input);
         while (deck1.Any() && deck2.Any())
         {
             var (card1, card2) = (deck1.Dequeue(), deck2.Dequeue());
 
-            bool player1Wins = card1 > card2;
+            var player1Wins = card1 > card2;
 
             if (player1Wins)
             {
@@ -49,12 +33,16 @@ public class Y2020D22
             }
         }
 
-        return Answer(deck1, deck2);
+
+        var output = Answer(deck1, deck2);
+
+        output.Should().Be(33925);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var (deck1, deck2) = Parse(input);
+        var (deck1, deck2) = Parse(_input);
 
         bool Game(Queue<int> deck1, Queue<int> deck2)
         {
@@ -99,7 +87,9 @@ public class Y2020D22
 
         Game(deck1, deck2);
 
-        return Answer(deck1, deck2);
+        var output = Answer(deck1, deck2);
+
+        output.Should().Be(33441);
     }
 
     int Answer(Queue<int> deck1, Queue<int> deck2) =>

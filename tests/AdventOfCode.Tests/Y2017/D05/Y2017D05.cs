@@ -15,7 +15,7 @@ public class Y2017D05
     {
         var output = GetStepCount(_input, x => x + 1);
 
-        output.Should().Be(0);
+        output.Should().Be(375042);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2017D05
     {
         var output = GetStepCount(_input, x => x < 3 ? x + 1 : x - 1);
 
-        output.Should().Be(0);
+        output.Should().Be(28707598);
     }
 
 

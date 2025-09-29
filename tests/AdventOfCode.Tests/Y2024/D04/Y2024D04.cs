@@ -23,7 +23,7 @@ public class Y2024D04
             select 1
         ).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(2406);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Y2024D04
             select 1
         ).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(1807);
     }
 
 

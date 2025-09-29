@@ -14,22 +14,19 @@ public class Y2021D15
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(GetRiskLevelMap(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(415);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(ScaleUp(GetRiskLevelMap(_input)));
 
-        output.Should().Be(0);
+        output.Should().Be(2864);
     }
 
-
-    private object PartOne(string input) => Solve(GetRiskLevelMap(input));
-    private object PartTwo(string input) => Solve(ScaleUp(GetRiskLevelMap(input)));
 
     int Solve(Dictionary<Point, int> riskMap)
     {
@@ -120,3 +117,4 @@ public class Y2021D15
             point with { x = point.x - 1 },
         };
 }
+record Point(int x, int y);

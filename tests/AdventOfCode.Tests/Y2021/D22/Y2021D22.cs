@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2021.D22;
 
@@ -15,22 +12,19 @@ public class Y2021D22
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = ActiveCubesInRange(_input, 50);
 
-        output.Should().Be(0);
+        output.Should().Be(587097);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = ActiveCubesInRange(_input, int.MaxValue);
 
-        output.Should().Be(0);
+        output.Should().Be(1359673068597669);
     }
 
-
-    private object PartOne(string input) => ActiveCubesInRange(input, 50);
-    private object PartTwo(string input) => ActiveCubesInRange(input, int.MaxValue);
 
     private long ActiveCubesInRange(string input, int range)
     {
@@ -79,4 +73,24 @@ public class Y2021D22
 
         return res.ToArray();
     }
+}
+
+record Cmd(bool turnOff, Region region);
+
+record Segment(int from, int to)
+{
+    public bool IsEmpty => from > to;
+    public long Length => IsEmpty ? 0 : to - from + 1;
+
+    public Segment Intersect(Segment that) =>
+        new Segment(Math.Max(this.from, that.from), Math.Min(this.to, that.to));
+}
+
+record Region(Segment x, Segment y, Segment z)
+{
+    public bool IsEmpty => x.IsEmpty || y.IsEmpty || z.IsEmpty;
+    public long Volume => x.Length * y.Length * z.Length;
+
+    public Region Intersect(Region that) =>
+        new Region(this.x.Intersect(that.x), this.y.Intersect(that.y), this.z.Intersect(that.z));
 }

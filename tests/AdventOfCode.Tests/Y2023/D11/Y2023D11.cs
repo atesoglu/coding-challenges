@@ -16,7 +16,7 @@ public class Y2023D11
     {
         var output = Solve(_input, 1);
 
-        output.Should().Be(0);
+        output.Should().Be(9769724);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class Y2023D11
     {
         var output = Solve(_input, 999999);
 
-        output.Should().Be(0);
+        output.Should().Be(603020563700);
     }
 
 
@@ -32,8 +32,8 @@ public class Y2023D11
     {
         var map = input.Split("\n");
 
-        Func<int, bool> isRowEmpty = EmptyRows(map).ToHashSet().Contains;
-        Func<int, bool> isColEmpty = EmptyCols(map).ToHashSet().Contains;
+        var isRowEmpty = EmptyRows(map).ToHashSet().Contains;
+        var isColEmpty = EmptyCols(map).ToHashSet().Contains;
 
         var galaxies = FindAll(map, '#');
         return (

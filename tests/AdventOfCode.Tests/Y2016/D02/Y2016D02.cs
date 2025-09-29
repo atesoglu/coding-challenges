@@ -13,7 +13,7 @@ public class Y2016D02
     {
         var output = Solve(_input, "123\n456\n789");
 
-        output.Should().Be("0");
+        output.Should().Be("33444");
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2016D02
     {
         var output = Solve(_input, "  1  \n 234 \n56789\n ABC \n  D  ");
 
-        output.Should().Be("0");
+        output.Should().Be("446A6");
     }
 
     string Solve(string input, string keypad)

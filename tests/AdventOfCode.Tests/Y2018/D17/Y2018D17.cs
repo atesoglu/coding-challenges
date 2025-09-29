@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D17;
 
@@ -14,22 +12,19 @@ public class Y2018D17
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Regex.Matches(Fill(_input), "[~|]").Count;
 
-        output.Should().Be(0);
+        output.Should().Be(31412);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Regex.Matches(Fill(_input), "[~]").Count;
 
-        output.Should().Be(0);
+        output.Should().Be(25857);
     }
 
-
-    private object PartOne(string input) => Regex.Matches(Fill(input), "[~|]").Count;
-    private object PartTwo(string input) => Regex.Matches(Fill(input), "[~]").Count;
 
     string Fill(string input)
     {

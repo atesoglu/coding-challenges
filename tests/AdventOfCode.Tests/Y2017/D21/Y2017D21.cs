@@ -14,7 +14,7 @@ public class Y2017D21
     {
         var output = Iterate(_input, 5);
 
-        output.Should().Be(0);
+        output.Should().Be(179);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2017D21
     {
         var output = Iterate(_input, 18);
 
-        output.Should().Be(0);
+        output.Should().Be(2766750);
     }
 
 
@@ -77,9 +77,9 @@ public class Y2017D21
 
         IEnumerable<Mtx> Variations(Mtx mtx)
         {
-            for (int j = 0; j < 2; j++)
+            for (var j = 0; j < 2; j++)
             {
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
                     yield return mtx;
                     mtx = mtx.Rotate();
@@ -106,9 +106,9 @@ public class Y2017D21
                 }
 
                 var i = 0;
-                for (int irow = 0; irow < Size; irow++)
+                for (var irow = 0; irow < Size; irow++)
                 {
-                    for (int icol = 0; icol < Size; icol++)
+                    for (var icol = 0; icol < Size; icol++)
                     {
                         if (this[irow, icol])
                         {
@@ -132,7 +132,7 @@ public class Y2017D21
             st = st.Replace("/", "");
             var size = (int)Math.Sqrt(st.Length);
             var res = new Mtx(size);
-            for (int i = 0; i < st.Length; i++)
+            for (var i = 0; i < st.Length; i++)
             {
                 res[i / size, i % size] = st[i] == '#';
             }
@@ -144,12 +144,12 @@ public class Y2017D21
         {
             var mtxPerRow = (int)Math.Sqrt(rgmtx.Length);
             var res = new Mtx(mtxPerRow * rgmtx[0].Size);
-            for (int imtx = 0; imtx < rgmtx.Length; imtx++)
+            for (var imtx = 0; imtx < rgmtx.Length; imtx++)
             {
                 var mtx = rgmtx[imtx];
-                for (int irow = 0; irow < mtx.Size; irow++)
+                for (var irow = 0; irow < mtx.Size; irow++)
                 {
-                    for (int icol = 0; icol < mtx.Size; icol++)
+                    for (var icol = 0; icol < mtx.Size; icol++)
                     {
                         var irowRes = (imtx / mtxPerRow) * mtx.Size + irow;
                         var icolRes = (imtx % mtxPerRow) * mtx.Size + icol;
@@ -168,14 +168,14 @@ public class Y2017D21
                 Size % 3 == 0 ? 3 :
                 throw new Exception();
 
-            for (int irow = 0; irow < Size; irow += blockSize)
+            for (var irow = 0; irow < Size; irow += blockSize)
             {
-                for (int icol = 0; icol < Size; icol += blockSize)
+                for (var icol = 0; icol < Size; icol += blockSize)
                 {
                     var mtx = new Mtx(blockSize);
-                    for (int drow = 0; drow < blockSize; drow++)
+                    for (var drow = 0; drow < blockSize; drow++)
                     {
-                        for (int dcol = 0; dcol < blockSize; dcol++)
+                        for (var dcol = 0; dcol < blockSize; dcol++)
                         {
                             mtx[drow, dcol] = this[irow + drow, icol + dcol];
                         }
@@ -189,9 +189,9 @@ public class Y2017D21
         public Mtx Flip()
         {
             var res = new Mtx(this.Size);
-            for (int irow = 0; irow < Size; irow++)
+            for (var irow = 0; irow < Size; irow++)
             {
-                for (int icol = 0; icol < Size; icol++)
+                for (var icol = 0; icol < Size; icol++)
                 {
                     res[irow, Size - icol - 1] = this[irow, icol];
                 }
@@ -203,9 +203,9 @@ public class Y2017D21
         public Mtx Rotate()
         {
             var res = new Mtx(this.Size);
-            for (int i = 0; i < Size; i++)
+            for (var i = 0; i < Size; i++)
             {
-                for (int j = 0; j < Size; j++)
+                for (var j = 0; j < Size; j++)
                 {
                     res[i, j] = this[j, Size - i - 1];
                 }
@@ -217,9 +217,9 @@ public class Y2017D21
         public int Count()
         {
             var count = 0;
-            for (int irow = 0; irow < Size; irow++)
+            for (var irow = 0; irow < Size; irow++)
             {
-                for (int icol = 0; icol < Size; icol++)
+                for (var icol = 0; icol < Size; icol++)
                 {
                     if (this[irow, icol])
                     {
@@ -234,9 +234,9 @@ public class Y2017D21
         public override string ToString()
         {
             var sb = new StringBuilder();
-            for (int irow = 0; irow < Size; irow++)
+            for (var irow = 0; irow < Size; irow++)
             {
-                for (int icol = 0; icol < Size; icol++)
+                for (var icol = 0; icol < Size; icol++)
                 {
                     sb.Append(this[irow, icol] ? "#" : ".");
                 }

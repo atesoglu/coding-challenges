@@ -11,22 +11,19 @@ public class Y2020D03
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = TreeCount(_input, (1, 3));
 
-        output.Should().Be(0);
+        output.Should().Be(209);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = TreeCount(_input, (1, 1), (1, 3), (1, 5), (1, 7), (2, 1));
 
-        output.Should().Be(0);
+        output.Should().Be(1574890240);
     }
 
-
-    private object PartOne(string input) => TreeCount(input, (1, 3));
-    private object PartTwo(string input) => TreeCount(input, (1, 1), (1, 3), (1, 5), (1, 7), (2, 1));
 
     long TreeCount(string input, params (int drow, int dcol)[] slopes)
     {

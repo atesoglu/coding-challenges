@@ -1,7 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D19;
 
@@ -13,17 +12,22 @@ public class Y2019D19
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var detector = Detector(_input);
 
-        output.Should().Be(0);
+        var output = (from x in Enumerable.Range(0, 50)
+            from y in Enumerable.Range(0, 50)
+            where detector(x, y)
+            select 1).Count();
+
+        output.Should().Be(186);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = DetectPartTwo(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(9231141);
     }
 
 
@@ -37,16 +41,7 @@ public class Y2019D19
         };
     }
 
-    private object PartOne(string input)
-    {
-        var detector = Detector(input);
-        return (from x in Enumerable.Range(0, 50)
-            from y in Enumerable.Range(0, 50)
-            where detector(x, y)
-            select 1).Count();
-    }
-
-    private object PartTwo(string input)
+    private object DetectPartTwo(string input)
     {
         var detector = Detector(input);
 

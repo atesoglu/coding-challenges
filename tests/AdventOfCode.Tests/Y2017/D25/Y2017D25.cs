@@ -27,15 +27,15 @@ public class Y2017D25
 
         var output = tape.Select(kvp => kvp.Value).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(4385);
     }
 
     Machine Parse(string input)
     {
         var lines = input.Split('\n').Where(line => !string.IsNullOrEmpty(line)).ToArray();
-        int iline = 0;
+        var iline = 0;
 
-        Machine machine = new Machine();
+        var machine = new Machine();
 
         String(@"Begin in state (\w).", out machine.state);
         Int(@"Perform a diagnostic checksum after (\d+) steps.", out machine.iterations);
@@ -46,7 +46,7 @@ public class Y2017D25
             {
                 Int(@"- Write the value (\d).", out var write);
                 String(@"- Move one slot to the (left|right).", out var dir);
-                String(@" - Continue with state (\w).", out string newState);
+                String(@" - Continue with state (\w).", out var newState);
                 machine.prg[(state, read)] = (write, dir == "left" ? -1 : 1, newState);
             }
         }
@@ -54,7 +54,7 @@ public class Y2017D25
         bool Int(string pattern, out int r)
         {
             r = 0;
-            return String(pattern, out string st) && int.TryParse(st, out r);
+            return String(pattern, out var st) && int.TryParse(st, out r);
         }
 
         bool String(string pattern, out string st)

@@ -14,7 +14,7 @@ public class Y2016D03
     {
         var output = ValidTriangles(Parse(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(993);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class Y2016D03
 
         var output = ValidTriangles(tripplets);
 
-        output.Should().Be(0);
+        output.Should().Be(1849);
     }
 
     int[][] Parse(string input) => (
@@ -53,11 +53,11 @@ public class Y2016D03
     {
         var crowDst = src[0].Length;
         var ccolDst = src.Length;
-        int[][] dst = new int[crowDst][];
-        for (int irowDst = 0; irowDst < crowDst; irowDst++)
+        var dst = new int[crowDst][];
+        for (var irowDst = 0; irowDst < crowDst; irowDst++)
         {
             dst[irowDst] = new int[ccolDst];
-            for (int icolDst = 0; icolDst < ccolDst; icolDst++)
+            for (var icolDst = 0; icolDst < ccolDst; icolDst++)
             {
                 dst[irowDst][icolDst] = src[icolDst][irowDst];
             }

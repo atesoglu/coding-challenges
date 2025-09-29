@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2020.D07;
 
@@ -14,24 +12,8 @@ public class Y2020D07
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var parentsOf = new Dictionary<string, HashSet<string>>();
-        foreach (var line in input.Split("\n"))
+        foreach (var line in _input.Split("\n"))
         {
             var descr = ParseLine(line);
 
@@ -62,13 +44,16 @@ public class Y2020D07
             }
         }
 
-        return PathsToRoot("shiny gold bag").ToHashSet().Count - 1;
+        var output = PathsToRoot("shiny gold bag").ToHashSet().Count - 1;
+
+        output.Should().Be(185);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var childrenOf = new Dictionary<string, List<(int count, string bag)>>();
-        foreach (var line in input.Split("\n"))
+        foreach (var line in _input.Split("\n"))
         {
             var descr = ParseLine(line);
             childrenOf[descr.bag] = descr.children;
@@ -77,7 +62,9 @@ public class Y2020D07
         long CountWithChildren(string bag) =>
             1 + (from child in childrenOf[bag] select child.count * CountWithChildren(child.bag)).Sum();
 
-        return CountWithChildren("shiny gold bag") - 1;
+        var output = CountWithChildren("shiny gold bag") - 1;
+
+        output.Should().Be(89084);
     }
 
     (string bag, List<(int count, string bag)> children) ParseLine(string line)

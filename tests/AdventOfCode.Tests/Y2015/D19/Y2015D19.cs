@@ -54,7 +54,7 @@ public class Y2015D19
 
     private static IEnumerable<(int idx, int length, string to)> Replacements((string from, string to)[] rules, string molecule, bool forward)
     {
-        for (int pos = 0; pos < molecule.Length; pos++)
+        for (var pos = 0; pos < molecule.Length; pos++)
         {
             foreach (var (a, b) in rules)
             {

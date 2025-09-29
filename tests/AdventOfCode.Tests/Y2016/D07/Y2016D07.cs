@@ -13,7 +13,7 @@ public class Y2016D07
     {
         var output = _input.Split('\n').Count(TLS);
 
-        output.Should().Be(0);
+        output.Should().Be(110);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2016D07
     {
         var output = _input.Split('\n').Count(SSL);
 
-        output.Should().Be(0);
+        output.Should().Be(242);
     }
 
 

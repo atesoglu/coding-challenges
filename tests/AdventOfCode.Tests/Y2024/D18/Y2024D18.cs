@@ -15,7 +15,7 @@ public class Y2024D18
     {
         var output = Distance(GetBlocks(_input).Take(1024));
 
-        output.Should().Be(0);
+        output.Should().Be(438);
     }
 
     [Fact]
@@ -41,16 +41,15 @@ public class Y2024D18
 
         var output = $"{blocks[lo].Real},{blocks[lo].Imaginary}";
 
-        output.Should().Be("0");
+        output.Should().Be("26,22");
     }
 
     int? Distance(IEnumerable<Complex> blocks)
     {
-        // our standard priority queue based path finding
-
         var size = 70;
-        var (start, goal) = (0, size + size * Complex.ImaginaryOne);
-        var blocked = blocks.Concat(start).ToHashSet();
+        var start = Complex.Zero;
+        var goal = size + size * Complex.ImaginaryOne;
+        var blocked = blocks.Concat(new[] { start }).ToHashSet();
 
         var q = new PriorityQueue<Complex, int>();
         q.Enqueue(start, 0);
@@ -77,6 +76,7 @@ public class Y2024D18
 
         return null;
     }
+
 
     Complex[] GetBlocks(string input) => (
         from line in input.Split("\n")

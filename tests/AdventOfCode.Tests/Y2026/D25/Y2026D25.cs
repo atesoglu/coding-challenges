@@ -15,12 +15,4 @@ public class Y2026D25
 
         output.Should().Be(0);
     }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = 0;
-
-        output.Should().Be(0);
-    }
 }

@@ -16,7 +16,7 @@ public class Y2017D10
 
         var output = hash[0] * hash[1];
 
-        output.Should().Be(0);
+        output.Should().Be(52070);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class Y2017D10
             let block = hash.Skip(16 * blockIdx).Take(16)
             select block.Aggregate(0, (acc, ch) => acc ^ ch).ToString("x2"));
 
-        output.Should().Be("0");
+        output.Should().Be("7f94112db4e32e19cf6502073c66f9bb");
     }
 
     int[] KnotHash(IEnumerable<int> input, int rounds)
@@ -45,7 +45,7 @@ public class Y2017D10
         {
             foreach (var len in input)
             {
-                for (int i = 0; i < len / 2; i++)
+                for (var i = 0; i < len / 2; i++)
                 {
                     var from = (current + i) % output.Length;
                     var to = (current + len - 1 - i) % output.Length;

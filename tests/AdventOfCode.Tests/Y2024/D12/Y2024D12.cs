@@ -19,7 +19,7 @@ public class Y2024D12
     {
         var output = CalculateFencePrice(_input, FindEdges);
 
-        output.Should().Be(0);
+        output.Should().Be(1352976);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2024D12
     {
         var output = CalculateFencePrice(_input, FindCorners);
 
-        output.Should().Be(0);
+        output.Should().Be(808796);
     }
 
 

@@ -13,7 +13,7 @@ public class Y2017D09
     {
         var output = BlockScores(_input).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(11898);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2017D09
     {
         var output = Classify(_input).Where((x) => x.garbage).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(5601);
     }
 
     IEnumerable<int> BlockScores(string input)

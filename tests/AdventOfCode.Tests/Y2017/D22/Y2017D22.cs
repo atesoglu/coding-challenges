@@ -21,7 +21,7 @@ public class Y2017D22
                 }
         );
 
-        output.Should().Be(0);
+        output.Should().Be(5339);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Y2017D22
                 }
         );
 
-        output.Should().Be(0);
+        output.Should().Be(2512380);
     }
 
     int Iterate(string input, int iterations, Func<State, int, int, (State State, int irow, int icol)> update)
@@ -48,9 +48,9 @@ public class Y2017D22
         var crow = lines.Length;
         var ccol = lines[0].Length;
         var cells = new Dictionary<(int irow, int icol), State>();
-        for (int irowT = 0; irowT < crow; irowT++)
+        for (var irowT = 0; irowT < crow; irowT++)
         {
-            for (int icolT = 0; icolT < ccol; icolT++)
+            for (var icolT = 0; icolT < ccol; icolT++)
             {
                 if (lines[irowT][icolT] == '#')
                 {
@@ -62,7 +62,7 @@ public class Y2017D22
         var (irow, icol) = (crow / 2, ccol / 2);
         var (drow, dcol) = (-1, 0);
         var infections = 0;
-        for (int i = 0; i < iterations; i++)
+        for (var i = 0; i < iterations; i++)
         {
             var state = cells.TryGetValue((irow, icol), out var s) ? s : State.Clean;
 

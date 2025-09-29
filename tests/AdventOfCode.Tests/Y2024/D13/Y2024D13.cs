@@ -18,7 +18,7 @@ public class Y2024D13
     {
         var output = Parse(_input).Sum(GetPrize);
 
-        output.Should().Be(0);
+        output.Should().Be(36758);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2024D13
     {
         var output = Parse(_input, shift: 10000000000000).Sum(GetPrize);
 
-        output.Should().Be(0);
+        output.Should().Be(76358113886726);
     }
 
 

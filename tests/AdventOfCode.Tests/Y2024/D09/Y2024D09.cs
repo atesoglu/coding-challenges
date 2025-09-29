@@ -18,7 +18,7 @@ public class Y2024D09
     {
         var output = Checksum(CompactFs(Parse(_input), fragmentsEnabled: true));
 
-        output.Should().Be(0);
+        output.Should().Be(6242766523059);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2024D09
     {
         var output = Checksum(CompactFs(Parse(_input), fragmentsEnabled: false));
 
-        output.Should().Be(0);
+        output.Should().Be(6272188244509);
     }
 
 

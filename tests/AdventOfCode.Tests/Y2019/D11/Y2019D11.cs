@@ -1,8 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D11;
 
@@ -14,25 +12,15 @@ public class Y2019D11
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Run(_input, 0).Count;
 
-        output.Should().Be(0);
+        output.Should().Be(2511);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => Run(input, 0).Count;
-
-    private object PartTwo(string input)
-    {
-        var dict = Run(input, 1);
+        var dict = Run(_input, 1);
         var irowMin = dict.Keys.Select(pos => pos.irow).Min();
         var icolMin = dict.Keys.Select(pos => pos.icol).Min();
         var irowMax = dict.Keys.Select(pos => pos.irow).Max();
@@ -50,7 +38,9 @@ public class Y2019D11
             st += "\n";
         }
 
-        return st.Ocr();
+        var output = st.Ocr().ToString();
+
+        output.Should().Be("HJKJKGPH");
     }
 
     Dictionary<(int irow, int icol), int> Run(string input, int startColor)

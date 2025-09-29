@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D07;
 
@@ -13,27 +11,11 @@ public class Y2018D07
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var sb = new StringBuilder();
-        var graph = Parse(input);
+        var graph = Parse(_input);
         while (graph.Any())
         {
-            char minKey = char.MaxValue;
+            var minKey = char.MaxValue;
             foreach (var key in graph.Keys)
             {
                 if (graph[key].Count == 0)
@@ -53,13 +35,16 @@ public class Y2018D07
             }
         }
 
-        return sb.ToString();
+        var output = sb.ToString();
+
+        output.Should().Be("GJFMDHNBCIVTUWEQYALSPXZORK");
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var time = 0;
-        var graph = Parse(input);
+        var graph = Parse(_input);
 
         var works = new int[5];
         var items = new char[works.Length];
@@ -71,7 +56,7 @@ public class Y2018D07
                 // start working
                 if (works[i] == 0)
                 {
-                    char minKey = char.MaxValue;
+                    var minKey = char.MaxValue;
                     foreach (var key in graph.Keys)
                     {
                         if (graph[key].Count == 0)
@@ -118,7 +103,9 @@ public class Y2018D07
             }
         }
 
-        return time;
+        var output = time;
+
+        output.Should().Be(1050);
     }
 
     Dictionary<char, List<char>> Parse(string input)

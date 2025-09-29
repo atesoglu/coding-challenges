@@ -13,7 +13,7 @@ public class Y2018D01
     {
         var output = Frequencies(_input).ElementAt(_input.Split("\n").Count() - 1);
 
-        output.Should().Be(0);
+        output.Should().Be(459);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class Y2018D01
         }
 
 
-        output.Should().Be(0);
+        output.Should().Be(65474);
     }
 
     IEnumerable<int> Frequencies(string input)

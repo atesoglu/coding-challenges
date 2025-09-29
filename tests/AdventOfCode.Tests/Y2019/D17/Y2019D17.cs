@@ -1,9 +1,7 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D17;
 
@@ -15,23 +13,7 @@ public class Y2019D17
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var mx = Screenshot(input);
+        var mx = Screenshot(_input);
 
         var crow = mx.Length;
         var ccol = mx[0].Length;
@@ -43,21 +25,25 @@ public class Y2019D17
             select cross[1 + drow][1 + dcol] == mx[irow + drow][icol + dcol]
         ).All(x => x);
 
-        return (
+        var output = (
             from irow in Enumerable.Range(1, crow - 2)
             from icol in Enumerable.Range(1, ccol - 2)
             where crossing(irow, icol)
             select icol * irow
         ).Sum();
+
+        output.Should().Be(8928);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var program = GeneratePrograms(Path(input)).First();
+        var program = GeneratePrograms(Path(_input)).First();
 
-        var icm = new IntCodeMachine(input);
+        var icm = new IntCodeMachine(_input);
         icm.memory[0] = 2;
-        return icm.Run(program).Last();
+        var output = icm.Run(program).Last();
+        output.Should().Be(880360);
     }
 
     string[] Screenshot(string input)

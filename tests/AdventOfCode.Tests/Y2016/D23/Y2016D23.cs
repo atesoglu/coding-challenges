@@ -13,7 +13,7 @@ public class Y2016D23
     {
         var output = Solve(_input, 7);
 
-        output.Should().Be(0);
+        output.Should().Be(12703);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2016D23
     {
         var output = Solve(_input, 12);
 
-        output.Should().Be(0);
+        output.Should().Be(479009263);
     }
 
 

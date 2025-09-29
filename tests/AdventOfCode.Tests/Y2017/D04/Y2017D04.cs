@@ -13,7 +13,7 @@ public class Y2017D04
     {
         var output = ValidLineCount(_input, word => word);
 
-        output.Should().Be(0);
+        output.Should().Be(451);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2017D04
     {
         var output = ValidLineCount(_input, word => string.Concat(word.OrderBy(ch => ch)));
 
-        output.Should().Be(0);
+        output.Should().Be(223);
     }
 
 

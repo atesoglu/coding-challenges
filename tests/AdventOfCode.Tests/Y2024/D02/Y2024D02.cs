@@ -13,7 +13,7 @@ public class Y2024D02
     {
         var output = ParseSamples(_input).Count(Valid);
 
-        output.Should().Be(0);
+        output.Should().Be(639);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class Y2024D02
     {
         var output = ParseSamples(_input).Count(samples => Attenuate(samples).Any(Valid));
 
-        output.Should().Be(0);
+        output.Should().Be(674);
     }
 
 

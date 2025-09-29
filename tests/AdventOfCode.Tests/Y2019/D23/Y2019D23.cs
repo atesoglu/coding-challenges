@@ -1,9 +1,7 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Packets = System.Collections.Generic.List<(long address, long x, long y)>;
 
 namespace AdventOfCode.Tests.Y2019.D23;
@@ -16,22 +14,19 @@ public class Y2019D23
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Solve(_input, false);
 
-        output.Should().Be(0);
+        output.Should().Be(23213);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Solve(_input, true);
 
-        output.Should().Be(0);
+        output.Should().Be(17874);
     }
 
-
-    private object PartOne(string input) => Solve(input, false);
-    private object PartTwo(string input) => Solve(input, true);
 
     long Solve(string input, bool hasNat)
     {

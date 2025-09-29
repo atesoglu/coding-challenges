@@ -1,8 +1,7 @@
-﻿using System.Text;
+﻿using System.Collections.Immutable;
+using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D15;
 
@@ -14,17 +13,18 @@ public class Y2019D15
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var iicm = new ImmutableIntCodeMachine(_input);
+        var output = Bfs(iicm).First(s => s.tile == Tile.O2).path.Count;
 
-        output.Should().Be(0);
+        output.Should().Be(246);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
+        var iicm = Bfs(new ImmutableIntCodeMachine(_input)).First(s => s.tile == Tile.O2).iicm;
+        var output = Bfs(iicm).Last().path.Count;
+        output.Should().Be(376);
     }
 
 
@@ -33,18 +33,6 @@ public class Y2019D15
         Wall = 0,
         Empty = 1,
         O2 = 2,
-    }
-
-    private object PartOne(string input)
-    {
-        var iicm = new ImmutableIntCodeMachine(input);
-        return Bfs(iicm).First(s => s.tile == Tile.O2).path.Count;
-    }
-
-    private object PartTwo(string input)
-    {
-        var iicm = Bfs(new ImmutableIntCodeMachine(input)).First(s => s.tile == Tile.O2).iicm;
-        return Bfs(iicm).Last().path.Count;
     }
 
     IEnumerable<(ImmutableIntCodeMachine iicm, ImmutableList<int> path, Tile tile)> Bfs(ImmutableIntCodeMachine startIicm)

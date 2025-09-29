@@ -14,7 +14,7 @@ public class Y2016D16
     {
         var output = Checksum(_input, 272);
 
-        output.Should().Be("0");
+        output.Should().Be("10010010110011010");
     }
 
     [Fact]
@@ -22,33 +22,34 @@ public class Y2016D16
     {
         var output = Checksum(_input, 35651584);
 
-        output.Should().Be("0");
+        output.Should().Be("01010100101011100");
     }
 
 
     string Checksum(string st, int length)
     {
+        // 1. Fill data to required length
         while (st.Length < length)
         {
             var a = st;
-            var b = string.Join("", from ch in a.Reverse() select ch == '0' ? '1' : '0');
+            var b = string.Join("", a.Reverse().Select(ch => ch == '0' ? '1' : '0'));
             st = a + "0" + b;
         }
 
         st = st.Substring(0, length);
-        var sb = new StringBuilder();
 
-        while (sb.Length % 2 == 0)
+        // 2. Compute checksum until odd length
+        while (st.Length % 2 == 0)
         {
-            sb.Clear();
-            for (int i = 0; i < st.Length; i += 2)
+            var sb = new StringBuilder();
+            for (var i = 0; i < st.Length; i += 2)
             {
-                sb.Append(st[i] == st[i + 1] ? "1" : "0");
+                sb.Append(st[i] == st[i + 1] ? '1' : '0');
             }
-
             st = sb.ToString();
         }
 
         return st;
     }
+
 }

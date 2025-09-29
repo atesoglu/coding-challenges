@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2018.D22;
 
@@ -15,23 +12,7 @@ public class Y2018D22
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var (targetX, targetY, regionType) = Parse(input);
+        var (targetX, targetY, regionType) = Parse(_input);
         var riskLevel = 0;
         for (var y = 0; y <= targetY; y++)
         {
@@ -41,13 +22,18 @@ public class Y2018D22
             }
         }
 
-        return riskLevel;
+        var output = riskLevel;
+
+        output.Should().Be(7743);
     }
 
-
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        var (targetX, targetY, regionType) = Parse(input);
+        var output = 0;
+
+
+        var (targetX, targetY, regionType) = Parse(_input);
         var q = new PQueue<((int x, int y) pos, Tool tool, int t)>();
         var seen = new HashSet<((int x, int y), Tool tool)>();
 
@@ -97,7 +83,8 @@ public class Y2018D22
 
             if (pos.x == targetX && pos.y == targetY && tool == Tool.Torch)
             {
-                return t;
+                output = t;
+                break;
             }
 
             var hash = (pos, tool);
@@ -117,7 +104,7 @@ public class Y2018D22
             }
         }
 
-        throw new Exception();
+        output.Should().Be(1029);
     }
 
     (int targetX, int targetY, Func<int, int, RegionType> regionType) Parse(string input)
@@ -167,5 +154,52 @@ public class Y2018D22
         }
 
         return (targetX, targetY, regionType);
+    }
+}
+
+enum RegionType
+{
+    Rocky = 0,
+    Wet = 1,
+    Narrow = 2
+}
+
+enum Tool
+{
+    Nothing,
+    Torch,
+    ClimbingGear
+}
+
+class PQueue<T>
+{
+    SortedDictionary<int, Queue<T>> d = new SortedDictionary<int, Queue<T>>();
+
+    public bool Any()
+    {
+        return d.Any();
+    }
+
+    public void Enqueue(int p, T t)
+    {
+        if (!d.ContainsKey(p))
+        {
+            d[p] = new Queue<T>();
+        }
+
+        d[p].Enqueue(t);
+    }
+
+    public T Dequeue()
+    {
+        var p = d.Keys.First();
+        var items = d[p];
+        var t = items.Dequeue();
+        if (!items.Any())
+        {
+            d.Remove(p);
+        }
+
+        return t;
     }
 }

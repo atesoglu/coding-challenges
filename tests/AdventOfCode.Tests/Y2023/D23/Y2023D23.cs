@@ -16,7 +16,7 @@ public class Y2023D23
     {
         var output = Solve(_input);
 
-        output.Should().Be(0);
+        output.Should().Be(2298);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class Y2023D23
     {
         var output = Solve(RemoveSlopes(_input));
 
-        output.Should().Be(0);
+        output.Should().Be(6602);
     }
 
 

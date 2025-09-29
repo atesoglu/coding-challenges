@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D14;
 
@@ -14,23 +11,19 @@ public class Y2018D14
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Window(10).ElementAt(int.Parse(_input)).st;
 
-        output.Should().Be(0);
+        output.Should().Be("2688510125");
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = Window(_input.Length).First(item => item.st == _input).i;
 
-        output.Should().Be(0);
+        output.Should().Be(20188250);
     }
 
-
-    private object PartOne(string input) => Window(10).ElementAt(int.Parse(input)).st;
-
-    private object PartTwo(string input) => Window(input.Length).First(item => item.st == input).i;
 
     IEnumerable<(int i, string st)> Window(int w)
     {

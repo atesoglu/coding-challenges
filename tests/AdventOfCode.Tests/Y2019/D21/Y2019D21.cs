@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using AdventOfCode.Tests.Y2019.D02;
 using FluentAssertions;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D21;
 
@@ -12,27 +12,11 @@ public class Y2019D21
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var icm = new IntCodeMachine(_input);
 
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
-        var icm = new IntCodeMachine(input);
-
-        // J = (Â¬A âˆ¨ Â¬B âˆ¨ Â¬C) âˆ§ D  
+        // J = (Â¬A âˆ¨ Â¬B âˆ¨ Â¬C) âˆ§ D
         // jump if no road ahead, but we can continue from D
-        return new IntCodeMachine(input).Run(
+        var output = new IntCodeMachine(_input).Run(
             "OR A T",
             "AND B T",
             "AND C T",
@@ -40,13 +24,16 @@ public class Y2019D21
             "AND D J",
             "WALK"
         ).Last();
+
+        output.Should().Be(19356081);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
-        // J = (Â¬A âˆ¨ Â¬B âˆ¨ Â¬C) âˆ§ D âˆ§ (H âˆ¨ E) 
+        // J = (Â¬A âˆ¨ Â¬B âˆ¨ Â¬C) âˆ§ D âˆ§ (H âˆ¨ E)
         // same as part 1, but also check that D is not a dead end
-        return new IntCodeMachine(input).Run(
+        var output = new IntCodeMachine(_input).Run(
             "OR A T",
             "AND B T",
             "AND C T",
@@ -57,5 +44,7 @@ public class Y2019D21
             "AND T J",
             "RUN"
         ).Last();
+
+        output.Should().Be(1141901823);
     }
 }

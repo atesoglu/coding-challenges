@@ -17,7 +17,7 @@ public class Y2022D05
     {
         var output = MoveCrates(_input, CrateMover9000);
 
-        output.Should().Be("0");
+        output.Should().Be("VQZNJMWTR");
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2022D05
     {
         var output = MoveCrates(_input, CrateMover9001);
 
-        output.Should().Be("0");
+        output.Should().Be("NLCDCLVMQ");
     }
 
 

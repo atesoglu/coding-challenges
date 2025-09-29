@@ -36,7 +36,7 @@ public class Y2023D19
             select cube.Select(r => r.begin).Sum()
         ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(399284);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class Y2023D19
 
         var output = AcceptedVolume(rules, cube);
 
-        output.Should().Be(0);
+        output.Should().Be(121964982771486);
     }
 
     BigInteger AcceptedVolume(Rules rules, Cube cube)
@@ -76,7 +76,7 @@ public class Y2023D19
             {
                 foreach (var stm in rules[state].Split(","))
                 {
-                    Cond cond = TryParseCond(stm);
+                    var cond = TryParseCond(stm);
                     if (cond == null)
                     {
                         q.Enqueue((cube, stm));

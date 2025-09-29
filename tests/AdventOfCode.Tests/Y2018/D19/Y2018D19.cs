@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D19;
 
@@ -13,25 +11,9 @@ public class Y2018D19
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var ip = 0;
-        var ipReg = int.Parse(input.Split("\n").First().Substring("#ip ".Length));
-        var prg = input.Split("\n").Skip(1).ToArray();
+        var ipReg = int.Parse(_input.Split("\n").First().Substring("#ip ".Length));
+        var prg = _input.Split("\n").Skip(1).ToArray();
         var regs = new int[6];
         while (ip >= 0 && ip < prg.Length)
         {
@@ -42,10 +24,13 @@ public class Y2018D19
             ip++;
         }
 
-        return regs[0];
+        var output = regs[0];
+
+        output.Should().Be(1344);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var t = 10551292;
         var r0 = 0;
@@ -55,7 +40,9 @@ public class Y2018D19
                 r0 += x;
         }
 
-        return r0;
+        var output = r0;
+
+        output.Should().Be(19030032);
     }
 
     int[] Step(int[] regs, string op, int[] stm)

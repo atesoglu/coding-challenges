@@ -17,7 +17,7 @@ public class Y2024D05
             .Where(pages => Sorted(pages, comparer))
             .Sum(GetMiddlePage);
 
-        output.Should().Be(0);
+        output.Should().Be(6034);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class Y2024D05
             .Select(pages => pages.OrderBy(p => p, comparer).ToArray())
             .Sum(GetMiddlePage);
 
-        output.Should().Be(0);
+        output.Should().Be(6305);
     }
 
     (string[][] updates, Comparer<string>) Parse(string input)

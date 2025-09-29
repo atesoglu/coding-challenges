@@ -16,7 +16,7 @@ public class Y2017D13
     {
         var output = Severities(Parse(_input), 0).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(2160);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class Y2017D13
             .Range(0, int.MaxValue)
             .First(n => !Severities(layers, n).Any());
 
-        output.Should().Be(0);
+        output.Should().Be(3907470);
     }
 
 

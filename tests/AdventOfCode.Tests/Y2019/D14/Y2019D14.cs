@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D14;
 
@@ -14,25 +11,16 @@ public class Y2019D14
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = Parse(_input)(1);
 
-        output.Should().Be(0);
+        output.Should().Be(261960);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => Parse(input)(1);
-
-    private object PartTwo(string input)
-    {
-        var oreForFuel = Parse(input);
+        var output = 0;
+        var oreForFuel = Parse(_input);
 
         var ore = 1000000000000L;
 
@@ -41,18 +29,21 @@ public class Y2019D14
         {
             // newFuel <= the amount we can produce with the given ore
             // since (double)ore / oreForFuel(fuel) >= 1, fuel becomes
-            // a better estimation in each iteration until it reaches 
+            // a better estimation in each iteration until it reaches
             // the maximum
 
             var newFuel = (int)((double)ore / oreForFuel(fuel) * fuel);
 
             if (newFuel == fuel)
             {
-                return newFuel;
+                output = newFuel;
+                break;
             }
 
             fuel = newFuel;
         }
+
+        output.Should().Be(4366186);
     }
 
     Func<long, long> Parse(string productionRules)

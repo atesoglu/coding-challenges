@@ -18,7 +18,7 @@ public class Y2023D17
     {
         var output = Heatloss(_input, 0, 3);
 
-        output.Should().Be(0);
+        output.Should().Be(859);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2023D17
     {
         var output = Heatloss(_input, 4, 10);
 
-        output.Should().Be(0);
+        output.Should().Be(1027);
     }
 
 

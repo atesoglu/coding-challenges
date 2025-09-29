@@ -15,7 +15,7 @@ public class Y2024D11
     {
         var output = StoneCount(_input, 25);
 
-        output.Should().Be(0);
+        output.Should().Be(218079);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2024D11
     {
         var output = StoneCount(_input, 75);
 
-        output.Should().Be(0);
+        output.Should().Be(259755538429618);
     }
 
 

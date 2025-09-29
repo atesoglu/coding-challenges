@@ -14,7 +14,7 @@ public class Y2022D18
         var lavaLocations = GetLavaLocations(_input).ToHashSet();
         var output = lavaLocations.SelectMany(Neighbours).Count(p => !lavaLocations.Contains(p));
 
-        output.Should().Be(0);
+        output.Should().Be(4536);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class Y2022D18
         var waterLocations = FillWithWater(bounds.min, bounds, lavaLocations);
         var output = lavaLocations.SelectMany(Neighbours).Count(p => waterLocations.Contains(p));
 
-        output.Should().Be(0);
+        output.Should().Be(2606);
     }
 
 

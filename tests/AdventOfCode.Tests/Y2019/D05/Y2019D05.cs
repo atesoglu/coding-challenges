@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using FluentAssertions;
 using System.Linq;
+using AdventOfCode.Tests.Y2019.D02;
 
 namespace AdventOfCode.Tests.Y2019.D05;
 
@@ -12,21 +13,16 @@ public class Y2019D05
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = new IntCodeMachine(_input).Run(1).Last();
 
-        output.Should().Be(0);
+        output.Should().Be(11049715);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = new IntCodeMachine(_input).Run(5).Last();
 
-        output.Should().Be(0);
+        output.Should().Be(2140710);
     }
-
-
-    private object PartOne(string input) => new IntCodeMachine(input).Run(1).Last();
-
-    private object PartTwo(string input) => new IntCodeMachine(input).Run(5).Last();
 }

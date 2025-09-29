@@ -1,8 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D17;
 
@@ -14,34 +11,22 @@ public class Y2020D17
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         var ds = (from dx in new[] { -1, 0, 1 }
             from dy in new[] { -1, 0, 1 }
             from dz in new[] { -1, 0, 1 }
             where dx != 0 || dy != 0 || dz != 0
             select (dx, dy, dz)).ToArray();
-        return Solve(
-            input,
+
+        var output = Solve(
+            _input,
             (x, y) => (x: x, y: y, z: 0),
             (p) => ds.Select(d => (p.x + d.dx, p.y + d.dy, p.z + d.dz)));
+
+        output.Should().Be(372);
     }
 
-    private object PartTwo(string input)
+    [Fact]
+    public void PartTwo()
     {
         var ds = (from dx in new[] { -1, 0, 1 }
             from dy in new[] { -1, 0, 1 }
@@ -50,10 +35,12 @@ public class Y2020D17
             where dx != 0 || dy != 0 || dz != 0 || dw != 0
             select (dx, dy, dz, dw)).ToArray();
 
-        return Solve(
-            input,
+        var output = Solve(
+            _input,
             (x, y) => (x: x, y: y, z: 0, w: 0),
             (p) => ds.Select(d => (p.x + d.dx, p.y + d.dy, p.z + d.dz, p.w + d.dw)));
+
+        output.Should().Be(1896);
     }
 
     private int Solve<T>(string input, Func<int, int, T> create, Func<T, IEnumerable<T>> neighbours)

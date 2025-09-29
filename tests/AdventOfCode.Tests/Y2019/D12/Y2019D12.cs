@@ -1,9 +1,6 @@
 ﻿using System.Text;
-using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2019.D12;
 
@@ -15,37 +12,26 @@ public class Y2019D12
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = (
+            from planet in Simulate(_input).ElementAt(999)
+            let pot = planet.pos.Select(Math.Abs).Sum()
+            let kin = planet.vel.Select(Math.Abs).Sum()
+            select pot * kin
+        ).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(6490);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input) => (
-        from planet in Simulate(input).ElementAt(999)
-        let pot = planet.pos.Select(Math.Abs).Sum()
-        let kin = planet.vel.Select(Math.Abs).Sum()
-        select pot * kin
-    ).Sum();
-
-    private object PartTwo(string input)
-    {
         var statesByDim = new long[3];
         for (var dim = 0; dim < 3; dim++)
         {
             var states = new HashSet<(int, int, int, int, int, int, int, int)>();
-            foreach (var planets in Simulate(input))
+            foreach (var planets in Simulate(_input))
             {
-                var state = (planets[0].pos[dim], planets[1].pos[dim], planets[2].pos[dim], planets[3].pos[dim],
-                    planets[0].vel[dim], planets[1].vel[dim], planets[2].vel[dim], planets[3].vel[dim]);
+                var state = (planets[0].pos[dim], planets[1].pos[dim], planets[2].pos[dim], planets[3].pos[dim], planets[0].vel[dim], planets[1].vel[dim], planets[2].vel[dim], planets[3].vel[dim]);
                 if (states.Contains(state))
                 {
                     break;
@@ -57,7 +43,9 @@ public class Y2019D12
             statesByDim[dim] = states.Count;
         }
 
-        return Lcm(statesByDim[0], Lcm(statesByDim[1], statesByDim[2]));
+        var output = Lcm(statesByDim[0], Lcm(statesByDim[1], statesByDim[2]));
+
+        output.Should().Be(277068010964808);
     }
 
     long Lcm(long a, long b) => a * b / Gcd(a, b);

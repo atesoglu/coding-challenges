@@ -14,7 +14,7 @@ public class Y2024D19
     {
         var output = MatchCounts(_input).Count(c => c != 0);
 
-        output.Should().Be(0);
+        output.Should().Be(236);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class Y2024D19
     {
         var output = MatchCounts(_input).Sum();
 
-        output.Should().Be(0);
+        output.Should().Be(643685981770598);
     }
 
 

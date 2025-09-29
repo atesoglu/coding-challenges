@@ -1,9 +1,6 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AsteroidsByDir = System.Collections.Generic.Dictionary<
+using AsteroidsByDir = System.Collections.Generic.Dictionary<(int drow, int dcol), System.Collections.Generic.List<(int irow, int icol)>>;
 
 namespace AdventOfCode.Tests.Y2019.D10;
 
@@ -15,27 +12,21 @@ public class Y2019D10
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = SelectStationPosition(_input).asteroidsByDir.Count;
 
-        output.Should().Be(0);
+        output.Should().Be(256);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var asteroid = Destroy(_input).ElementAt(199);
 
-        output.Should().Be(0);
+        var output = (asteroid.icol * 100 + asteroid.irow);
+
+        output.Should().Be(1707);
     }
 
-
-    private object PartOne(string input) => SelectStationPosition(input).asteroidsByDir.Count;
-
-    private object PartTwo(string input)
-    {
-        var asteroid = Destroy(input).ElementAt(199);
-        return (asteroid.icol * 100 + asteroid.irow);
-    }
 
     IEnumerable<(int irow, int icol)> Destroy(string input)
     {

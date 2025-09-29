@@ -18,7 +18,7 @@ public class Y2017D03
 
         var output = Math.Abs(x) + Math.Abs(y);
 
-        output.Should().Be(0);
+        output.Should().Be(326);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class Y2017D03
         var num = int.Parse(_input);
         var output = SpiralSums().First(v => v > num);
 
-        output.Should().Be(0);
+        output.Should().Be(363010);
     }
 
     IEnumerable<(int, int)> SpiralCoordinates()

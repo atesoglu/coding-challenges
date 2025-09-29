@@ -18,7 +18,7 @@ public class Y2024D21
     {
         var output = Solve(_input, 2);
 
-        output.Should().Be(0);
+        output.Should().Be(231564);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class Y2024D21
     {
         var output = Solve(_input, 25);
 
-        output.Should().Be(0);
+        output.Should().Be(281212077733592);
     }
 
 

@@ -1,8 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2021.D20;
 
@@ -14,22 +12,19 @@ public class Y2021D20
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
+        var output = EnhanceN(_input, 2).Count(x => x.Value == 1);
 
-        output.Should().Be(0);
+        output.Should().Be(5391);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PartTwo(_input);
+        var output = EnhanceN(_input, 50).Count(x => x.Value == 1);
 
-        output.Should().Be(0);
+        output.Should().Be(16383);
     }
 
-
-    private object PartOne(string input) => EnhanceN(input, 2).Count(x => x.Value == 1);
-    private object PartTwo(string input) => EnhanceN(input, 50).Count(x => x.Value == 1);
 
     // return the N times enhanced image
     Dictionary<Point, int> EnhanceN(string input, int n)
@@ -37,7 +32,7 @@ public class Y2021D20
         var blocks = input.Split("\n\n");
         var (algo, image) = (blocks[0], GetImage(blocks[1]));
 
-        System.Diagnostics.Debug.Assert(algo[0] == '#'); // the image changes parity in each rounds
+        Debug.Assert(algo[0] == '#'); // the image changes parity in each rounds
 
         var (minX, minY, maxX, maxY) = (0, 0, image.Keys.MaxBy(p => p.x).x, image.Keys.MaxBy(p => p.y).y);
 
@@ -91,3 +86,5 @@ public class Y2021D20
         from x in Enumerable.Range(-1, 3)
         select new Point(pos.x + x, pos.y + y);
 }
+
+record Point(int x, int y);

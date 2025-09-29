@@ -15,7 +15,7 @@ public class Y2022D23
         // I used complex numbers for a change. The map is represented with a hashset of positions.
         var output = Simulate(Parse(_input)).Select(Area).ElementAt(9);
 
-        output.Should().Be(0);
+        output.Should().Be(3757);
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class Y2022D23
     {
         var output = Simulate(Parse(_input)).Count();
 
-        output.Should().Be(0);
+        output.Should().Be(918);
     }
 
 

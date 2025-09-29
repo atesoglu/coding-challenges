@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D25;
 
@@ -12,24 +11,8 @@ public class Y2020D25
     [Fact]
     public void PartOne()
     {
-        var output = PartOne(_input);
-
-        output.Should().Be(0);
-    }
-
-    [Fact]
-    public void PartTwo()
-    {
-        var output = PartTwo(_input);
-
-        output.Should().Be(0);
-    }
-
-
-    private object PartOne(string input)
-    {
         // https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
-        var numbers = input.Split("\n").Select(int.Parse).ToArray();
+        var numbers = _input.Split("\n").Select(int.Parse).ToArray();
         var mod = 20201227;
         var pow = 0;
         var subj = 7L;
@@ -48,6 +31,8 @@ public class Y2020D25
             pow--;
         }
 
-        return num;
+        var output = num;
+
+        output.Should().Be(1478097);
     }
 }
