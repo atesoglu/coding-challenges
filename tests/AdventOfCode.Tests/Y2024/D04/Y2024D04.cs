@@ -9,19 +9,17 @@ namespace AdventOfCode.Tests.Y2024.D04;
 [ChallengeName("Ceres Search")]
 public class Y2024D04
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D04\Y2024D04-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D04\Y2024D04-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var mat = GetMap(_input);
+        var grid = BuildGrid(_lines);
 
-        var output = (
-            from pt in mat.Keys
-            from dir in new[] { Right, Right + Down, Down + Left, Down }
-            where Matches(mat, pt, dir, "XMAS")
-            select 1
-        ).Count();
+        var directions = new[] { Right, Right + Down, Down + Left, Down };
+        var output = grid.Keys
+            .SelectMany(point => directions, (point, dir) => (point, dir))
+            .Count(pair => Matches(grid, pair.point, pair.dir, "XMAS"));
 
         output.Should().Be(2406);
     }
@@ -29,15 +27,12 @@ public class Y2024D04
     [Fact]
     public void PartTwo()
     {
-        var mat = GetMap(_input);
+        var grid = BuildGrid(_lines);
 
-        var output = (
-            from pt in mat.Keys
-            where
-                Matches(mat, pt + Up + Left, Down + Right, "MAS") &&
-                Matches(mat, pt + Down + Left, Up + Right, "MAS")
-            select 1
-        ).Count();
+        var output = grid.Keys.Count(pt =>
+            Matches(grid, pt + Up + Left, Down + Right, "MAS") &&
+            Matches(grid, pt + Down + Left, Up + Right, "MAS")
+        );
 
         output.Should().Be(1807);
     }
@@ -48,28 +43,20 @@ public class Y2024D04
     Complex Left = -1;
     Complex Right = 1;
 
-
-    // check if the pattern (or its reverse) can be read in the given direction 
-    // starting from pt
     bool Matches(Map map, Complex pt, Complex dir, string pattern)
     {
-        var chars = Enumerable.Range(0, pattern.Length)
+        var characters = Enumerable.Range(0, pattern.Length)
             .Select(i => map.GetValueOrDefault(pt + i * dir))
             .ToArray();
-        return
-            Enumerable.SequenceEqual(chars, pattern) ||
-            Enumerable.SequenceEqual(chars, pattern.Reverse());
+        return characters.SequenceEqual(pattern) || characters.SequenceEqual(pattern.Reverse());
     }
 
-    // store the points in a dictionary so that we can iterate over them and 
-    // to easily deal with points outside the area using GetValueOrDefault
-    Map GetMap(string input)
+    Map BuildGrid(string[] lines)
     {
-        var map = input.Split("\n");
         return (
-            from y in Enumerable.Range(0, map.Length)
-            from x in Enumerable.Range(0, map[0].Length)
-            select new KeyValuePair<Complex, char>(Complex.ImaginaryOne * y + x, map[y][x])
+            from y in Enumerable.Range(0, lines.Length)
+            from x in Enumerable.Range(0, lines[0].Length)
+            select new KeyValuePair<Complex, char>(Complex.ImaginaryOne * y + x, lines[y][x])
         ).ToImmutableDictionary();
     }
 }

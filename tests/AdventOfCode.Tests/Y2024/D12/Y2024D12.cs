@@ -12,12 +12,12 @@ namespace AdventOfCode.Tests.Y2024.D12;
 [ChallengeName("Garden Groups")]
 public class Y2024D12
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D12\Y2024D12-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D12\Y2024D12-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = CalculateFencePrice(_input, FindEdges);
+        var output = CalculateFencePrice(_lines, CountEdges);
 
         output.Should().Be(1352976);
     }
@@ -25,7 +25,7 @@ public class Y2024D12
     [Fact]
     public void PartTwo()
     {
-        var output = CalculateFencePrice(_input, FindCorners);
+        var output = CalculateFencePrice(_lines, CountCorners);
 
         output.Should().Be(808796);
     }
@@ -36,113 +36,102 @@ public class Y2024D12
     Complex Left = -1;
     Complex Right = 1;
 
-    int CalculateFencePrice(string input, MeasurePerimeter measure)
+    int CalculateFencePrice(IEnumerable<string> lines, MeasurePerimeter measure)
     {
-        var regions = GetRegions(input);
-        var res = 0;
+        var regions = BuildRegions(lines);
+        var totalCost = 0;
         foreach (var region in regions.Values.Distinct())
         {
             var perimeter = 0;
-            foreach (var pt in region)
+            foreach (var point in region)
             {
-                perimeter += measure(regions, pt);
+                perimeter += measure(regions, point);
             }
 
-            res += region.Count() * perimeter;
+            totalCost += region.Count() * perimeter;
         }
 
-        return res;
+        return totalCost;
     }
 
     delegate int MeasurePerimeter(Dictionary<Complex, Region> map, Complex pt);
 
-    int FindEdges(Dictionary<Complex, Region> map, Complex pt)
+    int CountEdges(Dictionary<Complex, Region> map, Complex pt)
     {
-        var res = 0;
+        var edgeCount = 0;
         var region = map[pt];
-        foreach (var du in new[] { Right, Down, Left, Up })
+        foreach (var direction in new[] { Right, Down, Left, Up })
         {
-            // x.
-            if (map.GetValueOrDefault(pt + du) != region)
+            if (map.GetValueOrDefault(pt + direction) != region)
             {
-                res++;
+                edgeCount++;
             }
         }
 
-        return res;
+        return edgeCount;
     }
 
-    int FindCorners(Dictionary<Complex, Region> map, Complex pt)
+    int CountCorners(Dictionary<Complex, Region> map, Complex pt)
     {
-        var res = 0;
+        var cornerCount = 0;
         var region = map[pt];
 
-        // check the 4 corner types
-        foreach (var (du, dv) in new[] { (Up, Right), (Right, Down), (Down, Left), (Left, Up) })
+        foreach (var (direction1, direction2) in new[] { (Up, Right), (Right, Down), (Down, Left), (Left, Up) })
         {
-            //  ..
-            //  x. convex corner
-            if (map.GetValueOrDefault(pt + du) != region &&
-                map.GetValueOrDefault(pt + dv) != region
-               )
+            if (map.GetValueOrDefault(pt + direction1) != region &&
+                map.GetValueOrDefault(pt + direction2) != region)
             {
-                res++;
+                cornerCount++;
             }
 
-            //  x.
-            //  xx concave corner
-            if (map.GetValueOrDefault(pt + du) == region &&
-                map.GetValueOrDefault(pt + dv) == region &&
-                map.GetValueOrDefault(pt + du + dv) != region
-               )
+            if (map.GetValueOrDefault(pt + direction1) == region &&
+                map.GetValueOrDefault(pt + direction2) == region &&
+                map.GetValueOrDefault(pt + direction1 + direction2) != region)
             {
-                res++;
+                cornerCount++;
             }
         }
 
-        return res;
+        return cornerCount;
     }
 
-    // Maps the positions of plants in a garden to their corresponding regions, grouping plants 
-    // of the same type into contiguous regions.
-    Dictionary<Complex, Region> GetRegions(string input)
+    Dictionary<Complex, Region> BuildRegions(IEnumerable<string> lines)
     {
-        var lines = input.Split("\n");
+        var rowArray = lines.ToArray();
         var garden = (
-            from y in Enumerable.Range(0, lines.Length)
-            from x in Enumerable.Range(0, lines[0].Length)
-            select new KeyValuePair<Complex, char>(x + y * Down, lines[y][x])
+            from y in Enumerable.Range(0, rowArray.Length)
+            from x in Enumerable.Range(0, rowArray[0].Length)
+            select new KeyValuePair<Complex, char>(x + y * Down, rowArray[y][x])
         ).ToDictionary();
 
-        // go over the positions of the garden and use a floodfill to determine the region
-        var res = new Dictionary<Complex, Region>();
-        var positions = garden.Keys.ToHashSet();
-        while (positions.Any())
+        var regions = new Dictionary<Complex, Region>();
+        var unprocessedPositions = garden.Keys.ToHashSet();
+        while (unprocessedPositions.Any())
         {
-            var pivot = positions.First();
-            var region = new Region { pivot };
+            var startPoint = unprocessedPositions.First();
+            var region = new Region { startPoint };
 
-            var q = new Queue<Complex>();
-            q.Enqueue(pivot);
+            var queue = new Queue<Complex>();
+            queue.Enqueue(startPoint);
 
-            var plant = garden[pivot];
+            var plantType = garden[startPoint];
 
-            while (q.Any())
+            while (queue.Any())
             {
-                var point = q.Dequeue();
-                res[point] = region;
-                positions.Remove(point);
-                foreach (var dir in new[] { Up, Down, Left, Right })
+                var point = queue.Dequeue();
+                regions[point] = region;
+                unprocessedPositions.Remove(point);
+                foreach (var direction in new[] { Up, Down, Left, Right })
                 {
-                    if (!region.Contains(point + dir) && garden.GetValueOrDefault(point + dir) == plant)
+                    if (!region.Contains(point + direction) && garden.GetValueOrDefault(point + direction) == plantType)
                     {
-                        region.Add(point + dir);
-                        q.Enqueue(point + dir);
+                        region.Add(point + direction);
+                        queue.Enqueue(point + direction);
                     }
                 }
             }
         }
 
-        return res;
+        return regions;
     }
 }

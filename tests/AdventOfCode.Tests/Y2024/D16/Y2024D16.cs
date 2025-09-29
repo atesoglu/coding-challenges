@@ -9,12 +9,12 @@ namespace AdventOfCode.Tests.Y2024.D16;
 [ChallengeName("Reindeer Maze")]
 public class Y2024D16
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D16\Y2024D16-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D16\Y2024D16-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = FindBestScore(GetMap(_input));
+        var output = FindBestScore(BuildMap(_lines));
 
         output.Should().Be(72400);
     }
@@ -22,7 +22,7 @@ public class Y2024D16
     [Fact]
     public void PartTwo()
     {
-        var output = FindBestSpots(GetMap(_input));
+        var output = FindBestSpots(BuildMap(_lines));
 
         output.Should().Be(435);
     }
@@ -32,26 +32,26 @@ public class Y2024D16
     static readonly Complex West = -1;
     static readonly Complex East = 1;
 
-    int FindBestScore(Map map) => Dijkstra(map, Goal(map))[Start(map)];
+    int FindBestScore(Map map) => CalculateShortestPaths(map, FindGoal(map))[FindStart(map)];
 
     int FindBestSpots(Map map)
     {
-        var dist = Dijkstra(map, Goal(map));
-        var start = Start(map);
+        var distances = CalculateShortestPaths(map, FindGoal(map));
+        var startState = FindStart(map);
 
-        var q = new PriorityQueue<State, int>();
-        q.Enqueue(start, dist[start]);
+        var queue = new PriorityQueue<State, int>();
+        queue.Enqueue(startState, distances[startState]);
 
-        var bestSpots = new HashSet<State> { start };
-        while (q.TryDequeue(out var state, out var remainingScore))
+        var bestSpots = new HashSet<State> { startState };
+        while (queue.TryDequeue(out var currentState, out var remainingScore))
         {
-            foreach (var (next, score) in Steps(map, state, forward: true))
+            foreach (var (nextState, cost) in GetPossibleMoves(map, currentState, forward: true))
             {
-                var nextRemainingScore = remainingScore - score;
-                if (!bestSpots.Contains(next) && dist[next] == nextRemainingScore)
+                var nextRemainingScore = remainingScore - cost;
+                if (!bestSpots.Contains(nextState) && distances[nextState] == nextRemainingScore)
                 {
-                    bestSpots.Add(next);
-                    q.Enqueue(next, nextRemainingScore);
+                    bestSpots.Add(nextState);
+                    queue.Enqueue(nextState, nextRemainingScore);
                 }
             }
         }
@@ -59,72 +59,69 @@ public class Y2024D16
         return bestSpots.DistinctBy(state => state.pos).Count();
     }
 
-    Dictionary<State, int> Dijkstra(Map map, Complex goal)
+    Dictionary<State, int> CalculateShortestPaths(Map map, Complex goal)
     {
-        var dist = new Dictionary<State, int>();
-        var q = new PriorityQueue<State, int>();
+        var distances = new Dictionary<State, int>();
+        var queue = new PriorityQueue<State, int>();
 
-        foreach (var dir in new[] { North, East, West, South })
+        foreach (var direction in new[] { North, East, West, South })
         {
-            q.Enqueue((goal, dir), 0);
-            dist[(goal, dir)] = 0;
+            queue.Enqueue((goal, direction), 0);
+            distances[(goal, direction)] = 0;
         }
 
-        while (q.TryDequeue(out var cur, out var totalDistance))
+        while (queue.TryDequeue(out var currentState, out var totalDistance))
         {
-            foreach (var (next, score) in Steps(map, cur, forward: false))
+            foreach (var (nextState, cost) in GetPossibleMoves(map, currentState, forward: false))
             {
-                var nextCost = totalDistance + score;
+                var nextCost = totalDistance + cost;
 
-                // ✅ replacement for dist.GetOrDefault(next, int.MaxValue)
-                if (!dist.TryGetValue(next, out var oldCost))
+                if (!distances.TryGetValue(nextState, out var oldCost))
                 {
                     oldCost = int.MaxValue;
                 }
 
                 if (nextCost < oldCost)
                 {
-                    // no PriorityQueue.Remove in .NET, but it still works fine
-                    dist[next] = nextCost;
-                    q.Enqueue(next, nextCost);
+                    distances[nextState] = nextCost;
+                    queue.Enqueue(nextState, nextCost);
                 }
             }
         }
 
-        return dist;
+        return distances;
     }
 
-    IEnumerable<(State, int cost)> Steps(Map map, State state, bool forward)
+    IEnumerable<(State, int cost)> GetPossibleMoves(Map map, State state, bool forward)
     {
-        foreach (var dir in new[] { North, East, West, South })
+        foreach (var direction in new[] { North, East, West, South })
         {
-            if (dir == state.dir)
+            if (direction == state.dir)
             {
-                var pos = forward ? state.pos + dir : state.pos - dir;
+                var position = forward ? state.pos + direction : state.pos - direction;
 
-                // ✅ replacement for map.GetValueOrDefault(pos) != '#'
-                if (!map.TryGetValue(pos, out var cell) || cell != '#')
+                if (!map.TryGetValue(position, out var cell) || cell != '#')
                 {
-                    yield return ((pos, dir), 1);
+                    yield return ((position, direction), 1);
                 }
             }
-            else if (dir != -state.dir)
+            else if (direction != -state.dir)
             {
-                yield return ((state.pos, dir), 1000);
+                yield return ((state.pos, direction), 1000);
             }
         }
     }
 
-    Map GetMap(string input)
+    Map BuildMap(IEnumerable<string> lines)
     {
-        var map = input.Split("\n");
+        var rowArray = lines.ToArray();
         return (
-            from y in Enumerable.Range(0, map.Length)
-            from x in Enumerable.Range(0, map[0].Length)
-            select new KeyValuePair<Complex, char>(x + y * South, map[y][x])
+            from y in Enumerable.Range(0, rowArray.Length)
+            from x in Enumerable.Range(0, rowArray[0].Length)
+            select new KeyValuePair<Complex, char>(x + y * South, rowArray[y][x])
         ).ToDictionary();
     }
 
-    Complex Goal(Map map) => map.Keys.Single(k => map[k] == 'E');
-    State Start(Map map) => (map.Keys.Single(k => map[k] == 'S'), East);
+    Complex FindGoal(Map map) => map.Keys.Single(key => map[key] == 'E');
+    State FindStart(Map map) => (map.Keys.Single(key => map[key] == 'S'), East);
 }

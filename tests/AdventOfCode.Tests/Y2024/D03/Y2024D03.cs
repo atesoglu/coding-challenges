@@ -25,22 +25,34 @@ public class Y2024D03
         output.Should().Be(97529391);
     }
 
-    long Solve(string input, string rx)
+    long Solve(string input, string pattern)
     {
-        // overly functionaly approach...
-        var matches = Regex.Matches(input, rx, RegexOptions.Multiline);
-        return matches.Aggregate(
-            (enabled: true, res: 0L),
-            (acc, m) =>
-                (m.Value, acc.res, acc.enabled) switch
-                {
-                    ("don't()", _, _) => (false, acc.res),
-                    ("do()", _, _) => (true, acc.res),
-                    (_, var res, true) =>
-                        (true, res + int.Parse(m.Groups[1].Value) * int.Parse(m.Groups[2].Value)),
-                    _ => acc
-                },
-            acc => acc.res
-        );
+        var matches = Regex.Matches(input, pattern, RegexOptions.Multiline);
+        var enabled = true;
+        long total = 0;
+
+        foreach (Match match in matches)
+        {
+            var token = match.Value;
+            if (token == "don't()")
+            {
+                enabled = false;
+                continue;
+            }
+            if (token == "do()")
+            {
+                enabled = true;
+                continue;
+            }
+
+            if (enabled)
+            {
+                var left = int.Parse(match.Groups[1].Value);
+                var right = int.Parse(match.Groups[2].Value);
+                total += left * right;
+            }
+        }
+
+        return total;
     }
 }

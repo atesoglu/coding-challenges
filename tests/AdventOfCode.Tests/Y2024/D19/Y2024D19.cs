@@ -12,7 +12,7 @@ public class Y2024D19
     [Fact]
     public void PartOne()
     {
-        var output = MatchCounts(_input).Count(c => c != 0);
+        var output = CalculateMatchCounts(_input).Count(count => count != 0);
 
         output.Should().Be(236);
     }
@@ -20,33 +20,28 @@ public class Y2024D19
     [Fact]
     public void PartTwo()
     {
-        var output = MatchCounts(_input).Sum();
+        var output = CalculateMatchCounts(_input).Sum();
 
         output.Should().Be(643685981770598);
     }
 
-
-    IEnumerable<long> MatchCounts(string input)
+    IEnumerable<long> CalculateMatchCounts(string input)
     {
         var blocks = input.Split("\n\n");
-        var towels = blocks[0].Split(", ");
+        var towelPieces = blocks[0].Split(", ");
         return
             from pattern in blocks[1].Split("\n")
-            select MatchCount(towels, pattern, new Cache());
+            select CountPatternMatches(towelPieces, pattern, new Cache());
     }
 
-    // computes the number of ways the pattern can be build up from the towels. 
-    // works recursively by matching the prefix of the pattern with each towel.
-    // a full match is found when the pattern becomes empty. the cache is applied 
-    // to _dramatically_ speed-up execution
-    long MatchCount(string[] towels, string pattern, Cache cache) =>
+    long CountPatternMatches(string[] towelPieces, string pattern, Cache cache) =>
         cache.GetOrAdd(pattern, (pattern) =>
             pattern switch
             {
                 "" => 1,
-                _ => towels
+                _ => towelPieces
                     .Where(pattern.StartsWith)
-                    .Sum(towel => MatchCount(towels, pattern[towel.Length ..], cache))
+                    .Sum(towel => CountPatternMatches(towelPieces, pattern[towel.Length..], cache))
             }
         );
 }

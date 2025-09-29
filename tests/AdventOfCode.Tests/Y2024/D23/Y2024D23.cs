@@ -8,12 +8,12 @@ namespace AdventOfCode.Tests.Y2024.D23;
 [ChallengeName("LAN Party")]
 public class Y2024D23
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D23\Y2024D23-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D23\Y2024D23-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var g = GetGraph(_input);
+        var g = BuildGraph(_lines);
         var components = g.Keys.ToHashSet();
         components = Grow(g, components);
         components = Grow(g, components);
@@ -26,7 +26,7 @@ public class Y2024D23
     [Fact]
     public void PartTwo()
     {
-        var g = GetGraph(_input);
+        var g = BuildGraph(_lines);
         var components = g.Keys.ToHashSet();
         while (components.Count > 1)
         {
@@ -53,10 +53,10 @@ public class Y2024D23
 
     Component Extend(Component c, string item) => string.Join(",", Members(c).Append(item).OrderBy(x => x));
 
-    Graph GetGraph(string input)
+    Graph BuildGraph(IEnumerable<string> lines)
     {
         var edges =
-            from line in input.Split("\n")
+            from line in lines
             let nodes = line.Split("-")
             from edge in new[] { (nodes[0], nodes[1]), (nodes[1], nodes[0]) }
             select (From: edge.Item1, To: edge.Item2);

@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2024.D02;
 [ChallengeName("Red-Nosed Reports")]
 public class Y2024D02
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D02\Y2024D02-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D02\Y2024D02-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = ParseSamples(_input).Count(Valid);
+        var output = ParseSamples(_lines).Count(IsMonotonicWithStepWithinRange);
 
         output.Should().Be(639);
     }
@@ -19,31 +19,25 @@ public class Y2024D02
     [Fact]
     public void PartTwo()
     {
-        var output = ParseSamples(_input).Count(samples => Attenuate(samples).Any(Valid));
+        var output = ParseSamples(_lines).Count(samples => GenerateSingleRemovalVariations(samples).Any(IsMonotonicWithStepWithinRange));
 
         output.Should().Be(674);
     }
 
+    IEnumerable<int[]> ParseSamples(IEnumerable<string> lines) =>
+        lines.Select(line => line.Split(" ").Select(int.Parse).ToArray());
 
-    IEnumerable<int[]> ParseSamples(string input) =>
-        from line in input.Split("\n")
-        let samples = line.Split(" ").Select(int.Parse)
-        select samples.ToArray();
+    IEnumerable<int[]> GenerateSingleRemovalVariations(int[] samples) =>
+        Enumerable.Range(0, samples.Length + 1)
+            .Select(i => samples.Take(i - 1).Concat(samples.Skip(i)).ToArray());
 
-    // Generates all possible variations of the input sequence by omitting 
-    // either zero or one element from it.
-    IEnumerable<int[]> Attenuate(int[] samples) =>
-        from i in Enumerable.Range(0, samples.Length + 1)
-        let before = samples.Take(i - 1)
-        let after = samples.Skip(i)
-        select Enumerable.Concat(before, after).ToArray();
-
-    // Checks the monothinicity condition by examining consecutive elements
-    bool Valid(int[] samples)
+    bool IsMonotonicWithStepWithinRange(int[] samples)
     {
-        var pairs = Enumerable.Zip(samples, samples.Skip(1));
-        return
-            pairs.All(p => 1 <= p.Second - p.First && p.Second - p.First <= 3) ||
-            pairs.All(p => 1 <= p.First - p.Second && p.First - p.Second <= 3);
+        var consecutivePairs = Enumerable.Zip(samples, samples.Skip(1)).ToArray();
+        var nonDecreasingValid = consecutivePairs.All(pair =>
+            1 <= pair.Second - pair.First && pair.Second - pair.First <= 3);
+        var nonIncreasingValid = consecutivePairs.All(pair =>
+            1 <= pair.First - pair.Second && pair.First - pair.Second <= 3);
+        return nonDecreasingValid || nonIncreasingValid;
     }
 }

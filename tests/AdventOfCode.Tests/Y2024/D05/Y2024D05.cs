@@ -11,7 +11,7 @@ public class Y2024D05
     [Fact]
     public void PartOne()
     {
-        var (updates, comparer) = Parse(_input);
+        var (updates, comparer) = ParseInput(_input);
 
         var output = updates
             .Where(pages => Sorted(pages, comparer))
@@ -23,7 +23,7 @@ public class Y2024D05
     [Fact]
     public void PartTwo()
     {
-        var (updates, comparer) = Parse(_input);
+        var (updates, comparer) = ParseInput(_input);
 
         var output = updates
             .Where(pages => !Sorted(pages, comparer))
@@ -33,14 +33,11 @@ public class Y2024D05
         output.Should().Be(6305);
     }
 
-    (string[][] updates, Comparer<string>) Parse(string input)
+    (string[][] updates, Comparer<string>) ParseInput(string input)
     {
         var parts = input.Split("\n\n");
-
-        var ordering = new HashSet<string>(parts[0].Split("\n"));
-        var comparer =
-            Comparer<string>.Create((p1, p2) => ordering.Contains(p1 + "|" + p2) ? -1 : 1);
-
+        var orderingPairs = new HashSet<string>(parts[0].Split("\n"));
+        var comparer = Comparer<string>.Create((left, right) => orderingPairs.Contains(left + "|" + right) ? -1 : 1);
         var updates = parts[1].Split("\n").Select(line => line.Split(",")).ToArray();
         return (updates, comparer);
     }

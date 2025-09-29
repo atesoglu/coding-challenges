@@ -7,13 +7,12 @@ namespace AdventOfCode.Tests.Y2024.D14;
 [ChallengeName("Restroom Redoubt")]
 public class Y2024D14
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D14\Y2024D14-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D14\Y2024D14-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        // run the simulation for 100 steps and count the robots in the different quadrants.
-        var output = Simulate(_input)
+        var output = SimulateRobots(_lines)
             .ElementAt(100)
             .CountBy(GetQuadrant)
             .Where(group => group.Key.x != 0 && group.Key.y != 0)
@@ -25,9 +24,8 @@ public class Y2024D14
     [Fact]
     public void PartTwo()
     {
-        // I figured that the xmas tree pattern has a long horizontal ### pattern in it
-        var output = Simulate(_input)
-            .TakeWhile(robots => !Plot(robots).Contains("#################"))
+        var output = SimulateRobots(_lines)
+            .TakeWhile(robots => !PlotRobots(robots).Contains("#################"))
             .Count();
 
         output.Should().Be(6577);
@@ -38,54 +36,50 @@ public class Y2024D14
     const int height = 103;
 
 
-    // an infinite simulation of robot movement
-    IEnumerable<Robot[]> Simulate(string input)
+    IEnumerable<Robot[]> SimulateRobots(IEnumerable<string> lines)
     {
-        var robots = Parse(input).ToArray();
+        var robots = ParseRobots(lines).ToArray();
         while (true)
         {
             yield return robots;
-            robots = robots.Select(Step).ToArray();
+            robots = robots.Select(AdvanceRobot).ToArray();
         }
     }
 
-    // advance a robot by its velocity taking care of the 'teleportation'
-    Robot Step(Robot robot) => robot with { pos = AddWithWrapAround(robot.pos, robot.vel) };
+    Robot AdvanceRobot(Robot robot) => robot with { pos = AddWithWrapAround(robot.pos, robot.vel) };
 
-    // returns the direction (-1/0/1) of the robot to the center of the room
     Vec2 GetQuadrant(Robot robot) =>
         new Vec2(Math.Sign(robot.pos.x - width / 2), Math.Sign(robot.pos.y - height / 2));
 
-    Vec2 AddWithWrapAround(Vec2 a, Vec2 b) =>
-        new Vec2((a.x + b.x + width) % width, (a.y + b.y + height) % height);
+    Vec2 AddWithWrapAround(Vec2 position, Vec2 velocity) =>
+        new Vec2((position.x + velocity.x + width) % width, (position.y + velocity.y + height) % height);
 
-    // shows the robot locations in the room 
-    string Plot(IEnumerable<Robot> robots)
+    string PlotRobots(IEnumerable<Robot> robots)
     {
-        var res = new char[height, width];
+        var grid = new char[height, width];
         foreach (var robot in robots)
         {
-            res[robot.pos.y, robot.pos.x] = '#';
+            grid[robot.pos.y, robot.pos.x] = '#';
         }
 
-        var sb = new StringBuilder();
+        var result = new StringBuilder();
         for (var y = 0; y < height; y++)
         {
             for (var x = 0; x < width; x++)
             {
-                sb.Append(res[y, x] == '#' ? "#" : " ");
+                result.Append(grid[y, x] == '#' ? "#" : " ");
             }
 
-            sb.AppendLine();
+            result.AppendLine();
         }
 
-        return sb.ToString();
+        return result.ToString();
     }
 
-    IEnumerable<Robot> Parse(string input) =>
-        from line in input.Split("\n")
-        let nums = Regex.Matches(line, @"-?\d+").Select(m => int.Parse(m.Value)).ToArray()
-        select new Robot(new Vec2(nums[0], nums[1]), new Vec2(nums[2], nums[3]));
+    IEnumerable<Robot> ParseRobots(IEnumerable<string> lines) =>
+        from line in lines
+        let numbers = Regex.Matches(line, @"-?\d+").Select(match => int.Parse(match.Value)).ToArray()
+        select new Robot(new Vec2(numbers[0], numbers[1]), new Vec2(numbers[2], numbers[3]));
 }
 
 record struct Vec2(int x, int y);

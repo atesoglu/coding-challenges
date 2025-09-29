@@ -12,8 +12,8 @@ public class Y2024D17
     [Fact]
     public void PartOne()
     {
-        var (state, program) = Parse(_input);
-        var output = string.Join(",", Run(state, program));
+        var (state, program) = ParseInput(_input);
+        var output = string.Join(",", ExecuteProgram(state, program));
 
         output.Should().Be("6,0,6,3,0,2,3,1,6");
     }
@@ -21,8 +21,8 @@ public class Y2024D17
     [Fact]
     public void PartTwo()
     {
-        var (_, program) = Parse(_input);
-        var output = GenerateA(program, program).Min();
+        var (_, program) = ParseInput(_input);
+        var output = FindValidRegisters(program, program).Min();
 
         output.Should().Be(236539226447469);
     }
@@ -40,61 +40,57 @@ public class Y2024D17
         Cdv
     }
 
-    List<long> Run(List<long> state, List<long> program)
+    List<long> ExecuteProgram(List<long> state, List<long> program)
     {
-        var combo = (int op) => op < 4 ? op : state[op - 4];
-        var res = new List<long>();
-        for (var ip = 0; ip < program.Count; ip += 2)
+        var getOperand = (int operand) => operand < 4 ? operand : state[operand - 4];
+        var output = new List<long>();
+        for (var instructionPointer = 0; instructionPointer < program.Count; instructionPointer += 2)
         {
-            switch ((Opcode)program[ip], (int)program[ip + 1])
+            switch ((Opcode)program[instructionPointer], (int)program[instructionPointer + 1])
             {
-                case (Opcode.Adv, var op): state[0] = state[0] >> (int)combo(op); break;
-                case (Opcode.Bdv, var op): state[1] = state[0] >> (int)combo(op); break;
-                case (Opcode.Cdv, var op): state[2] = state[0] >> (int)combo(op); break;
-                case (Opcode.Bxl, var op): state[1] = state[1] ^ op; break;
-                case (Opcode.Bst, var op): state[1] = combo(op) % 8; break;
-                case (Opcode.Jnz, var op): ip = state[0] == 0 ? ip : op - 2; break;
-                case (Opcode.Bxc, var op): state[1] = state[1] ^ state[2]; break;
-                case (Opcode.Out, var op): res.Add(combo(op) % 8); break;
+                case (Opcode.Adv, var operand): state[0] = state[0] >> (int)getOperand(operand); break;
+                case (Opcode.Bdv, var operand): state[1] = state[0] >> (int)getOperand(operand); break;
+                case (Opcode.Cdv, var operand): state[2] = state[0] >> (int)getOperand(operand); break;
+                case (Opcode.Bxl, var operand): state[1] = state[1] ^ operand; break;
+                case (Opcode.Bst, var operand): state[1] = getOperand(operand) % 8; break;
+                case (Opcode.Jnz, var operand): instructionPointer = state[0] == 0 ? instructionPointer : operand - 2; break;
+                case (Opcode.Bxc, var operand): state[1] = state[1] ^ state[2]; break;
+                case (Opcode.Out, var operand): output.Add(getOperand(operand) % 8); break;
             }
         }
 
-        return res;
+        return output;
     }
 
-    /*
-    Determines register A for the given output. The search works recursively and in
-    reverse order, starting from the last number to be printed and ending with the first.
-    */
-    IEnumerable<long> GenerateA(List<long> program, List<long> output)
+    IEnumerable<long> FindValidRegisters(List<long> program, List<long> expectedOutput)
     {
-        if (!output.Any())
+        if (!expectedOutput.Any())
         {
             yield return 0;
             yield break;
         }
 
-        foreach (var ah in GenerateA(program, output[1..]))
+        foreach (var highBits in FindValidRegisters(program, expectedOutput[1..]))
         {
-            for (var al = 0; al < 8; al++)
+            for (var lowBits = 0; lowBits < 8; lowBits++)
             {
-                var a = ah * 8 + al;
-                if (Run([a, 0, 0], program).SequenceEqual(output))
+                var registerA = highBits * 8 + lowBits;
+                if (ExecuteProgram([registerA, 0, 0], program).SequenceEqual(expectedOutput))
                 {
-                    yield return a;
+                    yield return registerA;
                 }
             }
         }
     }
 
-    (List<long> state, List<long> program) Parse(string input)
+    (List<long> state, List<long> program) ParseInput(string input)
     {
-        var blocks = input.Split("\n\n").Select(ParseNums).ToArray();
+        var blocks = input.Split("\n\n").Select(ParseNumbers).ToArray();
         return (blocks[0], blocks[1]);
     }
 
-    List<long> ParseNums(string st) =>
-        Regex.Matches(st, @"\d+", RegexOptions.Multiline)
-            .Select(m => long.Parse(m.Value))
+    List<long> ParseNumbers(string text) =>
+        Regex.Matches(text, @"\d+", RegexOptions.Multiline)
+            .Select(match => long.Parse(match.Value))
             .ToList();
 }

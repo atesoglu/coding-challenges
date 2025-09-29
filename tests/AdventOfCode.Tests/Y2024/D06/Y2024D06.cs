@@ -9,12 +9,12 @@ namespace AdventOfCode.Tests.Y2024.D06;
 [ChallengeName("Guard Gallivant")]
 public class Y2024D06
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D06\Y2024D06-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D06\Y2024D06-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var (map, start) = Parse(_input);
+        var (map, start) = BuildMapAndStart(_lines);
         var output = Walk(map, start).positions.Count();
 
         output.Should().Be(4722);
@@ -23,8 +23,7 @@ public class Y2024D06
     [Fact]
     public void PartTwo()
     {
-        var (map, start) = Parse(_input);
-        // try a blocker in each locations visited by the guard counting the loops
+        var (map, start) = BuildMapAndStart(_lines);
         var output = Walk(map, start).positions
             .AsParallel()
             .Count(pos => Walk(map.SetItem(pos, '#'), start).isLoop);
@@ -36,8 +35,6 @@ public class Y2024D06
     Complex Up = Complex.ImaginaryOne;
     Complex TurnRight = -Complex.ImaginaryOne;
 
-    // returns the positions visited when starting from 'pos', isLoop is set if the 
-    // guard enters a cycle.
     (IEnumerable<Complex> positions, bool isLoop) Walk(Map map, Complex pos)
     {
         var seen = new HashSet<(Complex pos, Complex dir)>();
@@ -61,11 +58,8 @@ public class Y2024D06
         );
     }
 
-    // store the grid in a dictionary, to make bounds checks and navigation simple
-    // start represents the starting postion of the guard
-    (Map map, Complex start) Parse(string input)
+    (Map map, Complex start) BuildMapAndStart(string[] lines)
     {
-        var lines = input.Split("\n");
         var map = (
             from y in Enumerable.Range(0, lines.Length)
             from x in Enumerable.Range(0, lines[0].Length)
