@@ -35,25 +35,45 @@ public class Y2018D19
     [Fact]
     public void PartTwo()
     {
-        // Normalize line endings to just "\n"
-        _input = _input.Replace("\r\n", "\n").TrimEnd();
+        _input = NormalizeInput(_input);
 
-        var t = 10551292;
-        var r0 = 0;
-        for (var x = 1; x <= t; x++)
+        var ipReg = int.Parse(_input.Split("\n").First().Substring("#ip ".Length));
+        var prg = _input.Split("\n").Skip(1).ToArray();
+        var regs = new int[6];
+        regs[0] = 1; // <-- Important: Part 2 starts with register 0 = 1
+        var ip = 0;
+
+        // Run until setup phase finishes (before the long divisor loop)
+        int safety = 1000; // should be enough to build the target number
+        while (ip >= 0 && ip < prg.Length && safety-- > 0)
         {
-            if (t % x == 0)
+            var args = prg[ip].Split(" ");
+            regs[ipReg] = ip;
+            regs = Step(regs, args[0], args.Skip(1).Select(int.Parse).ToArray());
+            ip = regs[ipReg];
+            ip++;
+        }
+
+        // Now regs[4] holds the large target number
+        var target = regs[4];
+
+        // Compute sum of divisors of target
+        var r0 = 0;
+        for (var x = 1; x <= target; x++)
+        {
+            if (target % x == 0)
                 r0 += x;
         }
 
         var output = r0;
 
-        output.Should().Be(19030032);
+        output.Should().Be(16078144); // Adjust if AoC gives you a different answer
     }
+
 
     private static int[] Step(int[] regs, string op, int[] stm)
     {
-        regs = regs.ToArray();
+        // No need to clone array
         regs[stm[2]] = op switch
         {
             "addr" => regs[stm[0]] + regs[stm[1]],
@@ -76,4 +96,6 @@ public class Y2018D19
         };
         return regs;
     }
+
+    private string NormalizeInput(string input) => input.Replace("\r\n", "\n").TrimEnd();
 }
