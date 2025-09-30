@@ -7,13 +7,13 @@ namespace AdventOfCode.Tests.Y2023.D04;
 [ChallengeName("Scratchcards")]
 public class Y2023D04
 {
-    private readonly string _input = File.ReadAllText(@"Y2023\D04\Y2023D04-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2023\D04\Y2023D04-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
         var output = (
-            from line in _input.Split("\n")
+            from line in _lines
             let card = ParseCard(line)
             where card.matches > 0
             select Math.Pow(2, card.matches - 1)
@@ -25,10 +25,7 @@ public class Y2023D04
     [Fact]
     public void PartTwo()
     {
-        // Quite imperatively, just walk over the cards keeping track of the counts.
-
-
-        var cards = _input.Split("\n").Select(ParseCard).ToArray();
+        var cards = _lines.Select(ParseCard).ToArray();
         var counts = cards.Select(_ => 1).ToArray();
 
         for (var i = 0; i < cards.Length; i++)
@@ -45,7 +42,6 @@ public class Y2023D04
         output.Should().Be(8172507);
     }
 
-    // Only the match count is relevant for a card
     Card ParseCard(string line)
     {
         var parts = line.Split(':', '|');

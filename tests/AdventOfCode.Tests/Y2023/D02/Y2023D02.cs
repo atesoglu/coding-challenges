@@ -9,13 +9,13 @@ namespace AdventOfCode.Tests.Y2023.D02;
 [ChallengeName("Cube Conundrum")]
 public class Y2023D02
 {
-    private readonly string _input = File.ReadAllText(@"Y2023\D02\Y2023D02-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2023\D02\Y2023D02-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
         var output = (
-            from line in _input.Split("\n")
+            from line in _lines
             let game = ParseGame(line)
             where game.red <= 12 && game.green <= 13 && game.blue <= 14
             select game.id
@@ -28,7 +28,7 @@ public class Y2023D02
     public void PartTwo()
     {
         var output = (
-            from line in _input.Split("\n")
+            from line in _lines
             let game = ParseGame(line)
             select game.red * game.green * game.blue
         ).Sum();
@@ -37,8 +37,6 @@ public class Y2023D02
     }
 
 
-    // no need to keep track of the individual rounds in a game, just return
-    // the maximum of the red, green, blue boxes
     Game ParseGame(string line) =>
         new Game(
             ParseInts(line, @"Game (\d+)").First(),
@@ -47,7 +45,6 @@ public class Y2023D02
             ParseInts(line, @"(\d+) blue").Max()
         );
 
-    // extracts integers from a string identified by a single regex group.
     IEnumerable<int> ParseInts(string st, string rx) =>
         from m in Regex.Matches(st, rx)
         select int.Parse(m.Groups[1].Value);

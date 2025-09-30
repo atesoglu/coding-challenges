@@ -35,8 +35,6 @@ public class Y2023D05
         var seedRanges = parseSeeds(ParseNumbers(blocks[0])).ToList();
         var maps = blocks.Skip(1).Select(ParseMap).ToArray();
 
-        // Project each range through the series of maps, this will result some
-        // new ranges. Return the leftmost value (minimum) of these.
         return maps.Aggregate(seedRanges, Project).Select(r => r.begin).Min();
     }
 
@@ -48,12 +46,6 @@ public class Y2023D05
         while (input.Any())
         {
             var range = input.Dequeue();
-            // If no entry intersects our range -> just add it to the output. 
-            // If an entry completely contains the range -> add after mapping.
-            // Otherwise, some entry partly covers the range. In this case 'chop' 
-            // the range into two halfs getting rid of the intersection. The new 
-            // pieces are added back to the queue for further processing and will be 
-            // ultimately consumed by the first two cases.
             var src = map.Keys.FirstOrDefault(src => Intersects(src, range));
             if (src == null)
             {
