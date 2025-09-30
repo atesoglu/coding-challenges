@@ -1,14 +1,14 @@
 ﻿namespace AdventOfCode.Tests;
 
-static class OcrExtension
+static class ScreenTextExtension
 {
-    public static OcrString Ocr(this string st)
+    public static ScreenText ToScreenText(this string st)
     {
-        return new OcrString(st);
+        return new ScreenText(st);
     }
 }
 
-record OcrString(string st)
+record ScreenText(string st)
 {
     public override string ToString()
     {
