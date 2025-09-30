@@ -100,6 +100,9 @@ public class Y2021D15
     // to easily deal with points outside the area
     private static Dictionary<Point, int> GetRiskLevelMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = input.Split("\n");
         return new Dictionary<Point, int>(
             from y in Enumerable.Range(0, map.Length)

@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests.Y2021.D08;
 [ChallengeName("Seven Segment Search")]
 public class Y2021D08
 {
-    private readonly string _input = File.ReadAllText(@"Y2021\D08\Y2021D08-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2021\D08\Y2021D08-input.txt", Encoding.UTF8);
 
     /*
     0:      1:      2:      3:      4:      5:      6:      7:      8:      9:
@@ -22,6 +22,9 @@ public class Y2021D08
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         // we can identify digits 1, 7, 4 and 8 by their active segments count:
         var segmentCounts = new[] { "cd", "acf", "bcdf", "abcdefg" }.Select(x => x.Length).ToHashSet();
 
@@ -39,6 +42,9 @@ public class Y2021D08
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var res = 0;
         foreach (var line in _input.Split("\n"))
         {

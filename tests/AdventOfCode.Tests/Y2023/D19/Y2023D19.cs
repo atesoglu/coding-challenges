@@ -11,7 +11,7 @@ namespace AdventOfCode.Tests.Y2023.D19;
 [ChallengeName("Aplenty")]
 public class Y2023D19
 {
-    private readonly string _input = File.ReadAllText(@"Y2023\D19\Y2023D19-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2023\D19\Y2023D19-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
@@ -25,6 +25,9 @@ public class Y2023D19
 
         // We can use this algorithm to solve Part 1 starting from unit sized cubes
         // and checking if they are fully accepted or not.
+
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
 
         var parts = _input.Split("\n\n");
         var rules = ParseRules(parts[0]);
@@ -42,6 +45,9 @@ public class Y2023D19
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var parts = _input.Split("\n\n");
         var rules = ParseRules(parts[0]);
         var cube = Enumerable.Repeat(new Range(1, 4000), 4).ToImmutableArray();
@@ -123,11 +129,17 @@ public class Y2023D19
             _ => null
         };
 
-    private static Rules ParseRules(string input) => (
-        from line in input.Split('\n')
-        let parts = line.Split('{', '}')
-        select new KeyValuePair<string, string>(parts[0], parts[1])
-    ).ToDictionary();
+    private static Rules ParseRules(string input)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        return (
+            from line in input.Split('\n')
+            let parts = line.Split('{', '}')
+            select new KeyValuePair<string, string>(parts[0], parts[1])
+        ).ToDictionary();
+    }
 
     private static IEnumerable<Cube> ParseUnitCube(string input) =>
         from line in input.Split('\n')

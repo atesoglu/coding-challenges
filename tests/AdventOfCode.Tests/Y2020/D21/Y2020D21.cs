@@ -55,6 +55,9 @@ public class Y2020D21
 
     private static Problem Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var mapping = (
             from line in input.Split("\n")
             let parts = line.Trim(')').Split(" (contains ")

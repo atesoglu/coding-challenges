@@ -7,11 +7,14 @@ namespace AdventOfCode.Tests.Y2020.D14;
 [ChallengeName("Docking Data")]
 public class Y2020D14
 {
-    private readonly string _input = File.ReadAllText(@"Y2020\D14\Y2020D14-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2020\D14\Y2020D14-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var mem = new Dictionary<long, long>();
         var orMask = 0L;
         var andMask = 0xffffffffffffffL;

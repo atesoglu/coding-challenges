@@ -42,6 +42,9 @@ public class Y2022D08
 
     private static Forest Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var items = input.Split("\n");
         var (ccol, crow) = (items[0].Length, items.Length);
         return new Forest(items, crow, ccol);

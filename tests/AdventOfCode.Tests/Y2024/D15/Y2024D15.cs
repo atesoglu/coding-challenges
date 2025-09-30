@@ -120,6 +120,9 @@ public class Y2024D15
 
     private static (Map, Complex[]) ParseMapAndSteps(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         var lines = blocks[0].Split("\n");
         var map = (

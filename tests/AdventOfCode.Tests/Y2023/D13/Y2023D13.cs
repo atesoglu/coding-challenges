@@ -31,11 +31,17 @@ public class Y2023D13
     private Complex Down = Complex.ImaginaryOne;
     private Complex Ortho(Complex dir) => dir == Right ? Down : Right;
 
-    private double Solve(string input, int allowedSmudges) => (
-        from block in input.Split("\n\n")
-        let map = ParseMap(block)
-        select GetScore(map, allowedSmudges)
-    ).Sum();
+    private double Solve(string input, int allowedSmudges)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        return (
+            from block in input.Split("\n\n")
+            let map = ParseMap(block)
+            select GetScore(map, allowedSmudges)
+        ).Sum();
+    }
 
     // place a mirror along the edges of the map, find the one with the allowed smudges 
     private double GetScore(Map map, int allowedSmudges) => (

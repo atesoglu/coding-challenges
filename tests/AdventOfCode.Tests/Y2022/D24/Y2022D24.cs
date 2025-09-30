@@ -93,6 +93,9 @@ public class Y2022D24
     }
 
     private static (Pos entry, Pos exit, Maps maps) Parse(string input) {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var maps = new Maps(input);
         var entry = new Pos(0, 0, 1);
         var exit = new Pos(int.MaxValue, maps.crow - 1, maps.ccol - 2);

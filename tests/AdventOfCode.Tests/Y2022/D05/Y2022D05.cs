@@ -54,6 +54,9 @@ public class Y2022D05
 
     private static string MoveCrates(string input, Action<Move> crateMover)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var parts = input.Split("\n\n");
 
         var stackDefs = parts[0].Split("\n");

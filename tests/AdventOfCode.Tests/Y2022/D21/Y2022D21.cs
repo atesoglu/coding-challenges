@@ -52,6 +52,9 @@ public class Y2022D21
     // and returns the expression with the specified name
     private static Expr Parse(string input, string name, bool part2)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var context = new Dictionary<string, string[]>();
         foreach (var line in input.Split("\n"))
         {

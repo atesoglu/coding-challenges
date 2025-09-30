@@ -52,6 +52,9 @@ public class Y2024D13
 
     private static IEnumerable<Machine> ParseMachines(string input, long shift = 0)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         foreach (var block in blocks)
         {

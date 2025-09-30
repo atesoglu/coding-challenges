@@ -50,6 +50,9 @@ public class Y2022D12
 
     private IEnumerable<Poi> GetPois(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = ParseMap(input);
         var goal = map.Keys.Single(point => map[point] == goalSymbol);
 

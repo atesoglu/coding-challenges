@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests.Y2022.D03;
 [ChallengeName("Rucksack Reorganization")]
 public class Y2022D03
 {
-    private readonly string _input = File.ReadAllText(@"Y2022\D03\Y2022D03-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2022\D03\Y2022D03-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
@@ -16,6 +16,9 @@ public class Y2022D03
         // number called 'priority'. Do this for each line and sum the
         // priorities.
         // We use 'chunk' to split a line in half.
+
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
 
         var output = _input.Split("\n")
             .Select(line => line.Chunk(line.Length / 2)) // ðŸ¥©
@@ -28,6 +31,9 @@ public class Y2022D03
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         // Here we need to find the common item in three consecutive lines,
         // convert it to priority as before, and sum it up along the whole
         // input.

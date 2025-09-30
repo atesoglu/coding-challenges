@@ -30,6 +30,9 @@ public class Y2023D11
 
     private long Solve(string input, int expansion)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = input.Split("\n");
 
         var isRowEmpty = EmptyRows(map).ToHashSet().Contains;

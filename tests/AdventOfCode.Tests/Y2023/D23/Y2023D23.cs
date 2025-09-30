@@ -55,6 +55,9 @@ public class Y2023D23
 
     private int Solve(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var (nodes, edges) = MakeGraph(input);
         var (start, goal) = (nodes.First(), nodes.Last());
 

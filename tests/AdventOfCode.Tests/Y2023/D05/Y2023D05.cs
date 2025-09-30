@@ -31,6 +31,9 @@ public class Y2023D05
 
     private long Solve(string input, Func<IEnumerable<long>, IEnumerable<Range>> parseSeeds)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         var seedRanges = parseSeeds(ParseNumbers(blocks[0])).ToList();
         var maps = blocks.Skip(1).Select(ParseMap).ToArray();

@@ -39,6 +39,9 @@ public class Y2021D09
     // to easily deal with points outside the area using GetValueOrDefault
     private static ImmutableDictionary<Point, int> GetMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = input.Split("\n");
         return (
             from y in Enumerable.Range(0, map.Length)

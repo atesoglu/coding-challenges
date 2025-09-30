@@ -45,6 +45,9 @@ public class Y2020D17
 
     private static int Solve<T>(string input, Func<int, int, T> create, Func<T, IEnumerable<T>> neighbours)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var lines = input.Split("\n");
         var (width, height) = (lines[0].Length, lines.Length);
         var activePoints = new HashSet<T>(

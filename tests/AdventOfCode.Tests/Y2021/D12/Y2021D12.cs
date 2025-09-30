@@ -28,6 +28,9 @@ public class Y2021D12
 
     private int Explore(string input, bool part2)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = GetMap(input);
 
         // Recursive approach this time.

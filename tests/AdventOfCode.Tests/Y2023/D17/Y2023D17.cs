@@ -34,6 +34,9 @@ public class Y2023D17
     // the priority.
     private int Heatloss(string input, int minStraight, int maxStraight)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = ParseMap(input);
         var goal = map.Keys.MaxBy(pos => pos.Imaginary + pos.Real);
         var q = new PriorityQueue<Crucible, int>();

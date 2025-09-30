@@ -60,6 +60,9 @@ public class Y2020D24
 
     private HashSet<Tile> ParseBlackTiles(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var tiles = new Dictionary<Tile, bool>();
 
         foreach (var line in input.Split("\n"))

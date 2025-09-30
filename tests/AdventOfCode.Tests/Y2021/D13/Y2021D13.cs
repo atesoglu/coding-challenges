@@ -29,6 +29,9 @@ public class Y2021D13
 
     private IEnumerable<HashSet<Point>> GetFolds(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         // parse points into a hashset
         var points = (

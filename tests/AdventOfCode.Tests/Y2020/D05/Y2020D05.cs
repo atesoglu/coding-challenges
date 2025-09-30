@@ -36,7 +36,7 @@ public class Y2020D05
             .Replace("F", "0")
             .Replace("R", "1")
             .Replace("L", "0")
-            .Split("\n")
+            .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)
             .Select(row => Convert.ToInt32(row, 2))
             .ToHashSet();
 }

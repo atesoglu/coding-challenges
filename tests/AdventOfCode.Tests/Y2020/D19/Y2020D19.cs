@@ -30,6 +30,9 @@ public class Y2020D19
 
     private static int Solve(string input, bool part1)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = (
             from block in input.Split("\n\n")
             select block.Split("\n")

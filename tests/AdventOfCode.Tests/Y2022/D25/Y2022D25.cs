@@ -6,11 +6,14 @@ namespace AdventOfCode.Tests.Y2022.D25;
 [ChallengeName("Full of Hot Air")]
 public class Y2022D25
 {
-    private readonly string _input = File.ReadAllText(@"Y2022\D25\Y2022D25-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2022\D25\Y2022D25-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var output = LongToSnafu(_input.Split("\n").Select(SnafuToLong).Sum());
 
         output.Should().Be("2=01-0-2-0=-0==-1=01");

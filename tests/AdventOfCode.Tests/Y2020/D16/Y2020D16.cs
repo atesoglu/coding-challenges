@@ -74,6 +74,9 @@ public class Y2020D16
 
     private static Problem Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         int[] parseNumbers(string line) => (
             from m in Regex.Matches(line, "\\d+") // take the consecutive ranges of digits
             select int.Parse(m.Value) // convert them to numbers

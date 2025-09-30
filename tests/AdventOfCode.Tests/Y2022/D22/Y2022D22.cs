@@ -76,6 +76,9 @@ public class Y2022D22
 
     private int Solve(string input, string topology)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var (map, cmds) = Parse(input);
         var state = new State("A", new Coord(0, 0), right);
 

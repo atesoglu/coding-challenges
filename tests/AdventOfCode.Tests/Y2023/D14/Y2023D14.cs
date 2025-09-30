@@ -26,7 +26,13 @@ public class Y2023D14
     }
 
 
-    private static Map Parse(string input) => (from l in input.Split('\n') select l.ToCharArray()).ToArray();
+    private static Map Parse(string input)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        return (from l in input.Split('\n') select l.ToCharArray()).ToArray();
+    }
 
     private static int Crow(char[][] map) => map.Length;
     private static int Ccol(char[][] map) => map[0].Length;

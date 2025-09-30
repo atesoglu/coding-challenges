@@ -28,6 +28,9 @@ public class Y2021D11
     // run the simulation in an endless loop, yield flash counts in each step
     private IEnumerable<int> Simulate(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = GetMap(input);
 
         while (true)

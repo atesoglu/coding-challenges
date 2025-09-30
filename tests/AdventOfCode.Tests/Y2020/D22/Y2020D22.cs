@@ -97,6 +97,9 @@ public class Y2020D22
 
     private static (Queue<int> deck1, Queue<int> deck2) Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var decks = input.Split("\n\n");
         return (
             new Queue<int>(decks[0].Split("\n").Skip(1).Select(int.Parse)),

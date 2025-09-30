@@ -27,6 +27,9 @@ public class Y2021D04
 
     private static IEnumerable<BingoBoard> BoardsInOrderOfCompletion(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
 
         // first block contains the numbers to be drawn, rest describe bingo boards:

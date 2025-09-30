@@ -94,6 +94,9 @@ public class Y2022D23
 
     private static HashSet<Complex> Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var lines = input.Split("\n");
         return (
             from irow in Enumerable.Range(0, lines.Length)

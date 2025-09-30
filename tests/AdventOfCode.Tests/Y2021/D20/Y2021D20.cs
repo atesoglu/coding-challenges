@@ -29,6 +29,9 @@ public class Y2021D20
     // return the N times enhanced image
     private Dictionary<Point, int> EnhanceN(string input, int n)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         var (algo, image) = (blocks[0], GetImage(blocks[1]));
 

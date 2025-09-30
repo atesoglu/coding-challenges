@@ -39,6 +39,9 @@ public class Y2022D10
 
     private static IEnumerable<(int cycle, int x)> Signal(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var (cycle, x) = (1, 1);
         foreach (var line in input.Split("\n"))
         {

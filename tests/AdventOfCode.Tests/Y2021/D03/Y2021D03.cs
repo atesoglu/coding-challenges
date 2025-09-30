@@ -6,11 +6,14 @@ namespace AdventOfCode.Tests.Y2021.D03;
 [ChallengeName("Binary Diagnostic")]
 public class Y2021D03
 {
-    private readonly string _input = File.ReadAllText(@"Y2021\D03\Y2021D03-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2021\D03\Y2021D03-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var diagnosticReport = _input.Split("\n");
         var output = GammaRate(diagnosticReport) * EpsilonRate(diagnosticReport);
 
@@ -20,6 +23,9 @@ public class Y2021D03
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var diagnosticReport = _input.Split("\n");
         var output = OxygenGeneratorRating(diagnosticReport) * Co2ScruberRating(diagnosticReport);
 

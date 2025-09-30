@@ -85,6 +85,9 @@ public class Y2024D17
 
     private (List<long> state, List<long> program) ParseInput(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n").Select(ParseNumbers).ToArray();
         return (blocks[0], blocks[1]);
     }

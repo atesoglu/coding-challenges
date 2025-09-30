@@ -32,6 +32,9 @@ public class Y2022D16
 
     private int Solve(string input, bool humanOnly, int time)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = Parse(input);
         var start = map.valves.Single(x => x.name == "AA");
         var valvesToOpen = map.valves.Where(valve => valve.flowRate > 0).ToArray();

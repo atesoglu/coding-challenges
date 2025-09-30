@@ -78,6 +78,9 @@ public class Y2023D21
 
     private static HashSet<Complex> ParseMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var lines = input.Split("\n");
         return (
             from irow in Enumerable.Range(0, lines.Length)

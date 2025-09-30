@@ -27,6 +27,9 @@ public class Y2021D14
 
     private static long Solve(string input, int steps)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
 
         // We will start with this polymer:

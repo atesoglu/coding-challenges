@@ -35,6 +35,9 @@ public class Y2020D20
 
     private object SolvePartTwo(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var image = MergeTiles(AssemblePuzzle(input));
 
         var monster = new string[]
@@ -71,6 +74,9 @@ public class Y2020D20
 
     private Tile[][] AssemblePuzzle(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var tiles = ParseTiles(input);
 
         // Collects tiles sharing a common edge. 

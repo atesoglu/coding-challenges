@@ -32,7 +32,13 @@ public class Y2022D11
         output.Should().Be(23641658401);
     }
 
-    private Monkey[] ParseMonkeys(string input) => input.Split("\n\n").Select(ParseMonkey).ToArray();
+    private Monkey[] ParseMonkeys(string input)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        return input.Split("\n\n").Select(ParseMonkey).ToArray();
+    }
 
     private Monkey ParseMonkey(string input)
     {

@@ -6,11 +6,14 @@ namespace AdventOfCode.Tests.Y2018.D19;
 [ChallengeName("Go With The Flow")]
 public class Y2018D19
 {
-    private readonly string _input = File.ReadAllText(@"Y2018\D19\Y2018D19-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2018\D19\Y2018D19-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var ip = 0;
         var ipReg = int.Parse(_input.Split("\n").First().Substring("#ip ".Length));
         var prg = _input.Split("\n").Skip(1).ToArray();
@@ -32,6 +35,9 @@ public class Y2018D19
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var t = 10551292;
         var r0 = 0;
         for (var x = 1; x <= t; x++)

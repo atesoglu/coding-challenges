@@ -77,6 +77,9 @@ public class Y2023D16
     // using a dictionary helps with bounds check (simply containskey):
     private static Map ParseMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var lines = input.TrimEnd().Split('\n');
         return (
             from irow in Enumerable.Range(0, lines.Length)

@@ -103,6 +103,9 @@ public class Y2023D10
 
     private static Map ParseMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var rows = input.Split("\n");
         return (
             from irow in Enumerable.Range(0, rows.Length)

@@ -86,6 +86,9 @@ public class Y2023D25
     // both ways, unlike in the input which contains them in one direction only.
     private static Dictionary<string, List<string>> Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var graph = new Dictionary<string, List<string>>();
 
         var registerEdge = (string u, string v) =>

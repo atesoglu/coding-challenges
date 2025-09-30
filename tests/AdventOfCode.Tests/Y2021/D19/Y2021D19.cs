@@ -39,6 +39,9 @@ public class Y2021D19
 
     private HashSet<Scanner> LocateScanners(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var scanners = new HashSet<Scanner>(Parse(input));
         var locatedScanners = new HashSet<Scanner>();
         var q = new Queue<Scanner>();

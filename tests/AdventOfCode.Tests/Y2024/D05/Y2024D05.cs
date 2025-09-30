@@ -35,6 +35,9 @@ public class Y2024D05
 
     private static (string[][] updates, Comparer<string>) ParseInput(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var parts = input.Split("\n\n");
         var orderingPairs = new HashSet<string>(parts[0].Split("\n"));
         var comparer = Comparer<string>.Create((left, right) => orderingPairs.Contains(left + "|" + right) ? -1 : 1);

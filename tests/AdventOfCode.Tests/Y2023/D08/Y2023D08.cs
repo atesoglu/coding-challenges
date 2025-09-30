@@ -28,6 +28,9 @@ public class Y2023D08
 
     private long Solve(string input, string aMarker, string zMarker)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         var dirs = blocks[0];
         var map = ParseMap(blocks[1]);
