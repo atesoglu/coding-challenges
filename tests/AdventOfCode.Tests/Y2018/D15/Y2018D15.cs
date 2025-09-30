@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2018.D15;
 [ChallengeName("Beverage Bandits")]
 public class Y2018D15
 {
-    private readonly string _input = File.ReadAllText(@"Y2018\D15\Y2018D15-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2018\D15\Y2018D15-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Outcome(_input, 3, 3, false).score;
+        var output = Outcome(3, 3, false).score;
 
         output.Should().Be(208960);
     }
@@ -24,7 +24,7 @@ public class Y2018D15
         var elfAp = 4;
         while (true)
         {
-            var outcome = Outcome(_input, 3, elfAp, false);
+            var outcome = Outcome(3, elfAp, false);
             if (outcome.noElfDied)
             {
                 output = outcome.score;
@@ -37,9 +37,9 @@ public class Y2018D15
         output.Should().Be(49863);
     }
 
-    private (bool noElfDied, int score) Outcome(string input, int goblinAp, int elfAp, bool tsto)
+    private (bool noElfDied, int score) Outcome(int goblinAp, int elfAp, bool tsto)
     {
-        var game = Parse(input, goblinAp, elfAp);
+        var game = Parse(goblinAp, elfAp);
         var elfCount = game.players.Count(player => player.elf);
 
         if (tsto)
@@ -60,19 +60,18 @@ public class Y2018D15
     }
 
 
-    private static Game Parse(string input, int goblinAp, int elfAp)
+    private Game Parse(int goblinAp, int elfAp)
     {
         var players = new List<Player>();
-        var lines = input.Split("\n");
-        var mtx = new Block[lines.Length, lines[0].Length];
+        var mtx = new Block[_lines.Length, _lines[0].Length];
 
         var game = new Game { mtx = mtx, players = players };
 
-        for (var irow = 0; irow < lines.Length; irow++)
+        for (var irow = 0; irow < _lines.Length; irow++)
         {
-            for (var icol = 0; icol < lines[0].Length; icol++)
+            for (var icol = 0; icol < _lines[0].Length; icol++)
             {
-                switch (lines[irow][icol])
+                switch (_lines[irow][icol])
                 {
                     case '#':
                         mtx[irow, icol] = Wall.Block;

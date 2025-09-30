@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2019.D14;
 [ChallengeName("Space Stoichiometry")]
 public class Y2019D14
 {
-    private readonly string _input = File.ReadAllText(@"Y2019\D14\Y2019D14-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2019\D14\Y2019D14-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Parse(_input)(1);
+        var output = Parse()(1);
 
         output.Should().Be(261960);
     }
@@ -20,7 +20,7 @@ public class Y2019D14
     public void PartTwo()
     {
         var output = 0;
-        var oreForFuel = Parse(_input);
+        var oreForFuel = Parse();
 
         var ore = 1000000000000L;
 
@@ -46,7 +46,7 @@ public class Y2019D14
         output.Should().Be(4366186);
     }
 
-    private Func<long, long> Parse(string productionRules)
+    private Func<long, long> Parse()
     {
         (string chemical, long amount) ParseReagent(string st)
         {
@@ -55,7 +55,7 @@ public class Y2019D14
         }
 
         var reactions = (
-            from rule in productionRules.Split("\n")
+            from rule in _lines
             let inout = rule.Split(" => ")
             let input = inout[0].Split(", ").Select(ParseReagent).ToArray()
             let output = ParseReagent(inout[1])

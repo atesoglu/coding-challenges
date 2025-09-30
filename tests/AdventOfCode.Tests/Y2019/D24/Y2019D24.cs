@@ -1,20 +1,17 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2019.D24;
 
 [ChallengeName("Planet of Discord")]
 public class Y2019D24
 {
-    private readonly string _input = File.ReadAllText(@"Y2019\D24\Y2019D24-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2019\D24\Y2019D24-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var levels = Parse(_input);
+        var levels = Parse();
 
         var seen = new HashSet<int>();
         var biodiversity = levels[0];
@@ -33,7 +30,7 @@ public class Y2019D24
     [Fact]
     public void PartTwo()
     {
-        var levels = Parse(_input);
+        var levels = Parse();
 
         for (var i = 0; i < 200; i++)
         {
@@ -50,11 +47,11 @@ public class Y2019D24
         output.Should().Be(1975);
     }
 
-    private static int[] Parse(string input)
+    private int[] Parse()
     {
         var biodiversity = 0;
         var m = 1;
-        foreach (var ch in input.Replace("\n", ""))
+        foreach (var ch in string.Join(string.Empty, _lines))
         {
             if (ch == '#')
             {

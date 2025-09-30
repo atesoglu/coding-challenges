@@ -14,7 +14,6 @@ public class Y2019D18
     {
         var maze = new Maze(_input);
 
-
         var dependencies = GenerateDependencies(maze);
         var output = Solve(maze);
 
@@ -40,7 +39,7 @@ public class Y2019D18
 
     private static IEnumerable<string> GenerateSubMazes(string input)
     {
-        var mx = input.Split("\n").Select(x => x.ToCharArray()).ToArray();
+        var mx = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToCharArray()).ToArray();
         var crow = mx.Length;
         var ccol = mx[0].Length;
         var hrow = crow / 2;
@@ -162,7 +161,7 @@ internal class Maze
 
     public Maze(string st)
     {
-        maze = st.Split("\n");
+        this.maze = st.Split("\n");
     }
 
     private int ccol => maze[0].Length;

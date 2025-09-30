@@ -7,12 +7,12 @@ namespace AdventOfCode.Tests.Y2018.D24;
 [ChallengeName("Immune System Simulator 20XX")]
 public class Y2018D24
 {
-    private readonly string _input = File.ReadAllText(@"Y2018\D24\Y2018D24-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2018\D24\Y2018D24-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Fight(_input, 0).units;
+        var output = Fight(0).units;
 
         output.Should().Be(18346);
     }
@@ -25,7 +25,7 @@ public class Y2018D24
         while (h - l > 1)
         {
             var m = (h + l) / 2;
-            if (Fight(_input, m).immuneSystem)
+            if (Fight(m).immuneSystem)
             {
                 h = m;
             }
@@ -35,15 +35,15 @@ public class Y2018D24
             }
         }
 
-        var output = Fight(_input, h).units;
+        var output = Fight(h).units;
 
         output.Should().Be(8698);
     }
 
 
-    private (bool immuneSystem, long units) Fight(string input, int boost)
+    private (bool immuneSystem, long units) Fight(int boost)
     {
-        var army = Parse(input);
+        var army = Parse();
         foreach (var g in army)
         {
             if (g.immuneSystem)
@@ -93,12 +93,11 @@ public class Y2018D24
         return (army.All(x => x.immuneSystem), army.Select(x => x.units).Sum());
     }
 
-    private static List<Group> Parse(string input)
+    private List<Group> Parse()
     {
-        var lines = input.Split("\n");
         var immuneSystem = false;
         var res = new List<Group>();
-        foreach (var line in lines)
+        foreach (var line in _lines)
             if (line == "Immune System:")
             {
                 immuneSystem = true;

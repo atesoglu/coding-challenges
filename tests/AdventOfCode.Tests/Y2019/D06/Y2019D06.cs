@@ -7,12 +7,12 @@ namespace AdventOfCode.Tests.Y2019.D06;
 [ChallengeName("Universal Orbit Map")]
 public class Y2019D06
 {
-    private readonly string _input = File.ReadAllText(@"Y2019\D06\Y2019D06-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2019\D06\Y2019D06-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var childToParent = ParseTree(_input);
+        var childToParent = ParseTree();
         var output = (
             from node in childToParent.Keys
             select GetAncestors(childToParent, node).Count()
@@ -24,7 +24,7 @@ public class Y2019D06
     [Fact]
     public void PartTwo()
     {
-        var childToParent = ParseTree(_input);
+        var childToParent = ParseTree();
         var ancestors1 = new Stack<string>(GetAncestors(childToParent, "YOU"));
         var ancestors2 = new Stack<string>(GetAncestors(childToParent, "SAN"));
         while (ancestors1.Peek() == ancestors2.Peek())
@@ -38,14 +38,12 @@ public class Y2019D06
         output.Should().Be(277);
     }
 
-    private static ChildToParent ParseTree(string input) =>
-        input
-            .Split("\n")
-            .Select(line => line.Split(")"))
-            .ToDictionary(
-                parent_child => parent_child[1],
-                parent_child => parent_child[0]
-            );
+    private ChildToParent ParseTree() => _lines
+        .Select(line => line.Split(")"))
+        .ToDictionary(
+            parent_child => parent_child[1],
+            parent_child => parent_child[0]
+        );
 
     private static IEnumerable<string> GetAncestors(ChildToParent childToParent, string node)
     {

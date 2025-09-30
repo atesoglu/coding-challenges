@@ -1,19 +1,17 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2018.D12;
 
 [ChallengeName("Subterranean Sustainability")]
 public class Y2018D12
 {
-    private readonly string _input = File.ReadAllText(@"Y2018\D12\Y2018D12-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2018\D12\Y2018D12-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Iterate(_input, 20);
+        var output = Iterate(20);
 
         output.Should().Be(2166);
     }
@@ -21,15 +19,15 @@ public class Y2018D12
     [Fact]
     public void PartTwo()
     {
-        var output = Iterate(_input, 50000000000);
+        var output = Iterate(50000000000);
 
         output.Should().Be(2100000000061);
     }
 
 
-    private long Iterate(string input, long iterations)
+    private long Iterate(long iterations)
     {
-        var (state, rules) = Parse(input);
+        var (state, rules) = Parse();
 
         var dLeftPos = 0L;
 
@@ -69,16 +67,16 @@ public class Y2018D12
         return res;
     }
 
-    private static (State state, Dictionary<string, string> rules) Parse(string input)
+    private (State state, Dictionary<string, string> rules) Parse()
     {
-        var lines = input.Split("\n");
-        var state = new State { left = 0, pots = lines[0].Substring("initial state: ".Length) };
-        var rules = (from line in lines.Skip(2) let parts = line.Split(" => ") select new { key = parts[0], value = parts[1] }).ToDictionary(x => x.key, x => x.value);
+        var state = new State { left = 0, pots = _lines[0].Substring("initial state: ".Length) };
+        var rules = (from line in _lines.Skip(2) let parts = line.Split(" => ") select new { key = parts[0], value = parts[1] }).ToDictionary(x => x.key, x => x.value);
         return (state, rules);
     }
-}
 
-internal class State {
-    public long left;
-    public string pots;
+    private class State
+    {
+        public long left;
+        public string pots;
+    }
 }
