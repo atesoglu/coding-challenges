@@ -42,12 +42,12 @@ public class Y2023D03
         output.Should().Be(83279367);
     }
 
-    private bool Adjacent(Part p1, Part p2) =>
+    private static bool Adjacent(Part p1, Part p2) =>
         Math.Abs(p2.Irow - p1.Irow) <= 1 &&
         p1.Icol <= p2.Icol + p2.Text.Length &&
         p2.Icol <= p1.Icol + p1.Text.Length;
 
-    private Part[] Parse(string[] rows, Regex rx) => (
+    private static Part[] Parse(string[] rows, Regex rx) => (
         from irow in Enumerable.Range(0, rows.Length)
         from match in rx.Matches(rows[irow])
         select new Part(match.Value, irow, match.Index)

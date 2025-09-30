@@ -26,10 +26,10 @@ public class Y2023D14
     }
 
 
-    private Map Parse(string input) => (from l in input.Split('\n') select l.ToCharArray()).ToArray();
+    private static Map Parse(string input) => (from l in input.Split('\n') select l.ToCharArray()).ToArray();
 
-    private int Crow(char[][] map) => map.Length;
-    private int Ccol(char[][] map) => map[0].Length;
+    private static int Crow(char[][] map) => map.Length;
+    private static int Ccol(char[][] map) => map[0].Length;
 
     private Map Iterate(Map map, Func<Map, Map> cycle, int count)
     {

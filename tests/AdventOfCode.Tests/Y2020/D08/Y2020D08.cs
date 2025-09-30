@@ -27,13 +27,13 @@ public class Y2020D08
     }
 
 
-    private Stm[] Parse(string input) =>
+    private static Stm[] Parse(string input) =>
         input.Split("\n")
             .Select(line => line.Split(" "))
             .Select(parts => new Stm(parts[0], int.Parse(parts[1])))
             .ToArray();
 
-    private IEnumerable<Stm[]> Patches(Stm[] program) =>
+    private static IEnumerable<Stm[]> Patches(Stm[] program) =>
         Enumerable.Range(0, program.Length)
             .Where(line => program[line].op != "acc")
             .Select(lineToPatch =>

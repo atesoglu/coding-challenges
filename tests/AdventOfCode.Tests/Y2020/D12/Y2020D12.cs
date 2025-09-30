@@ -27,7 +27,7 @@ public class Y2020D12
         output.Should().Be(178986);
     }
 
-    private double MoveShip(string input, bool part1) =>
+    private static double MoveShip(string input, bool part1) =>
         input
             .Split("\n")
             .Select(line => (line[0], int.Parse(line.Substring(1))))

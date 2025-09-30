@@ -74,9 +74,9 @@ public class Y2023D21
     }
 
     // the double % takes care of negative numbers
-    private double Mod(double n, int m) => ((n % m) + m) % m;
+    private static double Mod(double n, int m) => ((n % m) + m) % m;
 
-    private HashSet<Complex> ParseMap(string input)
+    private static HashSet<Complex> ParseMap(string input)
     {
         var lines = input.Split("\n");
         return (

@@ -40,7 +40,7 @@ public class Y2017D14
     }
 
 
-    private void Fill(char[][] mtx, (int, int) startCell)
+    private static void Fill(char[][] mtx, (int, int) startCell)
     {
         var q = new Queue<(int irow, int icol)>();
         var ccol = mtx[0].Count();
@@ -97,7 +97,7 @@ public class Y2017D14
         }
     }
 
-    private int[] KnotHash(string input)
+    private static int[] KnotHash(string input)
     {
         var suffix = new[] { 17, 31, 73, 47, 23 };
         var chars = input.ToCharArray().Select(b => (int)b).Concat(suffix);

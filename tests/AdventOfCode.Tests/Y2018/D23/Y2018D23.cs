@@ -39,9 +39,9 @@ public class Y2018D23
     }
 
 
-    private int Dist((int x, int y, int z) a, (int x, int y, int z) b) => Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
+    private static int Dist((int x, int y, int z) a, (int x, int y, int z) b) => Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
 
-    private IEnumerable<(int x, int y, int z)> Corners(Drone[] drones) => (
+    private static IEnumerable<(int x, int y, int z)> Corners(Drone[] drones) => (
         from drone in drones
         from dx in new[] { -1, 0, 1 }
         from dy in new[] { -1, 0, 1 }
@@ -50,14 +50,14 @@ public class Y2018D23
         select (drone.pos.x + dx * drone.r, drone.pos.y + dy * drone.r, drone.pos.z + dz * drone.r)
     ).ToArray();
 
-    private Drone[] Parse(string input) => (
+    private static Drone[] Parse(string input) => (
         from line in input.Split("\n")
         let parts = Regex.Matches(line, @"-?\d+").Select(x => int.Parse(x.Value)).ToArray()
         select new Drone((parts[0], parts[1], parts[2]), parts[3])
     ).ToArray();
 
 
-    private (int drones, int pt) Solve(Box box, Drone[] drones)
+    private static (int drones, int pt) Solve(Box box, Drone[] drones)
     {
         var q = new PQueue<(int, int), (Box box, Drone[] drones)>();
         q.Enqueue((0, 0), (box, drones));
@@ -93,7 +93,7 @@ internal class Box
     public Box((int x, int y, int z) min, (int sx, int sy, int sz) size)
     {
         this.min = min;
-        this.max = (min.x + size.sx - 1, min.y + size.sy - 1, min.z + size.sz - 1);
+        max = (min.x + size.sx - 1, min.y + size.sy - 1, min.z + size.sz - 1);
         this.size = size;
     }
 

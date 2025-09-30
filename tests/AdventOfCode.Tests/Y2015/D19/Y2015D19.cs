@@ -43,7 +43,7 @@ public class Y2015D19
         steps.Should().Be(212);
     }
 
-    private IEnumerable<string> ReplaceAll((string from, string to)[] rules, string molecule)
+    private static IEnumerable<string> ReplaceAll((string from, string to)[] rules, string molecule)
     {
         foreach (var (idx, len, to) in Replacements(rules, molecule, forward: true))
             yield return Replace(molecule, idx, to, len);

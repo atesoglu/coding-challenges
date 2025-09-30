@@ -40,7 +40,7 @@ public class Y2022D19
     }
 
     // Priority queue based maximum search with LOTS OF PRUNING
-    private int MaxGeodes(Blueprint blueprint, int timeLimit)
+    private static int MaxGeodes(Blueprint blueprint, int timeLimit)
     {
         var q = new PriorityQueue<State, int>();
         var seen = new HashSet<State>();
@@ -148,7 +148,7 @@ public class Y2022D19
         }
     }
 
-    private IEnumerable<Blueprint> Parse(string input)
+    private static IEnumerable<Blueprint> Parse(string input)
     {
         foreach (var line in input.Split("\n"))
         {

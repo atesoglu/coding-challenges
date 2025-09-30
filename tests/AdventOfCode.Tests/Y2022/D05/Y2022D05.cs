@@ -52,7 +52,7 @@ public class Y2022D05
         CrateMover9000(move with { source = helper });
     }
 
-    private string MoveCrates(string input, Action<Move> crateMover)
+    private static string MoveCrates(string input, Action<Move> crateMover)
     {
         var parts = input.Split("\n\n");
 

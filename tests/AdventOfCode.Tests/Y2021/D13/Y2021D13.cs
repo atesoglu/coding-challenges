@@ -47,7 +47,7 @@ public class Y2021D13
         }
     }
 
-    private string ToString(HashSet<Point> d)
+    private static string ToString(HashSet<Point> d)
     {
         var res = "";
         var height = d.MaxBy(p => p.y).y;
@@ -65,10 +65,10 @@ public class Y2021D13
         return res;
     }
 
-    private HashSet<Point> FoldX(int x, HashSet<Point> d) =>
+    private static HashSet<Point> FoldX(int x, HashSet<Point> d) =>
         d.Select(p => p.x > x ? p with { x = 2 * x - p.x } : p).ToHashSet();
 
-    private HashSet<Point> FoldY(int y, HashSet<Point> d) =>
+    private static HashSet<Point> FoldY(int y, HashSet<Point> d) =>
         d.Select(p => p.y > y ? p with { y = 2 * y - p.y } : p).ToHashSet();
 }
 

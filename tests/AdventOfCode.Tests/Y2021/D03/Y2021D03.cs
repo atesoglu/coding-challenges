@@ -37,7 +37,7 @@ public class Y2021D03
     private char LeastCommonBitAt(string[] lines, int ibit) =>
         MostCommonBitAt(lines, ibit) == '1' ? '0' : '1';
 
-    private int Extract1(string[] lines, Func<string[], int, char> selectBitAt)
+    private static int Extract1(string[] lines, Func<string[], int, char> selectBitAt)
     {
         var cbit = lines[0].Length;
 
@@ -50,7 +50,7 @@ public class Y2021D03
         return Convert.ToInt32(bits, 2);
     }
 
-    private int Extract2(string[] lines, Func<string[], int, char> selectBitAt)
+    private static int Extract2(string[] lines, Func<string[], int, char> selectBitAt)
     {
         var cbit = lines[0].Length;
 

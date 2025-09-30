@@ -41,10 +41,10 @@ public class Y2024D20
         return indices.AsParallel().Select(calculateCheatsFromIndex).Sum();
     }
 
-    private int CalculateManhattanDistance(Complex positionA, Complex positionB) =>
+    private static int CalculateManhattanDistance(Complex positionA, Complex positionB) =>
         (int)(Math.Abs(positionA.Imaginary - positionB.Imaginary) + Math.Abs(positionA.Real - positionB.Real));
 
-    private Complex[] BuildPathFromGoalToStart(IEnumerable<string> lines)
+    private static Complex[] BuildPathFromGoalToStart(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         var map = (

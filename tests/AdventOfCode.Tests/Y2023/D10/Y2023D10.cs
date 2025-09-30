@@ -50,7 +50,7 @@ public class Y2023D10
     };
 
     // Returns the positions that make up the loop containing 'S'
-    private HashSet<Complex> LoopPositions(Map map)
+    private static HashSet<Complex> LoopPositions(Map map)
     {
         var position = map.Keys.Single(k => map[k] == 'S');
         var positions = new HashSet<Complex>();
@@ -74,7 +74,7 @@ public class Y2023D10
     }
 
     // Check if position is inside the loop using ray casting algorithm
-    private bool Inside(Complex position, Map map, HashSet<Complex> loop)
+    private static bool Inside(Complex position, Map map, HashSet<Complex> loop)
     {
         // Imagine a small elf starting from the top half of a cell and moving 
         // to the left jumping over the pipes it encounters. It needs to jump 
@@ -101,7 +101,7 @@ public class Y2023D10
         return inside;
     }
 
-    private Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
         var rows = input.Split("\n");
         return (

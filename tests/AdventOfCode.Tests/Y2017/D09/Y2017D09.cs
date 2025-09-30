@@ -41,7 +41,7 @@ public class Y2017D09
         }
     }
 
-    private IEnumerable<(char ch, bool garbage)> Classify(string input)
+    private static IEnumerable<(char ch, bool garbage)> Classify(string input)
     {
         var skip = false;
         var garbage = false;

@@ -126,7 +126,7 @@ public class Y2018D17
         }
     }
 
-    private bool IsStill(char[,] mtx, int x, int y)
+    private static bool IsStill(char[,] mtx, int x, int y)
     {
         var width = mtx.GetLength(0);
         foreach (var dx in new[] { -1, 1 })

@@ -27,7 +27,7 @@ public class Y2021D17
 
 
     // For each vx0, vy0 combination that reaches the target, yield the highest y value of the trajectory:
-    private IEnumerable<int> Solve(string input)
+    private static IEnumerable<int> Solve(string input)
     {
         // Parse the (signed) integers
         var m = Regex.Matches(input, "-?[0-9]+").Select(m => int.Parse(m.Value)).ToArray();

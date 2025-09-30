@@ -27,7 +27,7 @@ public class Y2020D23
         output.Should().Be(163035127721);
     }
 
-    private IEnumerable<long> Solve(string input, int maxLabel, int rotate)
+    private static IEnumerable<long> Solve(string input, int maxLabel, int rotate)
     {
         var digits = input.Select(d => int.Parse(d.ToString())).ToArray();
 

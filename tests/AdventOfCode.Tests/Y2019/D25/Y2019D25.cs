@@ -133,7 +133,7 @@ public class Y2019D25
 
     private IEnumerable<string> Inventory(IntCodeMachine icm) => GetListItems(icm.Run("inv").ToAscii());
 
-    private IEnumerable<string> GetListItems(string description) =>
+    private static IEnumerable<string> GetListItems(string description) =>
         from line in description.Split("\n")
         where line.StartsWith("- ")
         select line.Substring(2);

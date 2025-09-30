@@ -40,7 +40,7 @@ public class Y2024D17
         Cdv
     }
 
-    private List<long> ExecuteProgram(List<long> state, List<long> program)
+    private static List<long> ExecuteProgram(List<long> state, List<long> program)
     {
         var getOperand = (int operand) => operand < 4 ? operand : state[operand - 4];
         var output = new List<long>();

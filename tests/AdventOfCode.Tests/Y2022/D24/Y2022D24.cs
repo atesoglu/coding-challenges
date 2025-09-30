@@ -77,7 +77,7 @@ public class Y2022D24
     }
 
     // Increase time, look for free neighbours
-    private IEnumerable<Pos> NextPositions(Pos pos, Maps maps) {
+    private static IEnumerable<Pos> NextPositions(Pos pos, Maps maps) {
         pos = pos with {time = pos.time + 1};
         foreach (var nextPos in new Pos[]{
             pos,
@@ -92,7 +92,7 @@ public class Y2022D24
         }
     }
 
-    private (Pos entry, Pos exit, Maps maps) Parse(string input) {
+    private static (Pos entry, Pos exit, Maps maps) Parse(string input) {
         var maps = new Maps(input);
         var entry = new Pos(0, 0, 1);
         var exit = new Pos(int.MaxValue, maps.crow - 1, maps.ccol - 2);
@@ -107,8 +107,8 @@ public class Y2022D24
 
         public Maps(string input) {
             map = input.Split("\n");
-            this.crow = map.Length;
-            this.ccol = map[0].Length;
+            crow = map.Length;
+            ccol = map[0].Length;
         }
 
         public char Get(Pos pos) {

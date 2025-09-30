@@ -51,7 +51,7 @@ public class Y2022D16
     }
 
     // Divide the valves between human and elephant in all possible ways
-    private IEnumerable<(HashSet<Valve> human, HashSet<Valve> elephant)> Pairings(Valve[] valves)
+    private static IEnumerable<(HashSet<Valve> human, HashSet<Valve> elephant)> Pairings(Valve[] valves)
     {
         var maxMask = 1 << (valves.Length - 1);
 
@@ -78,7 +78,7 @@ public class Y2022D16
         }
     }
 
-    private int MaxFlow(
+    private static int MaxFlow(
         Dictionary<string, int> cache,
         Map map,
         Valve currentValve,
@@ -142,7 +142,7 @@ public class Y2022D16
         return new Map(ComputeDistances(valves), valves);
     }
 
-    private int[,] ComputeDistances(Valve[] valves)
+    private static int[,] ComputeDistances(Valve[] valves)
     {
         // Floyd-Warshall style distance calculation for every pair of valves.
         // See https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm

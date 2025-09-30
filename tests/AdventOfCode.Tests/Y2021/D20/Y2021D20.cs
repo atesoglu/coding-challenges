@@ -71,7 +71,7 @@ public class Y2021D20
 
     // store the points in a dictionary so that we can iterate over them and 
     // to easily deal with points outside the area
-    private Dictionary<Point, int> GetImage(string input)
+    private static Dictionary<Point, int> GetImage(string input)
     {
         var map = input.Split("\n");
         return new Dictionary<Point, int>(
@@ -81,7 +81,7 @@ public class Y2021D20
         );
     }
 
-    private IEnumerable<Point> Neighbours(Point pos) =>
+    private static IEnumerable<Point> Neighbours(Point pos) =>
         from y in Enumerable.Range(-1, 3)
         from x in Enumerable.Range(-1, 3)
         select new Point(pos.x + x, pos.y + y);

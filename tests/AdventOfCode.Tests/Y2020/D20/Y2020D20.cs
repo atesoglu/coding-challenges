@@ -58,7 +58,7 @@ public class Y2020D20
         }
     }
 
-    private Tile[] ParseTiles(string input)
+    private static Tile[] ParseTiles(string input)
     {
         return (
             from block in input.Split("\n\n")
@@ -153,7 +153,7 @@ public class Y2020D20
         return puzzle;
     }
 
-    private Tile MergeTiles(Tile[][] tiles)
+    private static Tile MergeTiles(Tile[][] tiles)
     {
         // create a big tile leaving out the borders
         var image = new List<string>();
@@ -176,7 +176,7 @@ public class Y2020D20
         return new Tile(42, image.ToArray());
     }
 
-    private int MatchCount(Tile image, params string[] pattern)
+    private static int MatchCount(Tile image, params string[] pattern)
     {
         var res = 0;
         var (ccolP, crowP) = (pattern[0].Length, pattern.Length);
@@ -226,11 +226,11 @@ internal class Tile {
     public Tile(long id, string[] image) {
         this.id = id;
         this.image = image;
-        this.size = image.Length;
+        size = image.Length;
     }
 
     public void ChangeOrientation() {
-        this.orentation++;
+        orentation++;
     }
 
     public char this[int irow, int icol] {
@@ -243,7 +243,7 @@ internal class Tile {
                 icol = size - 1 - icol; // flip vertical axis
             }
 
-            return this.image[irow][icol];
+            return image[irow][icol];
         }
     }
 

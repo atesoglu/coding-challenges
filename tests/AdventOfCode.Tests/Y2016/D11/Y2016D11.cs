@@ -28,7 +28,7 @@ public class Y2016D11
         output.Should().Be(57);
     }
 
-    private int Solve(ulong state)
+    private static int Solve(ulong state)
     {
         var steps = 0;
         var seen = new HashSet<ulong>();
@@ -56,7 +56,7 @@ public class Y2016D11
         return 0;
     }
 
-    private ulong Parse(string input)
+    private static ulong Parse(string input)
     {
         var nextMask = 1;
         var elementToMask = new Dictionary<string, int>();

@@ -25,7 +25,7 @@ public class Y2024D03
         output.Should().Be(97529391);
     }
 
-    private long Solve(string input, string pattern)
+    private static long Solve(string input, string pattern)
     {
         var matches = Regex.Matches(input, pattern, RegexOptions.Multiline);
         var enabled = true;

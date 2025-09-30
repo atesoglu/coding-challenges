@@ -27,7 +27,7 @@ public class Y2020D18
         output.Should().Be(85660197232452);
     }
 
-    private long Solve(string input, bool part1)
+    private static long Solve(string input, bool part1)
     {
         var sum = 0L;
         foreach (var line in input.Split("\n"))

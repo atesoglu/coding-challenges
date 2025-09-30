@@ -77,7 +77,7 @@ public class Y2015D21
             select Sum(weapon, armor, ring);
     }
 
-    private IEnumerable<(int gold, int damage, int armor)> Buy(int min, int max, (int gold, int damage, int armor)[] items)
+    private static IEnumerable<(int gold, int damage, int armor)> Buy(int min, int max, (int gold, int damage, int armor)[] items)
     {
         if (min == 0)
         {

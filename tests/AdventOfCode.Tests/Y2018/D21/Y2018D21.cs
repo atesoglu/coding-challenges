@@ -32,7 +32,7 @@ public class Y2018D21
     /// - multiplier for r4
     /// - modulo mask
     /// </summary>
-    private (long startR4, long orMask, long multiplier, long modulo) ParseConstants(string input)
+    private static (long startR4, long orMask, long multiplier, long modulo) ParseConstants(string input)
     {
         var lines = input.Split("\n", StringSplitOptions.RemoveEmptyEntries);
 
@@ -48,7 +48,7 @@ public class Y2018D21
     /// <summary>
     /// Fast generator of r4 values using the constants extracted from input.
     /// </summary>
-    private IEnumerable<long> GenerateR4(long startR4, long orMask, long multiplier, long modulo)
+    private static IEnumerable<long> GenerateR4(long startR4, long orMask, long multiplier, long modulo)
     {
         var seen = new HashSet<long>();
         long r4 = 0;

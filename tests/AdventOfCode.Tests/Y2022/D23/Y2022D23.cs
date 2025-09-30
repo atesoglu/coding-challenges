@@ -92,7 +92,7 @@ public class Y2022D23
         return width * height - elves.Count;
     }
 
-    private HashSet<Complex> Parse(string input)
+    private static HashSet<Complex> Parse(string input)
     {
         var lines = input.Split("\n");
         return (
@@ -117,7 +117,7 @@ public class Y2022D23
     private static Complex[] Directions = new[] { NW, N, NE, E, SE, S, SW, W };
 
     // Extends an ordinal position with its intercardinal neighbours
-    private Complex[] ExtendDir(Complex dir) =>
+    private static Complex[] ExtendDir(Complex dir) =>
         dir == N ? new[] { NW, N, NE } :
         dir == E ? new[] { NE, E, SE } :
         dir == S ? new[] { SW, S, SE } :

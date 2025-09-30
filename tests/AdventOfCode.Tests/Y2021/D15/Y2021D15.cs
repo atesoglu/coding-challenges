@@ -72,7 +72,7 @@ public class Y2021D15
     }
 
     // Create an 5x scaled up map, as described in part 2
-    private Dictionary<Point, int> ScaleUp(Dictionary<Point, int> map)
+    private static Dictionary<Point, int> ScaleUp(Dictionary<Point, int> map)
     {
         var (ccol, crow) = (map.Keys.MaxBy(p => p.x).x + 1, map.Keys.MaxBy(p => p.y).y + 1);
 
@@ -98,7 +98,7 @@ public class Y2021D15
 
     // store the points in a dictionary so that we can iterate over them and 
     // to easily deal with points outside the area
-    private Dictionary<Point, int> GetRiskLevelMap(string input)
+    private static Dictionary<Point, int> GetRiskLevelMap(string input)
     {
         var map = input.Split("\n");
         return new Dictionary<Point, int>(
@@ -108,7 +108,7 @@ public class Y2021D15
         );
     }
 
-    private IEnumerable<Point> Neighbours(Point point) =>
+    private static IEnumerable<Point> Neighbours(Point point) =>
         new[]
         {
             point with { y = point.y + 1 },

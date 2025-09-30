@@ -70,7 +70,7 @@ public class Y2016D22
         output.Should().Be(261);
     }
 
-    private Node[,] Parse(string input)
+    private static Node[,] Parse(string input)
     {
         var nodes = (
             from line in input.Split('\n').Skip(2)

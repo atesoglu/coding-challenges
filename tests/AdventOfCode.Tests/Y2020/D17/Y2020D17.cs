@@ -43,7 +43,7 @@ public class Y2020D17
         output.Should().Be(1896);
     }
 
-    private int Solve<T>(string input, Func<int, int, T> create, Func<T, IEnumerable<T>> neighbours)
+    private static int Solve<T>(string input, Func<int, int, T> create, Func<T, IEnumerable<T>> neighbours)
     {
         var lines = input.Split("\n");
         var (width, height) = (lines[0].Length, lines.Length);

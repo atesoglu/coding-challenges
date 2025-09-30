@@ -26,7 +26,7 @@ public class Y2021D07
         output.Should().Be(94004208);
     }
 
-    private int FuelMin(string input, Func<int, int> fuelConsumption)
+    private static int FuelMin(string input, Func<int, int> fuelConsumption)
     {
         var positions = input.Split(",").Select(int.Parse).ToArray();
 

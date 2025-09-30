@@ -31,7 +31,7 @@ public class Y2022D13
         output.Should().Be(25038);
     }
 
-    private IEnumerable<JsonNode> GetPackets(string input) =>
+    private static IEnumerable<JsonNode> GetPackets(string input) =>
         from line in input.Split("\n")
         where !string.IsNullOrEmpty(line)
         select JsonNode.Parse(line);

@@ -22,7 +22,7 @@ public class Y2018D05
         output.Should().Be(5726);
     }
 
-    private int React(string input, char? skip = null)
+    private static int React(string input, char? skip = null)
     {
         var stack = new Stack<char>();
 

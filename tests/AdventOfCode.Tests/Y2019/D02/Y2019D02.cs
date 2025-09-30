@@ -44,7 +44,7 @@ public class Y2019D02
         }
     }
 
-    private long ExecIntCode(IntCodeMachine icm, int noun, int verb)
+    private static long ExecIntCode(IntCodeMachine icm, int noun, int verb)
     {
         icm.Reset();
         icm.memory[1] = noun;
@@ -93,14 +93,11 @@ internal class Memory
 
     public long this[long addr]
     {
-        get { return mem.ContainsKey(addr) ? mem[addr] : addr >= 0 && addr < initial.Length ? initial[addr] : 0; }
-        set { mem[addr] = value; }
+        get => mem.ContainsKey(addr) ? mem[addr] : addr >= 0 && addr < initial.Length ? initial[addr] : 0;
+        set => mem[addr] = value;
     }
 
-    public long Length
-    {
-        get { return Math.Max(this.initial.Length, this.mem.Keys.Any() ? this.mem.Keys.Max() : 0); }
-    }
+    public long Length => Math.Max(initial.Length, mem.Keys.Any() ? mem.Keys.Max() : 0);
 
     public Memory Clone()
     {
@@ -128,17 +125,17 @@ internal class ImmutableIntCodeMachine
 
     public (ImmutableIntCodeMachine iicm, IntCodeOutput output) Run(params long[] input)
     {
-        var immutableIntCodeMachine = new ImmutableIntCodeMachine(this.icm.Clone());
+        var immutableIntCodeMachine = new ImmutableIntCodeMachine(icm.Clone());
         return (immutableIntCodeMachine, immutableIntCodeMachine.icm.Run(input));
     }
 
     public (ImmutableIntCodeMachine iicm, IntCodeOutput output) Run(params string[] input)
     {
-        var immutableIntCodeMachine = new ImmutableIntCodeMachine(this.icm.Clone());
+        var immutableIntCodeMachine = new ImmutableIntCodeMachine(icm.Clone());
         return (immutableIntCodeMachine, immutableIntCodeMachine.icm.Run(input));
     }
 
-    public bool Halted() => this.icm.Halted();
+    public bool Halted() => icm.Halted();
 }
 
 internal class IntCodeOutput : IReadOnlyList<long>
@@ -152,13 +149,13 @@ internal class IntCodeOutput : IReadOnlyList<long>
 
     public string ToAscii() => string.Join("", from item in output select (char)item);
 
-    public long this[int index] => this.output[index];
+    public long this[int index] => output[index];
 
-    public int Count => this.output.Length;
+    public int Count => output.Length;
 
-    public IEnumerator<long> GetEnumerator() => (this.output as IEnumerable<long>).GetEnumerator();
+    public IEnumerator<long> GetEnumerator() => (output as IEnumerable<long>).GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => this.output.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => output.GetEnumerator();
 }
 
 internal class IntCodeMachine
@@ -215,7 +212,7 @@ internal class IntCodeMachine
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(output.ToAscii());
             Console.ForegroundColor = c;
-            if (this.Halted())
+            if (Halted())
             {
                 break;
             }
@@ -225,12 +222,12 @@ internal class IntCodeMachine
     }
 
 
-    private long[] AsciiEncode(string st)
+    private static long[] AsciiEncode(string st)
     {
         return (from ch in st select (long)ch).ToArray();
     }
 
-    private bool Match(string stm, string pattern, out int[] m)
+    private static bool Match(string stm, string pattern, out int[] m)
     {
         var match = Regex.Match(stm, pattern);
         m = null;
@@ -331,7 +328,7 @@ internal class IntCodeMachine
         return new IntCodeOutput(output.ToArray());
     }
 
-    public string Decompile(string st)
+    public static string Decompile(string st)
     {
         var inLines = st.Split("\n").ToList();
         var outLines = new List<string>();

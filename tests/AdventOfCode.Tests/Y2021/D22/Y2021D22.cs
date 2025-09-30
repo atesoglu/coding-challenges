@@ -60,7 +60,7 @@ public class Y2021D22
                 new Segment(-range, range)));
     }
 
-    private Cmd[] Parse(string input)
+    private static Cmd[] Parse(string input)
     {
         var res = new List<Cmd>();
         foreach (var line in input.Split("\n"))
@@ -83,7 +83,7 @@ internal record Segment(int from, int to)
     public long Length => IsEmpty ? 0 : to - from + 1;
 
     public Segment Intersect(Segment that) =>
-        new Segment(Math.Max(this.from, that.from), Math.Min(this.to, that.to));
+        new Segment(Math.Max(from, that.from), Math.Min(to, that.to));
 }
 
 internal record Region(Segment x, Segment y, Segment z)
@@ -92,5 +92,5 @@ internal record Region(Segment x, Segment y, Segment z)
     public long Volume => x.Length * y.Length * z.Length;
 
     public Region Intersect(Region that) =>
-        new Region(this.x.Intersect(that.x), this.y.Intersect(that.y), this.z.Intersect(that.z));
+        new Region(x.Intersect(that.x), y.Intersect(that.y), z.Intersect(that.z));
 }

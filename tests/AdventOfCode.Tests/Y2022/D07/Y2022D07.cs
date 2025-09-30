@@ -28,7 +28,7 @@ public class Y2022D07
         output.Should().Be(5469168);
     }
 
-    private List<int> GetDirectorySizes(string input)
+    private static List<int> GetDirectorySizes(string input)
     {
         var path = new Stack<string>();
         var sizes = new Dictionary<string, int>();

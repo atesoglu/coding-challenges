@@ -35,7 +35,7 @@ public class Y2017D10
         output.Should().Be("7f94112db4e32e19cf6502073c66f9bb");
     }
 
-    private int[] KnotHash(IEnumerable<int> input, int rounds)
+    private static int[] KnotHash(IEnumerable<int> input, int rounds)
     {
         var output = Enumerable.Range(0, 256).ToArray();
 

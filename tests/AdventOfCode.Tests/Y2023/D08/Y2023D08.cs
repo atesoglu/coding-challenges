@@ -44,9 +44,9 @@ public class Y2023D08
     }
 
     private long Lcm(long a, long b) => a * b / Gcd(a, b);
-    private long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
+    private static long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
 
-    private long StepsToZ(string current, string zMarker, string dirs, Map map)
+    private static long StepsToZ(string current, string zMarker, string dirs, Map map)
     {
         var i = 0;
         while (!current.EndsWith(zMarker))
@@ -59,7 +59,7 @@ public class Y2023D08
         return i;
     }
 
-    private Map ParseMap(string input) =>
+    private static Map ParseMap(string input) =>
         input.Split("\n")
             .Select(line => Regex.Matches(line, "[A-Z]+"))
             .ToDictionary(m => m[0].Value, m => (m[1].Value, m[2].Value));

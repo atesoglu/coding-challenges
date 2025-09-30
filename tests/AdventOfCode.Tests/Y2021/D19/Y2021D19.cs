@@ -100,7 +100,7 @@ public class Y2021D19
         return null;
     }
 
-    private IEnumerable<(Coord beaconInA, Coord beaconInB)> PotentialMatchingBeacons(Scanner scannerA, Scanner scannerB)
+    private static IEnumerable<(Coord beaconInA, Coord beaconInB)> PotentialMatchingBeacons(Scanner scannerA, Scanner scannerB)
     {
         // If we had a matching beaconInA and beaconInB and moved the center
         // of the scanners to these then we would find at least 12 beacons 
@@ -147,7 +147,7 @@ public class Y2021D19
         }
     }
 
-    private Scanner[] Parse(string input) => (
+    private static Scanner[] Parse(string input) => (
         from block in input.Split("\n\n")
         let beacons =
             from line in block.Split("\n").Skip(1)

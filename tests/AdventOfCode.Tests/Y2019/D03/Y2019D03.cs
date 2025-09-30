@@ -38,7 +38,7 @@ public class Y2019D03
         return distances.Min();
     }
 
-    private Dictionary<(int irow, int icol), int> Trace(string path)
+    private static Dictionary<(int irow, int icol), int> Trace(string path)
     {
         var res = new Dictionary<(int irow, int icol), int>();
 

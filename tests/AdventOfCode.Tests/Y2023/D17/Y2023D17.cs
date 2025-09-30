@@ -64,7 +64,7 @@ public class Y2023D17
     }
 
     // returns possible next states based on the rules
-    private IEnumerable<Crucible> Moves(Crucible c, int minStraight, int maxStraight)
+    private static IEnumerable<Crucible> Moves(Crucible c, int minStraight, int maxStraight)
     {
         if (c.straight < maxStraight)
         {
@@ -84,7 +84,7 @@ public class Y2023D17
     }
 
     // using a dictionary helps with bounds check (simply containskey):
-    private Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
         var lines = input.Split('\n');
         return (

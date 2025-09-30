@@ -51,7 +51,7 @@ public class Y2024D15
             .Sum(box => box.Real + 100 * box.Imaginary);
     }
 
-    private bool TryMoveRobot(ref Map map, Complex position, Complex direction)
+    private static bool TryMoveRobot(ref Map map, Complex position, Complex direction)
     {
         var originalMap = map;
 
@@ -115,10 +115,10 @@ public class Y2024D15
         return false;
     }
 
-    private string ScaleUpMap(string input) =>
+    private static string ScaleUpMap(string input) =>
         input.Replace("#", "##").Replace(".", "..").Replace("O", "[]").Replace("@", "@.");
 
-    private (Map, Complex[]) ParseMapAndSteps(string input)
+    private static (Map, Complex[]) ParseMapAndSteps(string input)
     {
         var blocks = input.Split("\n\n");
         var lines = blocks[0].Split("\n");

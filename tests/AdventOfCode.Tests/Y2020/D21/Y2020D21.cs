@@ -53,7 +53,7 @@ public class Y2020D21
         output.Should().Be("hkflr,ctmcqjf,bfrq,srxphcm,snmxl,zvx,bd,mqvk");
     }
 
-    private Problem Parse(string input)
+    private static Problem Parse(string input)
     {
         var mapping = (
             from line in input.Split("\n")
@@ -70,7 +70,7 @@ public class Y2020D21
         );
     }
 
-    private Dictionary<string, HashSet<string>> GetIngredientsByAllergene(Problem problem) =>
+    private static Dictionary<string, HashSet<string>> GetIngredientsByAllergene(Problem problem) =>
         problem.allergens.ToDictionary(
             allergene => allergene,
             allergene => problem.mapping

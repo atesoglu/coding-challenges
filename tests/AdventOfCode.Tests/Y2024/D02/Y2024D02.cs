@@ -24,10 +24,10 @@ public class Y2024D02
         output.Should().Be(674);
     }
 
-    private IEnumerable<int[]> ParseSamples(IEnumerable<string> lines) =>
+    private static IEnumerable<int[]> ParseSamples(IEnumerable<string> lines) =>
         lines.Select(line => line.Split(" ").Select(int.Parse).ToArray());
 
-    private IEnumerable<int[]> GenerateSingleRemovalVariations(int[] samples) =>
+    private static IEnumerable<int[]> GenerateSingleRemovalVariations(int[] samples) =>
         Enumerable.Range(0, samples.Length + 1)
             .Select(i => samples.Take(i - 1).Concat(samples.Skip(i)).ToArray());
 

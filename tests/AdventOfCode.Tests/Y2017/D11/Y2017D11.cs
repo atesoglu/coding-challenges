@@ -27,7 +27,7 @@ public class Y2017D11
 
     private IEnumerable<int> Distances(string input) => from w in Wander(input) select (Math.Abs(w.x) + Math.Abs(w.y) + Math.Abs(w.z)) / 2;
 
-    private IEnumerable<(int x, int y, int z)> Wander(string input)
+    private static IEnumerable<(int x, int y, int z)> Wander(string input)
     {
         var (x, y, z) = (0, 0, 0);
         foreach (var dir in input.Split(','))

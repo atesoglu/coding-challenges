@@ -43,7 +43,7 @@ public class Y2024D04
     private Complex Left = -1;
     private Complex Right = 1;
 
-    private bool Matches(Map map, Complex pt, Complex dir, string pattern)
+    private static bool Matches(Map map, Complex pt, Complex dir, string pattern)
     {
         var characters = Enumerable.Range(0, pattern.Length)
             .Select(i => map.GetValueOrDefault(pt + i * dir))
@@ -51,7 +51,7 @@ public class Y2024D04
         return characters.SequenceEqual(pattern) || characters.SequenceEqual(pattern.Reverse());
     }
 
-    private Map BuildGrid(string[] lines)
+    private static Map BuildGrid(string[] lines)
     {
         return (
             from y in Enumerable.Range(0, lines.Length)

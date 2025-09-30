@@ -74,7 +74,7 @@ public class Y2018D16
         output.Should().Be(681);
     }
 
-    private Dictionary<int, int> WorkOutMapping(Dictionary<int, List<int>> constaints, bool[] used, Dictionary<int, int> res)
+    private static Dictionary<int, int> WorkOutMapping(Dictionary<int, List<int>> constaints, bool[] used, Dictionary<int, int> res)
     {
         var op = res.Count;
         if (op == 16)
@@ -102,7 +102,7 @@ public class Y2018D16
         return null;
     }
 
-    private (List<TestCase> testCases, List<int[]> prg) Parse(string input)
+    private static (List<TestCase> testCases, List<int[]> prg) Parse(string input)
     {
         var lines = input.Split("\n").ToList();
         var iline = 0;
@@ -145,7 +145,7 @@ public class Y2018D16
         return (testCases, prg);
     }
 
-    private int[] Step(int[] regs, int[] stm)
+    private static int[] Step(int[] regs, int[] stm)
     {
         regs = regs.ToArray();
         regs[stm[3]] = stm[0] switch

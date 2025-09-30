@@ -26,7 +26,7 @@ public class Y2016D16
     }
 
 
-    private string Checksum(string st, int length)
+    private static string Checksum(string st, int length)
     {
         // 1. Fill data to required length
         while (st.Length < length)

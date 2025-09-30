@@ -36,7 +36,7 @@ internal class Cave
     public Cave(string input, bool hasFloor)
     {
         this.hasFloor = hasFloor;
-        this.map = new Dictionary<Complex, char>();
+        map = new Dictionary<Complex, char>();
 
         foreach (var line in input.Split("\n"))
         {
@@ -52,7 +52,7 @@ internal class Cave
             }
         }
 
-        this.maxImaginary = (int)this.map.Keys.Select(pos => pos.Imaginary).Max();
+        maxImaginary = (int)map.Keys.Select(pos => pos.Imaginary).Max();
     }
 
     // Adds a line of rocks to the cave

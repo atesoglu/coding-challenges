@@ -25,7 +25,7 @@ public class Y2020D03
     }
 
 
-    private long TreeCount(string input, params (int drow, int dcol)[] slopes)
+    private static long TreeCount(string input, params (int drow, int dcol)[] slopes)
     {
         var lines = input.Split("\n");
         var (crow, ccol) = (lines.Length, lines[0].Length);

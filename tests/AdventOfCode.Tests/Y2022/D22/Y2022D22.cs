@@ -113,7 +113,7 @@ public class Y2022D22
                state.dir;
     }
 
-    private Coord ToGlobal(State state) =>
+    private static Coord ToGlobal(State state) =>
         state.block switch
         {
             "A" => state.coord + new Coord(0, blockSize),
@@ -125,7 +125,7 @@ public class Y2022D22
             _ => throw new Exception()
         };
 
-    private State Step(string topology, State state)
+    private static State Step(string topology, State state)
     {
         bool wrapsAround(Coord coord) =>
             coord.icol < 0 || coord.icol >= blockSize ||
@@ -186,7 +186,7 @@ public class Y2022D22
         return new State(dstBlock, coord, dir);
     }
 
-    private (string[] map, Cmd[] path) Parse(string input)
+    private static (string[] map, Cmd[] path) Parse(string input)
     {
         var blocks = input.Split("\n\n");
 

@@ -26,7 +26,7 @@ public class Y2020D11
         output.Should().Be(2176);
     }
 
-    private int Solve(string input, int occupiedLimit, Func<char, bool> placeToCheck)
+    private static int Solve(string input, int occupiedLimit, Func<char, bool> placeToCheck)
     {
         var (crow, ccol) = (input.Split("\n").Length, input.IndexOf('\n'));
 

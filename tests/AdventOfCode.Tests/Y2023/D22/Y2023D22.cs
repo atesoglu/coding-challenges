@@ -109,9 +109,9 @@ public class Y2023D22
         Intersects(blockA.x, blockB.x) && Intersects(blockA.y, blockB.y);
 
     // see https://stackoverflow.com/a/3269471
-    private bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
+    private static bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
 
-    private Block[] ParseBlocks(string input) => (
+    private static Block[] ParseBlocks(string input) => (
         from line in input.Split('\n')
         let numbers = line.Split(',', '~').Select(int.Parse).ToArray()
         select new Block(

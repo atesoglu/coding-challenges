@@ -32,7 +32,7 @@ public class Y2024D11
         return input.Split(" ").Sum(number => EvaluateEngraving(long.Parse(number), blinks, cache));
     }
 
-    private long EvaluateEngraving(long number, int blinks, Cache cache) =>
+    private static long EvaluateEngraving(long number, int blinks, Cache cache) =>
         cache.GetOrAdd((number.ToString(), blinks), key =>
             key switch
             {

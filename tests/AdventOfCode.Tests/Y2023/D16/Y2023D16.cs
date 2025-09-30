@@ -59,7 +59,7 @@ public class Y2023D16
 
     // go around the edges (top, right, bottom, left order) of the map
     // and return the inward pointing directions
-    private IEnumerable<Beam> StartBeams(Map map)
+    private static IEnumerable<Beam> StartBeams(Map map)
     {
         var maxX = map.Keys.Max(p => p.Real);
         var maxY = map.Keys.Max(p => p.Imaginary);
@@ -75,7 +75,7 @@ public class Y2023D16
 
 
     // using a dictionary helps with bounds check (simply containskey):
-    private Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
         var lines = input.TrimEnd().Split('\n');
         return (
@@ -89,7 +89,7 @@ public class Y2023D16
 
     // the 'exit' direction(s) of the given cell when entered by a beam moving in 'dir'
     // we have some special cases for mirrors and spliters, the rest keeps the direction
-    private Complex[] Exits(char cell, Complex dir) => cell switch
+    private static Complex[] Exits(char cell, Complex dir) => cell switch
     {
         '-' when dir == Up || dir == Down => [Left, Right],
         '|' when dir == Left || dir == Right => [Up, Down],

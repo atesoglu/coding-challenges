@@ -102,7 +102,7 @@ public class Y2022D12
 
     // locations are parsed into a dictionary so that valid coordinates and
     // neighbours are easy to deal with
-    private ImmutableDictionary<Coord, Symbol> ParseMap(string input)
+    private static ImmutableDictionary<Coord, Symbol> ParseMap(string input)
     {
         var lines = input.Split("\n");
         return (
@@ -114,7 +114,7 @@ public class Y2022D12
         ).ToImmutableDictionary();
     }
 
-    private IEnumerable<Coord> Neighbours(Coord coord) =>
+    private static IEnumerable<Coord> Neighbours(Coord coord) =>
         new[]
         {
             coord with { lat = coord.lat + 1 },

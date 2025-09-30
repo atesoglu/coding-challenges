@@ -73,7 +73,7 @@ public class Y2021D18
         return number;
     }
 
-    private bool Explode(Number number)
+    private static bool Explode(Number number)
     {
         // exploding means we need to find the first pair in the number 
         // that is embedded in 4 other pairs and get rid of it:
@@ -125,7 +125,7 @@ public class Y2021D18
         return false;
     }
 
-    private bool Split(Number number)
+    private static bool Split(Number number)
     {
         // spliting means we neeed to find a token with a high value and make a pair out of it:
         for (var i = 0; i < number.Count; i++)

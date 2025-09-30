@@ -45,7 +45,7 @@ public class Y2023D02
             ParseInts(line, @"(\d+) blue").Max()
         );
 
-    private IEnumerable<int> ParseInts(string st, string rx) =>
+    private static IEnumerable<int> ParseInts(string st, string rx) =>
         from m in Regex.Matches(st, rx)
         select int.Parse(m.Groups[1].Value);
 }

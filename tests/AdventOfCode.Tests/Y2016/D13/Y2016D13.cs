@@ -59,7 +59,7 @@ public class Y2016D13
         }
     }
 
-    private int CountBits(long n)
+    private static int CountBits(long n)
     {
         var count = 0;
         while (n != 0)

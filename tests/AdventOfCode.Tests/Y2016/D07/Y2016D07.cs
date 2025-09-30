@@ -39,7 +39,7 @@ public class Y2016D07
         select true
     ).Any();
 
-    private IEnumerable<(string st, bool f)> Classify(string st)
+    private static IEnumerable<(string st, bool f)> Classify(string st)
     {
         var part = "";
         for (var i = 0; i < st.Length; i++)
@@ -65,7 +65,7 @@ public class Y2016D07
             yield return (part, false);
     }
 
-    private IEnumerable<string> Abba(string st)
+    private static IEnumerable<string> Abba(string st)
     {
         for (var i = 0; i < st.Length - 3; i++)
         {
@@ -74,7 +74,7 @@ public class Y2016D07
         }
     }
 
-    private IEnumerable<string> Aba(string st)
+    private static IEnumerable<string> Aba(string st)
     {
         for (var i = 0; i < st.Length - 2; i++)
         {

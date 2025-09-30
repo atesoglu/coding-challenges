@@ -26,7 +26,7 @@ public class Y2018D09
     }
 
 
-    private long Solve(string input, int mul)
+    private static long Solve(string input, int mul)
     {
         var match = Regex.Match(input, @"(?<players>\d+) players; last marble is worth (?<points>\d+) points");
         var players = new long[int.Parse(match.Groups["players"].Value)];

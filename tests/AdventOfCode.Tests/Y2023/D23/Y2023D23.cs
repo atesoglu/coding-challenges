@@ -51,7 +51,7 @@ public class Y2023D23
         ['#'] = []
     };
 
-    private string RemoveSlopes(string st) => string.Join("", st.Select(ch => ">v<^".Contains(ch) ? '.' : ch));
+    private static string RemoveSlopes(string st) => string.Join("", st.Select(ch => ">v<^".Contains(ch) ? '.' : ch));
 
     private int Solve(string input)
     {
@@ -143,13 +143,13 @@ public class Y2023D23
         return -1;
     }
 
-    private bool IsFree(Map map, Complex p) =>
+    private static bool IsFree(Map map, Complex p) =>
         map.ContainsKey(p) && map[p] != '#';
 
     private bool IsRoad(Map map, Complex p) =>
         IsFree(map, p) && Dirs.Count(d => IsFree(map, p + d)) == 2;
 
-    private Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
         var lines = input.Split('\n');
         return (

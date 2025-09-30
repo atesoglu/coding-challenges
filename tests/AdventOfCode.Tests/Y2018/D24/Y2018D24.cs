@@ -93,7 +93,7 @@ public class Y2018D24
         return (army.All(x => x.immuneSystem), army.Select(x => x.units).Sum());
     }
 
-    private List<Group> Parse(string input)
+    private static List<Group> Parse(string input)
     {
         var lines = input.Split("\n");
         var immuneSystem = false;
@@ -169,10 +169,7 @@ internal class Group
     public HashSet<string> immuneTo = new HashSet<string>();
     public HashSet<string> weakTo = new HashSet<string>();
 
-    public long effectivePower
-    {
-        get { return units * damage; }
-    }
+    public long effectivePower => units * damage;
 
     public long DamageDealtTo(Group target)
     {

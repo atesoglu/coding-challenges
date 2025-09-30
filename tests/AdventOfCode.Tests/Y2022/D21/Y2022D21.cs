@@ -35,7 +35,7 @@ public class Y2022D21
     // One step in rearranging the equation to <variable> = <constant> form.
     // It is supposed that there is only one variable occurrence in the whole 
     // expression tree.
-    private Eq Solve(Eq eq) =>
+    private static Eq Solve(Eq eq) =>
         eq.left switch
         {
             Op(Const l, "+", Expr r) => new Eq(r, new Op(eq.right, "-", l).Simplify()),
@@ -50,7 +50,7 @@ public class Y2022D21
 
     // parses the input including the special rules for part2 
     // and returns the expression with the specified name
-    private Expr Parse(string input, string name, bool part2)
+    private static Expr Parse(string input, string name, bool part2)
     {
         var context = new Dictionary<string, string[]>();
         foreach (var line in input.Split("\n"))

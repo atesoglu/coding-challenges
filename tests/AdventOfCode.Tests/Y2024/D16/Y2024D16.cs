@@ -92,7 +92,7 @@ public class Y2024D16
         return distances;
     }
 
-    private IEnumerable<(State, int cost)> GetPossibleMoves(Map map, State state, bool forward)
+    private static IEnumerable<(State, int cost)> GetPossibleMoves(Map map, State state, bool forward)
     {
         foreach (var direction in new[] { North, East, West, South })
         {
@@ -112,7 +112,7 @@ public class Y2024D16
         }
     }
 
-    private Map BuildMap(IEnumerable<string> lines)
+    private static Map BuildMap(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         return (
@@ -122,6 +122,6 @@ public class Y2024D16
         ).ToDictionary();
     }
 
-    private Complex FindGoal(Map map) => map.Keys.Single(key => map[key] == 'E');
-    private State FindStart(Map map) => (map.Keys.Single(key => map[key] == 'S'), East);
+    private static Complex FindGoal(Map map) => map.Keys.Single(key => map[key] == 'E');
+    private static State FindStart(Map map) => (map.Keys.Single(key => map[key] == 'S'), East);
 }

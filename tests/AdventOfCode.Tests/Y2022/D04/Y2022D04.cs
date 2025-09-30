@@ -42,7 +42,7 @@ public class Y2022D04
     // rangeCheck on them to find duplicated work. RangeCheck doesnt have to be 
     // symmetrical in its arguments, but DuplicatedWorkCount makes it so calling
     // it twice with the arguments swapped.
-    private int DuplicatedWorkCount(
+    private static int DuplicatedWorkCount(
         string input,
         Func<Range, Range, bool> rangeCheck
     )

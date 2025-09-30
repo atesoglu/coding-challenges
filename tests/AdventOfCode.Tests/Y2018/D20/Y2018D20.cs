@@ -62,7 +62,7 @@ public class Y2018D20
         return (dMax, distantRooms);
     }
 
-    private IEnumerable<((int x, int y) posFrom, (int x, int y) posTo)> Doors(string input)
+    private static IEnumerable<((int x, int y) posFrom, (int x, int y) posTo)> Doors(string input)
     {
         var s = new Stack<(int x, int y)>();
         (int x, int y) pos = (0, 0);

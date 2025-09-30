@@ -18,7 +18,7 @@ public class Y2021D25
     }
 
 
-    private object SolvePartOne(string input)
+    private static object SolvePartOne(string input)
     {
         var map = input.Split('\n');
         var (ccol, crow) = (map[0].Length, map.Length);

@@ -51,12 +51,12 @@ public class Y2023D15
         return boxes;
     }
 
-    private IEnumerable<Step> ParseSteps(string input) =>
+    private static IEnumerable<Step> ParseSteps(string input) =>
         from item in input.Split(',')
         let parts = item.Split('-', '=')
         select new Step(parts[0], parts[1] == "" ? null : int.Parse(parts[1]));
 
-    private Boxes MakeBoxes(int count) =>
+    private static Boxes MakeBoxes(int count) =>
         Enumerable.Range(0, count).Select(_ => new List<Lens>()).ToArray();
 
     private int GetFocusingPower(Boxes boxes) => (

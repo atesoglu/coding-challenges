@@ -72,7 +72,7 @@ public class Y2021D11
 
     // store the points in a dictionary so that we can iterate over them and 
     // to easily deal with points outside the area using ContainsKey
-    private Dictionary<Pos, int> GetMap(string input)
+    private static Dictionary<Pos, int> GetMap(string input)
     {
         var map = input.Split("\n");
         return new Dictionary<Pos, int>(
@@ -82,7 +82,7 @@ public class Y2021D11
         );
     }
 
-    private IEnumerable<Pos> Neighbours(Pos pos) =>
+    private static IEnumerable<Pos> Neighbours(Pos pos) =>
         from dx in new int[] { -1, 0, 1 }
         from dy in new int[] { -1, 0, 1 }
         where dx != 0 || dy != 0

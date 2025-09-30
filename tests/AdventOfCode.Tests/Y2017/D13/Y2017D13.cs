@@ -32,14 +32,14 @@ public class Y2017D13
     }
 
 
-    private Layers Parse(string input) =>
+    private static Layers Parse(string input) =>
         new Layers(
             from line in input.Split('\n')
             let parts = Regex.Split(line, ": ").Select(int.Parse).ToArray()
             select (parts[0], parts[1])
         );
 
-    private IEnumerable<int> Severities(Layers layers, int t)
+    private static IEnumerable<int> Severities(Layers layers, int t)
     {
         var packetPos = 0;
         foreach (var layer in layers)

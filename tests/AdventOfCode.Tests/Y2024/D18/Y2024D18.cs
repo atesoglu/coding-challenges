@@ -41,7 +41,7 @@ public class Y2024D18
         output.Should().Be("26,22");
     }
 
-    private int? CalculateShortestDistance(IEnumerable<Complex> blocks)
+    private static int? CalculateShortestDistance(IEnumerable<Complex> blocks)
     {
         var gridSize = 70;
         var startPosition = Complex.Zero;
@@ -73,7 +73,7 @@ public class Y2024D18
         return null;
     }
 
-    private Complex[] ParseBlockPositions(IEnumerable<string> lines) => (
+    private static Complex[] ParseBlockPositions(IEnumerable<string> lines) => (
         from line in lines
         let numbers = Regex.Matches(line, @"\d+").Select(match => int.Parse(match.Value)).ToArray()
         select numbers[0] + numbers[1] * Complex.ImaginaryOne

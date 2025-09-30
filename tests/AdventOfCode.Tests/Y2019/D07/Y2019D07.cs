@@ -38,7 +38,7 @@ public class Y2019D07
         return max;
     }
 
-    private long ExecAmps(IntCodeMachine[] amps, int[] prgid, bool loop)
+    private static long ExecAmps(IntCodeMachine[] amps, int[] prgid, bool loop)
     {
         for (var i = 0; i < amps.Length; i++)
         {
@@ -67,7 +67,7 @@ public class Y2019D07
         }
     }
 
-    private IEnumerable<T[]> Permutations<T>(T[] rgt)
+    private static IEnumerable<T[]> Permutations<T>(T[] rgt)
     {
         IEnumerable<T[]> PermutationsRec(int i)
         {

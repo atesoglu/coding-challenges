@@ -53,7 +53,7 @@ public class Y2018D04
         output.Should().Be(41668);
     }
 
-    private IEnumerable<Day> Parse(string input)
+    private static IEnumerable<Day> Parse(string input)
     {
         var lines = input.Split("\n").ToList();
         lines.Sort((x, y) => DateTime.Parse(x.Substring(1, "1518-03-25 00:01".Length)).CompareTo(DateTime.Parse(y.Substring(1, "1518-03-25 00:01".Length))));

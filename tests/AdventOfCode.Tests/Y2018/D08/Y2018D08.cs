@@ -24,7 +24,7 @@ public class Y2018D08
         output.Should().Be(34466);
     }
 
-    private Node Parse(string input)
+    private static Node Parse(string input)
     {
         var nums = input.Split(" ").Select(int.Parse).GetEnumerator();
         var next = () =>

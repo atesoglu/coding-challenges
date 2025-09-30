@@ -112,5 +112,5 @@ public class Y2016D23
     }
 
     // Parse program into instructions
-    private string[][] ParseProgram(string[] lines) => lines.Select(line => line.Split(' ')).ToArray();
+    private static string[][] ParseProgram(string[] lines) => lines.Select(line => line.Split(' ')).ToArray();
 }

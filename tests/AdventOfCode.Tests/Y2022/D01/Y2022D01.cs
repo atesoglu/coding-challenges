@@ -26,7 +26,7 @@ public class Y2022D01
 
 
     // Returns the calories carried by the elves in descending order.
-    private IEnumerable<int> GetCaloriesPerElf(string input) =>
+    private static IEnumerable<int> GetCaloriesPerElf(string input) =>
         from elf in input.Split("\n\n")
         let calories = elf.Split('\n').Select(int.Parse).Sum()
         orderby calories descending

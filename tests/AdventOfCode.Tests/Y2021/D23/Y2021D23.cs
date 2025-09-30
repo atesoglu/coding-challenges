@@ -25,7 +25,7 @@ public class Y2021D23
     }
 
 
-    private string Upscale(string input)
+    private static string Upscale(string input)
     {
         var lines = input.Split("\n").ToList();
         lines.Insert(3, "  #D#C#B#A#");
@@ -65,12 +65,12 @@ public class Y2021D23
         throw new Exception();
     }
 
-    private int stepCost(char actor)
+    private static int stepCost(char actor)
     {
         return actor == 'A' ? 1 : actor == 'B' ? 10 : actor == 'C' ? 100 : 1000;
     }
 
-    private int getIcolDst(char ch)
+    private static int getIcolDst(char ch)
     {
         return
             ch == 'A' ? 3 :
@@ -211,7 +211,7 @@ internal record Maze
         this.d = d;
     }
 
-    private int BitFromPoint(Point pt) =>
+    private static int BitFromPoint(Point pt) =>
         (pt.irow, pt.icol) switch
         {
             (1, 1) => 1 << 0,
@@ -269,7 +269,7 @@ internal record Maze
         var pt = step(new Point(1, icolFrom));
         while (pt.icol != icolTo)
         {
-            if (this.ItemAt(pt) != '.')
+            if (ItemAt(pt) != '.')
             {
                 return false;
             }

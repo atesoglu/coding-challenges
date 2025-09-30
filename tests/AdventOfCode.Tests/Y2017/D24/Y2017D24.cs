@@ -53,7 +53,7 @@ public class Y2017D24
         return fold(0, Parse(input)).strength;
     }
 
-    private HashSet<Component> Parse(string input)
+    private static HashSet<Component> Parse(string input)
     {
         var components = new HashSet<Component>();
         foreach (var line in input.Split('\n'))

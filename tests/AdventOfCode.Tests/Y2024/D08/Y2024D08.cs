@@ -70,7 +70,7 @@ public class Y2024D08
         }
     }
 
-    private Map BuildMap(IEnumerable<string> lines)
+    private static Map BuildMap(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         return (

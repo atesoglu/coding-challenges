@@ -57,7 +57,7 @@ public class Y2023D06
     }
 
     // solves ax^2 + bx + c = 0 (supposing two different roots)
-    private (double, double) SolveEq(long a, long b, long c)
+    private static (double, double) SolveEq(long a, long b, long c)
     {
         var d = Math.Sqrt(b * b - 4 * a * c);
         var x1 = (-b - d) / (2 * a);
@@ -65,7 +65,7 @@ public class Y2023D06
         return (Math.Min(x1, x2), Math.Max(x1, x2));
     }
 
-    private long[] Parse(string input) => (
+    private static long[] Parse(string input) => (
         from m in Regex.Matches(input, @"\d+")
         select long.Parse(m.Value)
     ).ToArray();

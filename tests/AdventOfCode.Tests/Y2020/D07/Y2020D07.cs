@@ -67,7 +67,7 @@ public class Y2020D07
         output.Should().Be(89084);
     }
 
-    private (string bag, List<(int count, string bag)> children) ParseLine(string line)
+    private static (string bag, List<(int count, string bag)> children) ParseLine(string line)
     {
         var bag = Regex.Match(line, "^[a-z]+ [a-z]+ bag").Value;
 

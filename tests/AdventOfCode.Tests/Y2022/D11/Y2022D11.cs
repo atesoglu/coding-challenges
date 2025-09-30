@@ -82,13 +82,13 @@ public class Y2022D11
         return monkey;
     }
 
-    private long GetMonkeyBusinessLevel(IEnumerable<Monkey> monkeys) =>
+    private static long GetMonkeyBusinessLevel(IEnumerable<Monkey> monkeys) =>
         monkeys
             .OrderByDescending(monkey => monkey.inspectedItems)
             .Take(2)
             .Aggregate(1L, (res, monkey) => res * monkey.inspectedItems);
 
-    private void Run(int rounds, Monkey[] monkeys, Func<long, long> updateWorryLevel)
+    private static void Run(int rounds, Monkey[] monkeys, Func<long, long> updateWorryLevel)
     {
         for (var i = 0; i < rounds; i++)
         {

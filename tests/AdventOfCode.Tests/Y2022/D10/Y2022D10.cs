@@ -37,7 +37,7 @@ public class Y2022D10
         output.Should().Be("PCPBKAPJ");
     }
 
-    private IEnumerable<(int cycle, int x)> Signal(string input)
+    private static IEnumerable<(int cycle, int x)> Signal(string input)
     {
         var (cycle, x) = (1, 1);
         foreach (var line in input.Split("\n"))

@@ -25,7 +25,7 @@ public class Y2020D09
     }
 
 
-    private IEnumerable<int> Range(int min, int lim) => Enumerable.Range(min, lim - min);
+    private static IEnumerable<int> Range(int min, int lim) => Enumerable.Range(min, lim - min);
 
     private object SolvePartOne(string input)
     {

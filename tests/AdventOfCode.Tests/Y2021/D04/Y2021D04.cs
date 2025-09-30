@@ -25,7 +25,7 @@ public class Y2021D04
     }
 
 
-    private IEnumerable<BingoBoard> BoardsInOrderOfCompletion(string input)
+    private static IEnumerable<BingoBoard> BoardsInOrderOfCompletion(string input)
     {
         var blocks = input.Split("\n\n");
 

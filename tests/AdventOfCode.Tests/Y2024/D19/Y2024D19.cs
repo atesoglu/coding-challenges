@@ -34,7 +34,7 @@ public class Y2024D19
             select CountPatternMatches(towelPieces, pattern, new Cache());
     }
 
-    private long CountPatternMatches(string[] towelPieces, string pattern, Cache cache) =>
+    private static long CountPatternMatches(string[] towelPieces, string pattern, Cache cache) =>
         cache.GetOrAdd(pattern, (pattern) =>
             pattern switch
             {

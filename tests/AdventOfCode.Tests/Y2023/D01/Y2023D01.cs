@@ -32,7 +32,7 @@ public class Y2023D01
         select ParseToken(first.Value) * 10 + ParseToken(last.Value)
     ).Sum();
 
-    private int ParseToken(string token) => token switch
+    private static int ParseToken(string token) => token switch
     {
         "one" => 1,
         "two" => 2,

@@ -27,7 +27,7 @@ public class Y2022D06
 
     // Slides a window of length l over the input and finds the first position
     // where each character is different. Returns the right end of the window.
-    private int StartOfBlock(string input, int l) =>
+    private static int StartOfBlock(string input, int l) =>
         Enumerable.Range(l, input.Length)
             .First(i => input.Substring(i - l, l).ToHashSet().Count == l);
 }

@@ -66,7 +66,7 @@ public class Y2016D17
         }
     }
 
-    private (bool up, bool down, bool left, bool right) DoorState(string st)
+    private static (bool up, bool down, bool left, bool right) DoorState(string st)
     {
         var md5 = MD5.Create();
         var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(st));

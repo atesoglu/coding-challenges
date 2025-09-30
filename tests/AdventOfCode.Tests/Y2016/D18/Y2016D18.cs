@@ -26,7 +26,7 @@ public class Y2016D18
     }
 
 
-    private int SafeCount(string input, int lines)
+    private static int SafeCount(string input, int lines)
     {
         var rowPrev = input;
         var safeCount = rowPrev.Count(ch => ch == '.');

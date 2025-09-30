@@ -56,7 +56,7 @@ public class Y2023D20
 
     // emits a button press, executes until things settle down and returns 
     // all signals for investigation.
-    private IEnumerable<Signal> Trigger(Dictionary<string, Gate> gates)
+    private static IEnumerable<Signal> Trigger(Dictionary<string, Gate> gates)
     {
         var q = new Queue<Signal>();
         q.Enqueue(new Signal("button", "broadcaster", false));
@@ -97,7 +97,7 @@ public class Y2023D20
         );
     }
 
-    private Gate NandGate(string name, string[] inputs, string[] outputs)
+    private static Gate NandGate(string name, string[] inputs, string[] outputs)
     {
         // initially assign low value for each input:
         var state = inputs.ToDictionary(input => input, _ => false);
@@ -110,7 +110,7 @@ public class Y2023D20
         });
     }
 
-    private Gate FlipFlop(string name, string[] inputs, string[] outputs)
+    private static Gate FlipFlop(string name, string[] inputs, string[] outputs)
     {
         var state = false;
 
@@ -128,7 +128,7 @@ public class Y2023D20
         });
     }
 
-    private Gate Repeater(string name, string[] inputs, string[] outputs)
+    private static Gate Repeater(string name, string[] inputs, string[] outputs)
     {
         return new Gate(inputs, (Signal s) =>
             from o in outputs select new Signal(name, o, s.value)

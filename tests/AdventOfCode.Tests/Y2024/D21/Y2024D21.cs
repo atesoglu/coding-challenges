@@ -96,7 +96,7 @@ public class Y2024D21
             return cost;
         });
 
-    private Keypad ParseKeypad(string keypad)
+    private static Keypad ParseKeypad(string keypad)
     {
         var lines = keypad.Split("\n");
         return (

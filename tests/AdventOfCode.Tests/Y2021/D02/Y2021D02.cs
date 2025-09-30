@@ -53,7 +53,7 @@ public class Y2021D02
         output.Should().Be(2101031224);
     }
 
-    private IEnumerable<Input> Parse(string st) =>
+    private static IEnumerable<Input> Parse(string st) =>
         from
             line in st.Split('\n')
         let parts = line.Split()

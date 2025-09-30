@@ -53,7 +53,7 @@ public class Y2024D09
         return fs;
     }
 
-    private void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
+    private static void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
     {
         for (var i = start; i != j; i = i.Next)
         {
@@ -84,7 +84,7 @@ public class Y2024D09
         }
     }
 
-    private long Checksum(Fs fs)
+    private static long Checksum(Fs fs)
     {
         var res = 0L;
         var l = 0;
@@ -104,7 +104,7 @@ public class Y2024D09
         return res;
     }
 
-    private Fs Parse(string input)
+    private static Fs Parse(string input)
     {
         return new Fs(input.Select((ch, i) => new Block(i % 2 == 1 ? -1 : i / 2, ch - '0')));
     }

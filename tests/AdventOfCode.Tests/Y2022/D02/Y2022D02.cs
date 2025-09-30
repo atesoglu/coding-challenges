@@ -72,7 +72,7 @@ public class Y2022D02
         humanSign == Next(Next(elfSign)) ? 0 + (int)humanSign : // elf wins
         throw new ArgumentException();
 
-    private Sign Next(Sign sign) =>
+    private static Sign Next(Sign sign) =>
         sign == Sign.Rock ? Sign.Paper :
         sign == Sign.Paper ? Sign.Scissors :
         sign == Sign.Scissors ? Sign.Rock :

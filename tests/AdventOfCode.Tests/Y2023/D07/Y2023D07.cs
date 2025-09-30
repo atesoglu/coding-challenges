@@ -48,10 +48,10 @@ public class Y2023D07
     private long PatternValue(string hand) =>
         Pack(hand.Select(card => hand.Count(x => x == card)).OrderDescending());
 
-    private long Pack(IEnumerable<int> numbers) =>
+    private static long Pack(IEnumerable<int> numbers) =>
         numbers.Aggregate(1L, (a, v) => (a * 256) + v);
 
-    private int Solve(string input, Func<string, (long, long)> getPoints)
+    private static int Solve(string input, Func<string, (long, long)> getPoints)
     {
         var bidsByRanking = (
             from line in input.Split("\n")

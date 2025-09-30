@@ -100,11 +100,11 @@ public class Y2023D19
         return res;
     }
 
-    private BigInteger Volume(Cube cube) =>
+    private static BigInteger Volume(Cube cube) =>
         cube.Aggregate(BigInteger.One, (m, r) => m * (r.end - r.begin + 1));
 
     // Cuts a cube along the specified dimension, other dimensions are unaffected.
-    private (Cube lo, Cube hi) CutCube(Cube cube, int dim, int num)
+    private static (Cube lo, Cube hi) CutCube(Cube cube, int dim, int num)
     {
         var r = cube[dim];
         return (
@@ -113,7 +113,7 @@ public class Y2023D19
         );
     }
 
-    private Cond TryParseCond(string st) =>
+    private static Cond TryParseCond(string st) =>
         st.Split('<', '>', ':') switch
         {
             ["x", var num, var state] => new Cond(0, st[1], int.Parse(num), state),
@@ -123,13 +123,13 @@ public class Y2023D19
             _ => null
         };
 
-    private Rules ParseRules(string input) => (
+    private static Rules ParseRules(string input) => (
         from line in input.Split('\n')
         let parts = line.Split('{', '}')
         select new KeyValuePair<string, string>(parts[0], parts[1])
     ).ToDictionary();
 
-    private IEnumerable<Cube> ParseUnitCube(string input) =>
+    private static IEnumerable<Cube> ParseUnitCube(string input) =>
         from line in input.Split('\n')
         let nums = Regex.Matches(line, @"\d+").Select(m => int.Parse(m.Value))
         select nums.Select(n => new Range(n, n)).ToImmutableArray();

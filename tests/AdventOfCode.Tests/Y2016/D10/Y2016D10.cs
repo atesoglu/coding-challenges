@@ -26,7 +26,7 @@ public class Y2016D10
         output.Should().Be(1085);
     }
 
-    private IEnumerable<(Dictionary<string, Node> machine, string id, int min, int max)> Execute(Dictionary<string, Node> machine)
+    private static IEnumerable<(Dictionary<string, Node> machine, string id, int min, int max)> Execute(Dictionary<string, Node> machine)
     {
         var any = true;
         while (any)

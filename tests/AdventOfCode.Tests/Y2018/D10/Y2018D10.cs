@@ -26,7 +26,7 @@ public class Y2018D10
     }
 
 
-    private (string st, int seconds) Solver(string input)
+    private static (string st, int seconds) Solver(string input)
     {
         // position=< 21992, -10766> velocity=<-2,  1>
         var rx = new Regex(@"position=\<\s*(?<x>-?\d+),\s*(?<y>-?\d+)\> velocity=\<\s*(?<vx>-?\d+),\s*(?<vy>-?\d+)\>");

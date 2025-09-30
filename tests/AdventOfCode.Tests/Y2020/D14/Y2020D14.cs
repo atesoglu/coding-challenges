@@ -62,7 +62,7 @@ public class Y2020D14
         output.Should().Be(3816594901962);
     }
 
-    private IEnumerable<long> Addresses(long baseAddr, string mask, int i)
+    private static IEnumerable<long> Addresses(long baseAddr, string mask, int i)
     {
         if (i == -1)
         {

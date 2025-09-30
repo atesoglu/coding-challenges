@@ -46,7 +46,7 @@ public class Y2019D17
         output.Should().Be(880360);
     }
 
-    private string[] Screenshot(string input)
+    private static string[] Screenshot(string input)
     {
         var icm = new IntCodeMachine(input);
         var output = icm.Run();
@@ -176,7 +176,7 @@ public class Y2019D17
         return path;
     }
 
-    private ((int irow, int icol) pos, (int drow, int dcol) dir) FindRobot(string[] mx) => (
+    private static ((int irow, int icol) pos, (int drow, int dcol) dir) FindRobot(string[] mx) => (
         from irow in Enumerable.Range(0, mx.Length)
         from icol in Enumerable.Range(0, mx[0].Length)
         let ch = mx[irow][icol]

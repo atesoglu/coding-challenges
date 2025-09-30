@@ -54,7 +54,7 @@ public class Y2023D13
     ).Sum();
 
     // allowed positions of the map from 'start' going in 'dir'
-    private IEnumerable<Complex> Positions(Map map, Complex start, Complex dir)
+    private static IEnumerable<Complex> Positions(Map map, Complex start, Complex dir)
     {
         for (var pos = start; map.ContainsKey(pos); pos += dir)
         {
@@ -62,7 +62,7 @@ public class Y2023D13
         }
     }
 
-    private Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
         var rows = input.Split("\n");
         return (

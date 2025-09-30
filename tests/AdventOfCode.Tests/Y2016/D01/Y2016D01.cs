@@ -34,7 +34,7 @@ public class Y2016D01
         distance.Should().Be(153);
     }
 
-    private IEnumerable<(int x, int y)> FollowInstructions(string input)
+    private static IEnumerable<(int x, int y)> FollowInstructions(string input)
     {
         var (x, y) = (0, 0);
         var directions = new[] { (0, 1), (1, 0), (0, -1), (-1, 0) }; // N, E, S, W

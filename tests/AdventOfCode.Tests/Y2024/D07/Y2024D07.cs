@@ -29,7 +29,7 @@ public class Y2024D07
     }
 
 
-    private IEnumerable<long> Filter(IEnumerable<string> lines, Func<long, long, List<long>, bool> check) =>
+    private static IEnumerable<long> Filter(IEnumerable<string> lines, Func<long, long, List<long>, bool> check) =>
         from line in lines
         let parts = Regex.Matches(line, @"\d+").Select(m => long.Parse(m.Value))
         let target = parts.First()

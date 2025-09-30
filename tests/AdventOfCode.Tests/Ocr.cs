@@ -94,7 +94,7 @@ internal record ScreenText(string rawText)
         throw new Exception($"Unrecognized letter: \n{textRect}\n");
     }
 
-    private string GetRect(string[] st, int icol0, int irow0, int ccol, int crow)
+    private static string GetRect(string[] st, int icol0, int irow0, int ccol, int crow)
     {
         var res = "";
         for (var irow = irow0; irow < irow0 + crow; irow++)

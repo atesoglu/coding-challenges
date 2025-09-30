@@ -45,24 +45,24 @@ public class Y2023D11
         ).Sum() / 2;
     }
 
-    private long Distance(int i1, int i2, int expansion, Func<int, bool> isEmpty)
+    private static long Distance(int i1, int i2, int expansion, Func<int, bool> isEmpty)
     {
         var a = Math.Min(i1, i2);
         var d = Math.Abs(i1 - i2);
         return d + expansion * Enumerable.Range(a, d).Count(isEmpty);
     }
 
-    private IEnumerable<int> EmptyRows(string[] map) =>
+    private static IEnumerable<int> EmptyRows(string[] map) =>
         from irow in Enumerable.Range(0, map.Length)
         where map[irow].All(ch => ch == '.')
         select irow;
 
-    private IEnumerable<int> EmptyCols(string[] map) =>
+    private static IEnumerable<int> EmptyCols(string[] map) =>
         from icol in Enumerable.Range(0, map[0].Length)
         where map.All(row => row[icol] == '.')
         select icol;
 
-    private IEnumerable<Position> FindAll(string[] map, char ch) =>
+    private static IEnumerable<Position> FindAll(string[] map, char ch) =>
         from irow in Enumerable.Range(0, map.Length)
         from icol in Enumerable.Range(0, map[0].Length)
         where map[irow][icol] == ch

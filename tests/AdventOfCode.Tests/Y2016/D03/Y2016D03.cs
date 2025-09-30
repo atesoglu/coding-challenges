@@ -37,19 +37,19 @@ public class Y2016D03
         output.Should().Be(1849);
     }
 
-    private int[][] Parse(string input) => (
+    private static int[][] Parse(string input) => (
         from line in input.Split('\n')
         select Regex.Matches(line, @"\d+").Select(m => int.Parse(m.Value)).ToArray()
     ).ToArray();
 
-    private int ValidTriangles(IEnumerable<IEnumerable<int>> tripplets) =>
+    private static int ValidTriangles(IEnumerable<IEnumerable<int>> tripplets) =>
         tripplets.Count(tripplet =>
         {
             var nums = tripplet.OrderBy(x => x).ToArray();
             return nums[0] + nums[1] > nums[2];
         });
 
-    private int[][] Transpose(int[][] src)
+    private static int[][] Transpose(int[][] src)
     {
         var crowDst = src[0].Length;
         var ccolDst = src.Length;

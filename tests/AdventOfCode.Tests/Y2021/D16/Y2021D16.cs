@@ -48,7 +48,7 @@ public class Y2021D16
     }
 
     // convert hex string to bit sequence reader
-    private BitSequenceReader GetReader(string input) => new BitSequenceReader(
+    private static BitSequenceReader GetReader(string input) => new BitSequenceReader(
         new BitArray((
                 from hexChar in input
                 // get the 4 bits out of a hex char:
@@ -60,7 +60,7 @@ public class Y2021D16
         ));
 
     // make sense of the bit sequence:
-    private Packet GetPacket(BitSequenceReader reader)
+    private static Packet GetPacket(BitSequenceReader reader)
     {
         var version = reader.ReadInt(3);
         var type = reader.ReadInt(3);

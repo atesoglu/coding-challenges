@@ -54,7 +54,7 @@ public class Y2019D23
         return packets.Single(packet => packet.address == natAddress).y;
     }
 
-    private (List<long> data, Packets packets) Receive(Packets packets, int address)
+    private static (List<long> data, Packets packets) Receive(Packets packets, int address)
     {
         var filteredPackets = new Packets();
         var data = new List<long>();

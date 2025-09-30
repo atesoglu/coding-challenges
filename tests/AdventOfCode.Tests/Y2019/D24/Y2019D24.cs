@@ -50,7 +50,7 @@ public class Y2019D24
         output.Should().Be(1975);
     }
 
-    private int[] Parse(string input)
+    private static int[] Parse(string input)
     {
         var biodiversity = 0;
         var m = 1;
@@ -67,7 +67,7 @@ public class Y2019D24
         return new[] { biodiversity };
     }
 
-    private IEnumerable<(int irow, int icol)> Positions()
+    private static IEnumerable<(int irow, int icol)> Positions()
     {
         for (var irow = 0; irow < 5; irow++)
         {
@@ -78,12 +78,12 @@ public class Y2019D24
         }
     }
 
-    private bool HasBug(int biodiversity, int irow, int icol)
+    private static bool HasBug(int biodiversity, int irow, int icol)
     {
         return ((biodiversity >> (irow * 5 + icol)) & 1) == 1;
     }
 
-    private int SetBug(int biodiversity, int irow, int icol)
+    private static int SetBug(int biodiversity, int irow, int icol)
     {
         return biodiversity | (1 << (irow * 5 + icol));
     }

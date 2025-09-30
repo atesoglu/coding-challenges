@@ -84,7 +84,7 @@ public class Y2023D25
 
     // returns an adjacency list representation of the input. Edges are recorded 
     // both ways, unlike in the input which contains them in one direction only.
-    private Dictionary<string, List<string>> Parse(string input)
+    private static Dictionary<string, List<string>> Parse(string input)
     {
         var graph = new Dictionary<string, List<string>>();
 

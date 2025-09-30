@@ -37,7 +37,7 @@ public class Y2021D09
 
     // store the points in a dictionary so that we can iterate over them and 
     // to easily deal with points outside the area using GetValueOrDefault
-    private ImmutableDictionary<Point, int> GetMap(string input)
+    private static ImmutableDictionary<Point, int> GetMap(string input)
     {
         var map = input.Split("\n");
         return (
@@ -47,7 +47,7 @@ public class Y2021D09
         ).ToImmutableDictionary();
     }
 
-    private IEnumerable<Point> Neighbours(Point point) =>
+    private static IEnumerable<Point> Neighbours(Point point) =>
         new[]
         {
             point with { y = point.y + 1 },

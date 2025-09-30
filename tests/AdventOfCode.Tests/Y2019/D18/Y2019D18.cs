@@ -38,7 +38,7 @@ public class Y2019D18
         output.Should().Be(2348);
     }
 
-    private IEnumerable<string> GenerateSubMazes(string input)
+    private static IEnumerable<string> GenerateSubMazes(string input)
     {
         var mx = input.Split("\n").Select(x => x.ToCharArray()).ToArray();
         var crow = mx.Length;
@@ -112,7 +112,7 @@ public class Y2019D18
         return SolveRecursive('@', dependencies.Keys.ToImmutableHashSet());
     }
 
-    private Dictionary<char, ImmutableHashSet<char>> GenerateDependencies(Maze maze)
+    private static Dictionary<char, ImmutableHashSet<char>> GenerateDependencies(Maze maze)
     {
         var q = new Queue<((int irow, int icol) pos, string dependsOn)>();
         var pos = maze.Find('@');
@@ -162,7 +162,7 @@ internal class Maze
 
     public Maze(string st)
     {
-        this.maze = st.Split("\n");
+        maze = st.Split("\n");
     }
 
     private int ccol => maze[0].Length;

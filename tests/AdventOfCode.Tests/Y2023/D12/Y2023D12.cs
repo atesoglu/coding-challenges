@@ -50,7 +50,7 @@ public class Y2023D12
             Compute(pattern, ImmutableStack.CreateRange(nums.Reverse()), new Cache())
     ).Sum();
 
-    private string Unfold(string st, char join, int unfold) =>
+    private static string Unfold(string st, char join, int unfold) =>
         string.Join(join, Enumerable.Repeat(st, unfold));
 
     private long Compute(string pattern, ImmutableStack<int> nums, Cache cache)
@@ -74,7 +74,7 @@ public class Y2023D12
         };
     }
 
-    private long ProcessEnd(string _, ImmutableStack<int> nums, Cache __)
+    private static long ProcessEnd(string _, ImmutableStack<int> nums, Cache __)
     {
         // no numbers left at the end of pattern -> good
         return nums.Any() ? 0 : 1;

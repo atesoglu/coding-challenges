@@ -42,7 +42,7 @@ public class Y2022D25
     // standard base 5 conversion, but when dealing with digits 3 and 4 we 
     // need to increment the higher decimal place so that we have
     // something to subtract 2 and 1 from.
-    private string LongToSnafu(long d)
+    private static string LongToSnafu(long d)
     {
         var res = "";
         while (d > 0)

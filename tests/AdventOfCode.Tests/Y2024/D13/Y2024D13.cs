@@ -48,9 +48,9 @@ public class Y2024D13
         }
     }
 
-    private long CalculateDeterminant(Vec2 vectorA, Vec2 vectorB) => vectorA.x * vectorB.y - vectorA.y * vectorB.x;
+    private static long CalculateDeterminant(Vec2 vectorA, Vec2 vectorB) => vectorA.x * vectorB.y - vectorA.y * vectorB.x;
 
-    private IEnumerable<Machine> ParseMachines(string input, long shift = 0)
+    private static IEnumerable<Machine> ParseMachines(string input, long shift = 0)
     {
         var blocks = input.Split("\n\n");
         foreach (var block in blocks)

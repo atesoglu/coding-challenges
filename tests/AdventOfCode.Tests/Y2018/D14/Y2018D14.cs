@@ -45,7 +45,7 @@ public class Y2018D14
         }
     }
 
-    private IEnumerable<int> Scores()
+    private static IEnumerable<int> Scores()
     {
         var scores = new List<int>();
         Func<int, int> add = (i) =>

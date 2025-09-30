@@ -53,5 +53,5 @@ public class Y2019D08
         output.Should().Be("HGBCF");
     }
 
-    private int[][] Layers(string input) => input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
+    private static int[][] Layers(string input) => input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
 }

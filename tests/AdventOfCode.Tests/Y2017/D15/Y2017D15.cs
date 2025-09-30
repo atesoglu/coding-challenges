@@ -26,9 +26,9 @@ public class Y2017D15
         output.Should().Be(320);
     }
 
-    private IEnumerable<(long, long)> Combine((IEnumerable<long> a, IEnumerable<long> b) items) => Enumerable.Zip(items.a, items.b, (a, b) => (a, b));
+    private static IEnumerable<(long, long)> Combine((IEnumerable<long> a, IEnumerable<long> b) items) => Enumerable.Zip(items.a, items.b, (a, b) => (a, b));
 
-    private int MatchCount(IEnumerable<(long a, long b)> items) => items.Count(item => (item.a & 0xffff) == (item.b & 0xffff));
+    private static int MatchCount(IEnumerable<(long a, long b)> items) => items.Count(item => (item.a & 0xffff) == (item.b & 0xffff));
 
     private (IEnumerable<long> a, IEnumerable<long> b) ParseGenerators(string input)
     {
@@ -39,7 +39,7 @@ public class Y2017D15
         return (Generator(startA, 16807), Generator(startB, 48271));
     }
 
-    private IEnumerable<long> Generator(int start, int mul)
+    private static IEnumerable<long> Generator(int start, int mul)
     {
         var mod = 2147483647;
 

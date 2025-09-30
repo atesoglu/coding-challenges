@@ -49,7 +49,7 @@ public class Y2018D12
         return Enumerable.Range(0, state.pots.Length).Select(i => state.pots[i] == '#' ? i + state.left : 0).Sum();
     }
 
-    private State Step(State state, Dictionary<string, string> rules)
+    private static State Step(State state, Dictionary<string, string> rules)
     {
         var pots = "....." + state.pots + ".....";
         var newPots = "";
@@ -69,7 +69,7 @@ public class Y2018D12
         return res;
     }
 
-    private (State state, Dictionary<string, string> rules) Parse(string input)
+    private static (State state, Dictionary<string, string> rules) Parse(string input)
     {
         var lines = input.Split("\n");
         var state = new State { left = 0, pots = lines[0].Substring("initial state: ".Length) };

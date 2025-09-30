@@ -39,7 +39,7 @@ public class Y2020D13
     }
 
 
-    private (int earliestDepart, (long period, int delay)[] buses) Parse(string input)
+    private static (int earliestDepart, (long period, int delay)[] buses) Parse(string input)
     {
         var lines = input.Split("\n");
         var earliestDepart = int.Parse(lines[0]);
@@ -64,5 +64,5 @@ public class Y2020D13
         return sum % prod;
     }
 
-    private long ModInv(long a, long m) => (long)BigInteger.ModPow(a, m - 2, m);
+    private static long ModInv(long a, long m) => (long)BigInteger.ModPow(a, m - 2, m);
 }

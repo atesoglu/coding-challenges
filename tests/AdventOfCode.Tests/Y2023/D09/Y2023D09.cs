@@ -33,7 +33,7 @@ public class Y2023D09
         line.Split(" ").Select(long.Parse).ToArray();
 
     // It's a common trick to zip a sequence with the skipped version of itself
-    private long[] Diff(long[] numbers) =>
+    private static long[] Diff(long[] numbers) =>
         numbers.Zip(numbers.Skip(1)).Select(p => p.Second - p.First).ToArray();
 
     // I went a bit further and recurse until there are no numbers left. It's

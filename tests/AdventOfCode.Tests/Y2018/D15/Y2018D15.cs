@@ -60,7 +60,7 @@ public class Y2018D15
     }
 
 
-    private Game Parse(string input, int goblinAp, int elfAp)
+    private static Game Parse(string input, int goblinAp, int elfAp)
     {
         var players = new List<Player>();
         var lines = input.Split("\n");
@@ -106,7 +106,7 @@ internal class Game
     public int rounds;
 
     private bool ValidPos((int irow, int icol) pos) =>
-        pos.irow >= 0 && pos.irow < this.mtx.GetLength(0) && pos.icol >= 0 && pos.icol < this.mtx.GetLength(1);
+        pos.irow >= 0 && pos.irow < mtx.GetLength(0) && pos.icol >= 0 && pos.icol < mtx.GetLength(1);
 
     public Block GetBlock((int irow, int icol) pos) =>
         ValidPos(pos) ? mtx[pos.irow, pos.icol] : Wall.Block;
@@ -278,7 +278,7 @@ internal class Player : Block
                         if (nextBlock is Player)
                         {
                             var player = nextBlock as Player;
-                            if (player.elf != this.elf)
+                            if (player.elf != elf)
                             {
                                 yield return (player, firstStep, pos, dist);
                             }
@@ -295,11 +295,11 @@ internal class Player : Block
 
         foreach (var (drow, dcol) in new[] { (-1, 0), (0, -1), (0, 1), (1, 0) })
         {
-            var posT = (this.pos.irow + drow, this.pos.icol + dcol);
+            var posT = (pos.irow + drow, pos.icol + dcol);
             var block = game.GetBlock(posT);
             switch (block)
             {
-                case Player otherPlayer when otherPlayer.elf != this.elf:
+                case Player otherPlayer when otherPlayer.elf != elf:
                     opponents.Add(otherPlayer);
                     break;
             }
@@ -312,7 +312,7 @@ internal class Player : Block
 
         var minHp = opponents.Select(a => a.hp).Min();
         var opponent = opponents.First(a => a.hp == minHp);
-        opponent.hp -= this.ap;
+        opponent.hp -= ap;
         if (opponent.hp <= 0)
         {
             game.players.Remove(opponent);

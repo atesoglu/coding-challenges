@@ -47,7 +47,7 @@ public class Y2016D24
         }
     }
 
-    private IEnumerable<List<T>> Permutations<T>(T[] rgt)
+    private static IEnumerable<List<T>> Permutations<T>(T[] rgt)
     {
         IEnumerable<List<T>> PermutationsRec(int i)
         {
@@ -81,9 +81,9 @@ public class Y2016D24
 
         public Map(string[] lines)
         {
-            this.map = lines;
-            this.crow = map.Length;
-            this.ccol = map[0].Length;
+            map = lines;
+            crow = map.Length;
+            ccol = map[0].Length;
 
             poi = new (int irow, int icol)[10];
             var poiCount = 0;

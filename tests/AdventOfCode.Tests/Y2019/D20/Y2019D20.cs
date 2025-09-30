@@ -72,7 +72,7 @@ public class Y2019D20
         throw new Exception("No path found");
     }
 
-    private (Dictionary<Pos2, PosD> portals, Pos3 start, Pos3 goal) Explore(char[][] mx)
+    private static (Dictionary<Pos2, PosD> portals, Pos3 start, Pos3 goal) Explore(char[][] mx)
     {
         var portals = new Dictionary<Pos2, PosD>();
         var tmp = new Dictionary<string, Pos2>();

@@ -42,7 +42,7 @@ public class Y2024D10
         return GetTrailHeads(map).ToDictionary(t => t, t => GetTrailsFrom(map, t));
     }
 
-    private IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
+    private static IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
 
     private List<Complex> GetTrailsFrom(Map map, Complex trailHead)
     {

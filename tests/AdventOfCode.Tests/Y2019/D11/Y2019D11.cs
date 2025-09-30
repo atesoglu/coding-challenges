@@ -43,7 +43,7 @@ public class Y2019D11
         output.Should().Be("HJKJKGPH");
     }
 
-    private Dictionary<(int irow, int icol), int> Run(string input, int startColor)
+    private static Dictionary<(int irow, int icol), int> Run(string input, int startColor)
     {
         var mtx = new Dictionary<(int irow, int icol), int>();
         (int irow, int icol) pos = (0, 0);

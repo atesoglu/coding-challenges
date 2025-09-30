@@ -47,7 +47,7 @@ public class Y2022D15
 
 
     // Parse the 4 numbers with regex from each line and return the list of pairings
-    private IEnumerable<Pair> Parse(string input)
+    private static IEnumerable<Pair> Parse(string input)
     {
         foreach (var line in input.Split("\n"))
         {
@@ -61,7 +61,7 @@ public class Y2022D15
 
     // Do a quadtree style recursive check for uncovered areas with early exit
     // when there is proof that the rectangle is fully covered / uncovered
-    private IEnumerable<Rect> GetUncoveredAreas(Pair[] pairing, Rect rect)
+    private static IEnumerable<Rect> GetUncoveredAreas(Pair[] pairing, Rect rect)
     {
         // empty rectangle -> doesn't have uncovered areas ðŸ‘
         if (rect.Width == 0 || rect.Height == 0)

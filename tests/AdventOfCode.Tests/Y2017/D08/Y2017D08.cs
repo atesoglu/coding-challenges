@@ -28,7 +28,7 @@ public class Y2017D08
     }
 
 
-    private (int runningMax, int lastMax) Run(string input)
+    private static (int runningMax, int lastMax) Run(string input)
     {
         var regs = new Dictionary<string, int>();
         var runningMax = 0;

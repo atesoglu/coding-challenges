@@ -40,7 +40,7 @@ public class Y2022D08
     private static Direction Up = new Direction(-1, 0);
     private static Direction Down = new Direction(1, 0);
 
-    private Forest Parse(string input)
+    private static Forest Parse(string input)
     {
         var items = input.Split("\n");
         var (ccol, crow) = (items[0].Length, items.Length);

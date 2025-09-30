@@ -48,12 +48,12 @@ public class Y2024D23
         select Extend(c, neighbour)
     ).ToHashSet();
 
-    private IEnumerable<string> Members(Component c) =>
+    private static IEnumerable<string> Members(Component c) =>
         c.Split(",");
 
     private Component Extend(Component c, string item) => string.Join(",", Members(c).Append(item).OrderBy(x => x));
 
-    private Graph BuildGraph(IEnumerable<string> lines)
+    private static Graph BuildGraph(IEnumerable<string> lines)
     {
         var edges =
             from line in lines

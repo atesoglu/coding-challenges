@@ -38,7 +38,7 @@ public class Y2024D24
         output.Should().Be("dpg,kmb,mmf,tvp,vdk,z10,z15,z25");
     }
 
-    private int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
+    private static int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
     {
         if (inputs.TryGetValue(label, out var res))
         {
@@ -95,13 +95,13 @@ public class Y2024D24
         return Fix(circuit).Concat([out1, out2]);
     }
 
-    private string Output(Circuit circuit, string x, string kind, string y) =>
+    private static string Output(Circuit circuit, string x, string kind, string y) =>
         circuit.SingleOrDefault(pair =>
             (pair.Value.in1 == x && pair.Value.kind == kind && pair.Value.in2 == y) ||
             (pair.Value.in1 == y && pair.Value.kind == kind && pair.Value.in2 == x)
         ).Key;
 
-    private (Dictionary<string, int> inputs, Circuit circuit) Parse(IEnumerable<string> lines)
+    private static (Dictionary<string, int> inputs, Circuit circuit) Parse(IEnumerable<string> lines)
     {
         var inputs = new Dictionary<string, int>();
         var circuit = new Circuit();

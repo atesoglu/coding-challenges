@@ -62,7 +62,7 @@ public class Y2021D12
         return pathCount("start", ImmutableHashSet.Create<string>("start"), false);
     }
 
-    private Dictionary<string, string[]> GetMap(string input)
+    private static Dictionary<string, string[]> GetMap(string input)
     {
         // taking all connections 'there and back':
         var connections =

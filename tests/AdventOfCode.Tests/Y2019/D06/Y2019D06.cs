@@ -38,7 +38,7 @@ public class Y2019D06
         output.Should().Be(277);
     }
 
-    private ChildToParent ParseTree(string input) =>
+    private static ChildToParent ParseTree(string input) =>
         input
             .Split("\n")
             .Select(line => line.Split(")"))
@@ -47,7 +47,7 @@ public class Y2019D06
                 parent_child => parent_child[0]
             );
 
-    private IEnumerable<string> GetAncestors(ChildToParent childToParent, string node)
+    private static IEnumerable<string> GetAncestors(ChildToParent childToParent, string node)
     {
         for (
             var parent = childToParent[node];

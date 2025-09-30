@@ -37,7 +37,7 @@ public class Y2018D01
         output.Should().Be(65474);
     }
 
-    private IEnumerable<int> Frequencies(string input)
+    private static IEnumerable<int> Frequencies(string input)
     {
         var f = 0;
         while (true)

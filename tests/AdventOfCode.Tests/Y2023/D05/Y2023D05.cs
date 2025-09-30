@@ -73,7 +73,7 @@ public class Y2023D05
     }
 
     // see https://stackoverflow.com/a/3269471
-    private bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
+    private static bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
 
     // consider each number as a range of 1 length
     private IEnumerable<Range> PartOneRanges(IEnumerable<long> numbers) =>
@@ -83,7 +83,7 @@ public class Y2023D05
     private IEnumerable<Range> PartTwoRanges(IEnumerable<long> numbers) =>
         from n in numbers.Chunk(2) select new Range(n[0], n[0] + n[1] - 1);
 
-    private IEnumerable<long> ParseNumbers(string input) =>
+    private static IEnumerable<long> ParseNumbers(string input) =>
         from m in Regex.Matches(input, @"\d+") select long.Parse(m.Value);
 
     private Dictionary<Range, Range> ParseMap(string input) => (

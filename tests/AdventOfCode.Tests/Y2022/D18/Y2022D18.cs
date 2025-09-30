@@ -61,13 +61,13 @@ public class Y2022D18
         return result;
     }
 
-    private IEnumerable<Point> GetLavaLocations(string input) =>
+    private static IEnumerable<Point> GetLavaLocations(string input) =>
         from line in input.Split("\n")
         let coords = line.Split(",").Select(int.Parse).ToArray()
         select new Point(coords[0], coords[1], coords[2]);
 
     // returns the enclosing box of a point set, the min and max values are padded by one
-    private Bounds GetBounds(IEnumerable<Point> points)
+    private static Bounds GetBounds(IEnumerable<Point> points)
     {
         var minX = points.Select(p => p.x).Min() - 1;
         var maxX = points.Select(p => p.x).Max() + 1;
@@ -81,7 +81,7 @@ public class Y2022D18
         return new Bounds(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
     }
 
-    private bool Within(Bounds bounds, Point point) =>
+    private static bool Within(Bounds bounds, Point point) =>
         bounds.min.x <= point.x && point.x <= bounds.max.x &&
         bounds.min.y <= point.y && point.y <= bounds.max.y &&
         bounds.min.z <= point.z && point.z <= bounds.max.z;

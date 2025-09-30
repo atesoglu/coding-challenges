@@ -28,7 +28,7 @@ public class Y2020D19
     }
 
 
-    private int Solve(string input, bool part1)
+    private static int Solve(string input, bool part1)
     {
         var blocks = (
             from block in input.Split("\n\n")

@@ -51,10 +51,10 @@ public class Y2024D14
     private Vec2 GetQuadrant(Robot robot) =>
         new Vec2(Math.Sign(robot.pos.x - width / 2), Math.Sign(robot.pos.y - height / 2));
 
-    private Vec2 AddWithWrapAround(Vec2 position, Vec2 velocity) =>
+    private static Vec2 AddWithWrapAround(Vec2 position, Vec2 velocity) =>
         new Vec2((position.x + velocity.x + width) % width, (position.y + velocity.y + height) % height);
 
-    private string PlotRobots(IEnumerable<Robot> robots)
+    private static string PlotRobots(IEnumerable<Robot> robots)
     {
         var grid = new char[height, width];
         foreach (var robot in robots)
@@ -76,7 +76,7 @@ public class Y2024D14
         return result.ToString();
     }
 
-    private IEnumerable<Robot> ParseRobots(IEnumerable<string> lines) =>
+    private static IEnumerable<Robot> ParseRobots(IEnumerable<string> lines) =>
         from line in lines
         let numbers = Regex.Matches(line, @"-?\d+").Select(match => int.Parse(match.Value)).ToArray()
         select new Robot(new Vec2(numbers[0], numbers[1]), new Vec2(numbers[2], numbers[3]));

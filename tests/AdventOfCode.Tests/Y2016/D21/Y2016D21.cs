@@ -31,7 +31,7 @@ public class Y2016D21
         output.Should().Be("dhaegfbc");
     }
 
-    private IEnumerable<T[]> Permutations<T>(T[] rgt)
+    private static IEnumerable<T[]> Permutations<T>(T[] rgt)
     {
         IEnumerable<T[]> PermutationsRec(int i)
         {
@@ -114,7 +114,7 @@ public class Y2016D21
         };
     }
 
-    private Action<char[]> Match(string stm, string pattern, Func<string[], Action<char[]>> a)
+    private static Action<char[]> Match(string stm, string pattern, Func<string[], Action<char[]>> a)
     {
         var match = Regex.Match(stm, pattern);
         if (match.Success)
@@ -127,12 +127,12 @@ public class Y2016D21
         }
     }
 
-    private void SwapPosition(char[] chars, int x, int y)
+    private static void SwapPosition(char[] chars, int x, int y)
     {
         (chars[x], chars[y]) = (chars[y], chars[x]);
     }
 
-    private void SwapLetter(char[] chars, char chX, char chY)
+    private static void SwapLetter(char[] chars, char chX, char chY)
     {
         for (var i = 0; i < chars.Length; i++)
         {
@@ -162,7 +162,7 @@ public class Y2016D21
         Reverse(chars, t, chars.Length - 1);
     }
 
-    private void Reverse(char[] chars, int x, int y)
+    private static void Reverse(char[] chars, int x, int y)
     {
         while (x < y)
         {
@@ -172,7 +172,7 @@ public class Y2016D21
         }
     }
 
-    private void MovePosition(char[] chars, int x, int y)
+    private static void MovePosition(char[] chars, int x, int y)
     {
         var d = x < y ? 1 : -1;
 

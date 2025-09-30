@@ -51,10 +51,10 @@ public class Y2022D17
                 new[] { "#", "#", "#", "#" },
                 new[] { "##", "##" }
             };
-            this.irock = new ModCounter(0, rocks.Length);
+            irock = new ModCounter(0, rocks.Length);
 
             this.jets = jets;
-            this.ijet = new ModCounter(0, jets.Length);
+            ijet = new ModCounter(0, jets.Length);
         }
 
         public Tunnel AddRocks(long rocksToAdd)
@@ -74,7 +74,7 @@ public class Y2022D17
                 if (seen.TryGetValue(hash, out var cache))
                 {
                     // we have seen this pattern, advance forwad as much as possible
-                    var heightOfPeriod = this.Height - cache.height;
+                    var heightOfPeriod = Height - cache.height;
                     var periodLength = cache.rocksToAdd - rocksToAdd;
                     linesNotStored += (rocksToAdd / periodLength) * heightOfPeriod;
                     rocksToAdd = rocksToAdd % periodLength;
@@ -82,15 +82,15 @@ public class Y2022D17
                 }
                 else
                 {
-                    seen[hash] = (rocksToAdd, this.Height);
-                    this.AddRock();
+                    seen[hash] = (rocksToAdd, Height);
+                    AddRock();
                     rocksToAdd--;
                 }
             }
 
             while (rocksToAdd > 0)
             {
-                this.AddRock();
+                AddRock();
                 rocksToAdd--;
             }
 
