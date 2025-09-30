@@ -21,14 +21,17 @@ public class Y2021D13
     [Fact]
     public void PartTwo()
     {
-        var output = ToString(GetFolds(_input).Last()).Ocr().ToString();
+        var output = ToString(GetFolds(_input).Last()).ToScreenText().ToString();
 
         output.Should().Be("RKHFZGUB");
     }
 
 
-    IEnumerable<HashSet<Point>> GetFolds(string input)
+    private IEnumerable<HashSet<Point>> GetFolds(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         // parse points into a hashset
         var points = (
@@ -41,20 +44,13 @@ public class Y2021D13
         foreach (var line in blocks[1].Split("\n"))
         {
             var rule = line.Split("=");
-            if (rule[0].EndsWith("x"))
-            {
-                points = FoldX(int.Parse(rule[1]), points);
-            }
-            else
-            {
-                points = FoldY(int.Parse(rule[1]), points);
-            }
+            points = rule[0].EndsWith("x") ? FoldX(int.Parse(rule[1]), points) : FoldY(int.Parse(rule[1]), points);
 
             yield return points;
         }
     }
 
-    string ToString(HashSet<Point> d)
+    private static string ToString(HashSet<Point> d)
     {
         var res = "";
         var height = d.MaxBy(p => p.y).y;
@@ -72,9 +68,11 @@ public class Y2021D13
         return res;
     }
 
-    HashSet<Point> FoldX(int x, HashSet<Point> d) =>
+    private static HashSet<Point> FoldX(int x, HashSet<Point> d) =>
         d.Select(p => p.x > x ? p with { x = 2 * x - p.x } : p).ToHashSet();
 
-    HashSet<Point> FoldY(int y, HashSet<Point> d) =>
+    private static HashSet<Point> FoldY(int y, HashSet<Point> d) =>
         d.Select(p => p.y > y ? p with { y = 2 * y - p.y } : p).ToHashSet();
-}record Point(int x, int y);
+}
+
+internal record Point(int x, int y);

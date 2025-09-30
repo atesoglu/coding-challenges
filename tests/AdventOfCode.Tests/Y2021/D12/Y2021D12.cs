@@ -26,8 +26,11 @@ public class Y2021D12
     }
 
 
-    int Explore(string input, bool part2)
+    private int Explore(string input, bool part2)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = GetMap(input);
 
         // Recursive approach this time.
@@ -62,7 +65,7 @@ public class Y2021D12
         return pathCount("start", ImmutableHashSet.Create<string>("start"), false);
     }
 
-    Dictionary<string, string[]> GetMap(string input)
+    private static Dictionary<string, string[]> GetMap(string input)
     {
         // taking all connections 'there and back':
         var connections =

@@ -36,7 +36,7 @@ public class Y2016D04
         output.Should().Be(501);
     }
 
-    IEnumerable<(string name, int sectorid, string checksum)> Parse(string input)
+    private static IEnumerable<(string name, int sectorid, string checksum)> Parse(string input)
     {
         var rx = new Regex(@"([^\d]+)\-(\d+)\[(.*)\]");
 

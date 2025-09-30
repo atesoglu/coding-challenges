@@ -1,7 +1,5 @@
 ﻿using System.Text;
 using FluentAssertions;
-using System;
-using System.Linq;
 
 namespace AdventOfCode.Tests.Y2020.D11;
 
@@ -26,9 +24,12 @@ public class Y2020D11
         output.Should().Be(2176);
     }
 
-    int Solve(string input, int occupiedLimit, Func<char, bool> placeToCheck)
+    private static int Solve(string input, int occupiedLimit, Func<char, bool> placeToCheck)
     {
-        var (crow, ccol) = (input.Split("\n").Length, input.IndexOf('\n'));
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        var (crow, ccol) = (input.Split('\n').Length, input.IndexOf('\n'));
 
         char PlaceInDirection(char[] st, int idx, int drow, int dcol)
         {
@@ -62,7 +63,7 @@ public class Y2020D11
             return occupied;
         }
 
-        var prevState = new char[0];
+        var prevState = Array.Empty<char>();
         var state = input.Replace("\n", "").Replace("L", "#").ToArray();
         while (!prevState.SequenceEqual(state))
         {

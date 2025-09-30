@@ -25,7 +25,7 @@ public class Y2020D15
         output.Should().Be(8984);
     }
 
-    private int NumberAt(string input, int count)
+    private static int NumberAt(string input, int count)
     {
         var numbers = input.Split(",").Select(int.Parse).ToArray();
         var (lastSeen, number) = (new int[count], numbers[0]);

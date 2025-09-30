@@ -27,7 +27,7 @@ public class Y2016D14
     }
 
 
-    int Solve(IEnumerable<string> hashes)
+    private static int Solve(IEnumerable<string> hashes)
     {
         var found = 0;
         var nextIdx = Enumerable.Range(0, 16).Select(_ => new Queue<int>()).ToArray();
@@ -89,7 +89,7 @@ public class Y2016D14
         throw new Exception();
     }
 
-    private IEnumerable<string> Hashes(string input, int rehash)
+    private static IEnumerable<string> Hashes(string input, int rehash)
     {
         for (var i = 0; i < int.MaxValue; i++)
         {

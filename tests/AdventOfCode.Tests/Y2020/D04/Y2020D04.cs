@@ -7,7 +7,7 @@ namespace AdventOfCode.Tests.Y2020.D04;
 [ChallengeName("Passport Processing")]
 public class Y2020D04
 {
-    private readonly string _input = File.ReadAllText(@"Y2020\D04\Y2020D04-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2020\D04\Y2020D04-input.txt", Encoding.UTF8);
 
     private readonly Dictionary<string, string> rxs = new Dictionary<string, string>()
     {
@@ -23,32 +23,26 @@ public class Y2020D04
     [Fact]
     public void PartOne()
     {
-        var output = ValidCount(_input, cred =>
-            rxs.All(kvp => cred.ContainsKey(kvp.Key))
-        );
-
+        var output = ValidCount(cred => rxs.All(kvp => cred.ContainsKey(kvp.Key)));
         output.Should().Be(233);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = ValidCount(_input, cred =>
-            rxs.All(kvp =>
-                cred.TryGetValue(kvp.Key, out var value) && Regex.IsMatch(value, "^(" + kvp.Value + ")$")
-            )
-        );
-
+        var output = ValidCount(cred => rxs.All(kvp => cred.TryGetValue(kvp.Key, out var value) && Regex.IsMatch(value, "^(" + kvp.Value + ")$")));
         output.Should().Be(111);
     }
 
-
-    int ValidCount(string input, Func<Dictionary<string, string>, bool> isValid) =>
-        input
-            .Split("\n\n")
+    private int ValidCount(Func<Dictionary<string, string>, bool> isValid)
+    {
+        var passports = string.Join("\n", _lines)
+            .Split("\n\n", StringSplitOptions.RemoveEmptyEntries) // split by blank lines
             .Select(block => block
-                .Split("\n ".ToCharArray())
-                .Select(part => part.Split(":"))
-                .ToDictionary(parts => parts[0], parts => parts[1]))
-            .Count(isValid);
+                .Split([' ', '\n'], StringSplitOptions.RemoveEmptyEntries) // split fields
+                .Select(part => part.Split(':'))
+                .ToDictionary(parts => parts[0], parts => parts[1]));
+
+        return passports.Count(isValid);
+    }
 }

@@ -42,9 +42,9 @@ public class Y2018D13
         output.Should().Be("84,90");
     }
 
-    private string Tsto(Cart cart) => $"{cart.pos.icol},{cart.pos.irow}";
+    private static string Tsto(Cart cart) => $"{cart.pos.icol},{cart.pos.irow}";
 
-    private (List<Cart> crashed, List<Cart> remainingCarts) Step(string[] mat, List<Cart> carts)
+    private static (List<Cart> crashed, List<Cart> remainingCarts) Step(string[] mat, List<Cart> carts)
     {
         var crashed = new HashSet<Cart>();
         var remaining = carts.ToList();
@@ -97,7 +97,7 @@ public class Y2018D13
         return (crashed.ToList(), remaining);
     }
 
-    private (string[] mat, List<Cart> carts) Parse(string input)
+    private static (string[] mat, List<Cart> carts) Parse(string input)
     {
         var mat = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         var carts = new List<Cart>();
@@ -121,9 +121,9 @@ public class Y2018D13
     }
 }
 
-enum Dir { Left, Forward, Right }
+internal enum Dir { Left, Forward, Right }
 
-class Cart
+internal class Cart
 {
     public (int irow, int icol) pos;
     public int drow;

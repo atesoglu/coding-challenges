@@ -6,7 +6,7 @@ using Node = System.Collections.Generic.LinkedListNode<AdventOfCode.Tests.Y2024.
 
 namespace AdventOfCode.Tests.Y2024.D09;
 
-record struct Block(int fileId, int length) { }
+internal record struct Block(int fileId, int length) { }
 
 [ChallengeName("Disk Fragmenter")]
 public class Y2024D09
@@ -30,8 +30,7 @@ public class Y2024D09
     }
 
 
-    // moves used blocks of the filesystem towards the beginning of the disk using RelocateBlock
-    Fs CompactFs(Fs fs, bool fragmentsEnabled)
+    private Fs CompactFs(Fs fs, bool fragmentsEnabled)
     {
         var (i, j) = (fs.First, fs.Last);
         while (i != j)
@@ -54,14 +53,7 @@ public class Y2024D09
         return fs;
     }
 
-    // Relocates the contents of block `j` to a free space starting after the given node `start`. 
-    // - Searches for the first suitable free block after `start`.
-    // - If a block of equal size is found, `j` is moved entirely to that block.
-    // - If a larger block is found, part of it is used for `j`, and the remainder is split into 
-    //   a new free block.
-    // - If a smaller block is found and fragmentation is enabled, a portion of `j` is moved to fit, 
-    //   leaving the remainder in place.
-    void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
+    private static void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
     {
         for (var i = start; i != j; i = i.Next)
         {
@@ -92,7 +84,7 @@ public class Y2024D09
         }
     }
 
-    long Checksum(Fs fs)
+    private static long Checksum(Fs fs)
     {
         var res = 0L;
         var l = 0;
@@ -112,7 +104,7 @@ public class Y2024D09
         return res;
     }
 
-    Fs Parse(string input)
+    private static Fs Parse(string input)
     {
         return new Fs(input.Select((ch, i) => new Block(i % 2 == 1 ? -1 : i / 2, ch - '0')));
     }

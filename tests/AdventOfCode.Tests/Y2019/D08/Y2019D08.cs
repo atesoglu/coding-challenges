@@ -48,10 +48,10 @@ public class Y2019D08
             }
         }
 
-        var output = string.Join("", img.Chunk(25).Select(line => string.Join("", line) + "\n")).Ocr().ToString();
+        var output = string.Join("", img.Chunk(25).Select(line => string.Join("", line) + "\n")).ToScreenText().ToString();
 
         output.Should().Be("HGBCF");
     }
 
-    int[][] Layers(string input) => input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
+    private static int[][] Layers(string input) => input.Select(ch => ch - '0').Chunk(6 * 25).ToArray();
 }

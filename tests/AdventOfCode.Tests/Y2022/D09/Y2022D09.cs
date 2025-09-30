@@ -51,7 +51,7 @@ public class Y2022D09
 
     // moves the head in the given direction, inplace update 
     // of the rope
-    void MoveHead(Knot[] rope, string dir)
+    private static void MoveHead(Knot[] rope, string dir)
     {
         rope[0] = dir switch
         {

@@ -108,7 +108,7 @@ public class Y2018D07
         output.Should().Be(1050);
     }
 
-    Dictionary<char, List<char>> Parse(string input)
+    private static Dictionary<char, List<char>> Parse(string input)
     {
         var dict = (
             from line in input.Split("\n")

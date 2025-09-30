@@ -14,7 +14,6 @@ public class Y2019D18
     {
         var maze = new Maze(_input);
 
-
         var dependencies = GenerateDependencies(maze);
         var output = Solve(maze);
 
@@ -38,9 +37,9 @@ public class Y2019D18
         output.Should().Be(2348);
     }
 
-    IEnumerable<string> GenerateSubMazes(string input)
+    private static IEnumerable<string> GenerateSubMazes(string input)
     {
-        var mx = input.Split("\n").Select(x => x.ToCharArray()).ToArray();
+        var mx = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToCharArray()).ToArray();
         var crow = mx.Length;
         var ccol = mx[0].Length;
         var hrow = crow / 2;
@@ -76,7 +75,7 @@ public class Y2019D18
     }
 
 
-    int Solve(Maze maze)
+    private int Solve(Maze maze)
     {
         var dependencies = GenerateDependencies(maze);
         var cache = new Dictionary<string, int>();
@@ -112,7 +111,7 @@ public class Y2019D18
         return SolveRecursive('@', dependencies.Keys.ToImmutableHashSet());
     }
 
-    Dictionary<char, ImmutableHashSet<char>> GenerateDependencies(Maze maze)
+    private static Dictionary<char, ImmutableHashSet<char>> GenerateDependencies(Maze maze)
     {
         var q = new Queue<((int irow, int icol) pos, string dependsOn)>();
         var pos = maze.Find('@');
@@ -156,19 +155,19 @@ public class Y2019D18
     }
 }
 
-class Maze
+internal class Maze
 {
-    string[] maze;
+    private string[] maze;
 
     public Maze(string st)
     {
         this.maze = st.Split("\n");
     }
 
-    int ccol => maze[0].Length;
-    int crow => maze.Length;
-    Dictionary<char, (int, int)> positionCache = new Dictionary<char, (int, int)>();
-    Dictionary<(char, char), int> distanceCache = new Dictionary<(char, char), int>();
+    private int ccol => maze[0].Length;
+    private int crow => maze.Length;
+    private Dictionary<char, (int, int)> positionCache = new Dictionary<char, (int, int)>();
+    private Dictionary<(char, char), int> distanceCache = new Dictionary<(char, char), int>();
 
     public char Look((int irow, int icol) pos)
     {
@@ -217,7 +216,7 @@ class Maze
         return distanceCache[key];
     }
 
-    int ComputeDistance(char chA, char chB)
+    private int ComputeDistance(char chA, char chB)
     {
         var pos = Find(chA);
         if (chA == chB)

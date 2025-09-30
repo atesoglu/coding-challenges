@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2024.D22;
 [ChallengeName("Monkey Market")]
 public class Y2024D22
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D22\Y2024D22-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D22\Y2024D22-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = GetNums(_input).Select(x => (long)SecretNumbers(x).Last()).Sum();
+        var output = ParseSeeds(_lines).Select(x => (long)GenerateSecretNumbers(x).Last()).Sum();
 
         output.Should().Be(20215960478);
     }
@@ -19,16 +19,14 @@ public class Y2024D22
     [Fact]
     public void PartTwo()
     {
-        // create a dictionary of all buying options then select the one with the most banana:
-
         var buyingOptions = new Dictionary<(int, int, int, int), int>();
 
-        foreach (var num in GetNums(_input))
+        foreach (var seed in ParseSeeds(_lines))
         {
-            var optionsBySeller = BuyingOptions(num);
-            foreach (var seq in optionsBySeller.Keys)
+            var optionsBySeller = BuildBuyingOptions(seed);
+            foreach (var sequence in optionsBySeller.Keys)
             {
-                buyingOptions[seq] = buyingOptions.GetValueOrDefault(seq) + optionsBySeller[seq];
+                buyingOptions[sequence] = buyingOptions.GetValueOrDefault(sequence) + optionsBySeller[sequence];
             }
         }
 
@@ -37,32 +35,29 @@ public class Y2024D22
         output.Should().Be(2221);
     }
 
-    Dictionary<(int, int, int, int), int> BuyingOptions(int seed)
+    private Dictionary<(int, int, int, int), int> BuildBuyingOptions(int seed)
     {
-        var bananasSold = Bananas(seed).ToArray();
+        var bananasSold = GetBananasPerStep(seed).ToArray();
         var buyingOptions = new Dictionary<(int, int, int, int), int>();
 
-        // a sliding window of 5 elements over the sold bananas defines the sequence the monkey 
-        // will recognize. add the first occurrence of each sequence to the buyingOptions dictionary 
-        // with the corresponding banana count
-        var diff = Diff(bananasSold);
+        var differences = Diff(bananasSold);
         for (var i = 0; i < bananasSold.Length - 4; i++)
         {
-            var seq = (diff[i], diff[i + 1], diff[i + 2], diff[i + 3]);
-            if (!buyingOptions.ContainsKey(seq))
+            var sequence = (differences[i], differences[i + 1], differences[i + 2], differences[i + 3]);
+            if (!buyingOptions.ContainsKey(sequence))
             {
-                buyingOptions[seq] = bananasSold[i + 4];
+                buyingOptions[sequence] = bananasSold[i + 4];
             }
         }
 
         return buyingOptions;
     }
 
-    int[] Bananas(int seed) => SecretNumbers(seed).Select(n => n % 10).ToArray();
+    private int[] GetBananasPerStep(int seed) => GenerateSecretNumbers(seed).Select(n => n % 10).ToArray();
 
-    int[] Diff(IEnumerable<int> x) => x.Zip(x.Skip(1)).Select(p => p.Second - p.First).ToArray();
+    private static int[] Diff(IEnumerable<int> x) => x.Zip(x.Skip(1)).Select(p => p.Second - p.First).ToArray();
 
-    IEnumerable<int> SecretNumbers(int seed)
+    private static IEnumerable<int> GenerateSecretNumbers(int seed)
     {
         var mixAndPrune = (int a, int b) => (a ^ b) & 0xffffff;
 
@@ -76,5 +71,5 @@ public class Y2024D22
         }
     }
 
-    IEnumerable<int> GetNums(string input) => input.Split("\n").Select(int.Parse);
+    private static IEnumerable<int> ParseSeeds(IEnumerable<string> lines) => lines.Select(int.Parse);
 }

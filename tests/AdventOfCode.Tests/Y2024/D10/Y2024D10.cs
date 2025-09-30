@@ -12,12 +12,12 @@ namespace AdventOfCode.Tests.Y2024.D10;
 [ChallengeName("Hoof It")]
 public class Y2024D10
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D10\Y2024D10-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D10\Y2024D10-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = GetAllTrails(_input).Sum(t => t.Value.Distinct().Count());
+        var output = GetAllTrails(_lines).Sum(t => t.Value.Distinct().Count());
 
         output.Should().Be(550);
     }
@@ -25,26 +25,26 @@ public class Y2024D10
     [Fact]
     public void PartTwo()
     {
-        var output = GetAllTrails(_input).Sum(t => t.Value.Count());
+        var output = GetAllTrails(_lines).Sum(t => t.Value.Count());
 
         output.Should().Be(1255);
     }
 
 
-    Complex Up = Complex.ImaginaryOne;
-    Complex Down = -Complex.ImaginaryOne;
-    Complex Left = -1;
-    Complex Right = 1;
+    private Complex Up = Complex.ImaginaryOne;
+    private Complex Down = -Complex.ImaginaryOne;
+    private Complex Left = -1;
+    private Complex Right = 1;
 
-    Dictionary<Complex, List<Complex>> GetAllTrails(string input)
+    private Dictionary<Complex, List<Complex>> GetAllTrails(IEnumerable<string> lines)
     {
-        var map = GetMap(input);
+        var map = BuildMap(lines);
         return GetTrailHeads(map).ToDictionary(t => t, t => GetTrailsFrom(map, t));
     }
 
-    IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
+    private static IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
 
-    List<Complex> GetTrailsFrom(Map map, Complex trailHead)
+    private List<Complex> GetTrailsFrom(Map map, Complex trailHead)
     {
         // standard floodfill algorithm using a queue
         var positions = new Queue<Complex>();
@@ -72,15 +72,13 @@ public class Y2024D10
         return trails;
     }
 
-    // store the points in a dictionary so that we can iterate over them and 
-    // to easily deal with points outside the area using GetValueOrDefault
-    Map GetMap(string input)
+    private Map BuildMap(IEnumerable<string> lines)
     {
-        var map = input.Split("\n");
+        var rowArray = lines.ToArray();
         return (
-            from y in Enumerable.Range(0, map.Length)
-            from x in Enumerable.Range(0, map[0].Length)
-            select new KeyValuePair<Complex, char>(x + y * Down, map[y][x])
+            from y in Enumerable.Range(0, rowArray.Length)
+            from x in Enumerable.Range(0, rowArray[0].Length)
+            select new KeyValuePair<Complex, char>(x + y * Down, rowArray[y][x])
         ).ToImmutableDictionary();
     }
 }

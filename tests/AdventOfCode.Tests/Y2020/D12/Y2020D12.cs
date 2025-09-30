@@ -27,7 +27,7 @@ public class Y2020D12
         output.Should().Be(178986);
     }
 
-    double MoveShip(string input, bool part1) =>
+    private static double MoveShip(string input, bool part1) =>
         input
             .Split("\n")
             .Select(line => (line[0], int.Parse(line.Substring(1))))
@@ -52,4 +52,5 @@ public class Y2020D12
                     },
                 state => Math.Abs(state.pos.Imaginary) + Math.Abs(state.pos.Real));
 }
-record State(Complex pos, Complex dir);
+
+internal record State(Complex pos, Complex dir);

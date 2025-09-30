@@ -28,8 +28,11 @@ public class Y2021D24
     }
 
 
-    (string min, string max) GetSerials(string input)
+    private static (string min, string max) GetSerials(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var digits = Enumerable.Range(1, 9).ToArray();
 
         // The input has 14 code blocks, each dealing with one digit.

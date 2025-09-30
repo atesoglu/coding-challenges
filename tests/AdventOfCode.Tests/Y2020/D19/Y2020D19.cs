@@ -28,8 +28,11 @@ public class Y2020D19
     }
 
 
-    int Solve(string input, bool part1)
+    private static int Solve(string input, bool part1)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = (
             from block in input.Split("\n\n")
             select block.Split("\n")
@@ -79,10 +82,10 @@ public class Y2020D19
     }
 
     // Parser combinators
-    static Parser literal(string st) =>
+    private static Parser literal(string st) =>
         input => input.StartsWith(st) ? new[] { input.Substring(st.Length) } : new string[0];
 
-    static Parser seq(IEnumerable<Parser> parsers)
+    private static Parser seq(IEnumerable<Parser> parsers)
     {
         if (parsers.Count() == 1)
         {
@@ -98,7 +101,7 @@ public class Y2020D19
             select rest;
     }
 
-    static Parser alt(IEnumerable<Parser> parsers)
+    private static Parser alt(IEnumerable<Parser> parsers)
     {
         if (parsers.Count() == 1)
         {

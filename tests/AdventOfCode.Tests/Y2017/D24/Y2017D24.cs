@@ -25,7 +25,7 @@ public class Y2017D24
     }
 
 
-    int StrongestBridge(string input, Func<(int length, int strength), (int length, int strength), int> compare)
+    private int StrongestBridge(string input, Func<(int length, int strength), (int length, int strength), int> compare)
     {
         (int length, int strength) fold(int pinIn, HashSet<Component> components)
         {
@@ -53,7 +53,7 @@ public class Y2017D24
         return fold(0, Parse(input)).strength;
     }
 
-    HashSet<Component> Parse(string input)
+    private static HashSet<Component> Parse(string input)
     {
         var components = new HashSet<Component>();
         foreach (var line in input.Split('\n'))
@@ -65,7 +65,7 @@ public class Y2017D24
         return components;
     }
 
-    class Component
+    private class Component
     {
         public int pinA;
         public int pinB;

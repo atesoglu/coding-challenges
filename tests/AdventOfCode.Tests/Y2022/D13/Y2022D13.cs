@@ -31,12 +31,17 @@ public class Y2022D13
         output.Should().Be(25038);
     }
 
-    IEnumerable<JsonNode> GetPackets(string input) =>
-        from line in input.Split("\n")
-        where !string.IsNullOrEmpty(line)
-        select JsonNode.Parse(line);
+    private static IEnumerable<JsonNode> GetPackets(string input)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
 
-    int Compare(JsonNode nodeA, JsonNode nodeB)
+        return from line in input.Split("\n")
+            where !string.IsNullOrEmpty(line)
+            select JsonNode.Parse(line);
+    }
+
+    private int Compare(JsonNode nodeA, JsonNode nodeB)
     {
         if (nodeA is JsonValue && nodeB is JsonValue)
         {

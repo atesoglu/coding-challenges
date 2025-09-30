@@ -26,8 +26,11 @@ public class Y2021D11
 
 
     // run the simulation in an endless loop, yield flash counts in each step
-    IEnumerable<int> Simulate(string input)
+    private IEnumerable<int> Simulate(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var map = GetMap(input);
 
         while (true)
@@ -72,7 +75,7 @@ public class Y2021D11
 
     // store the points in a dictionary so that we can iterate over them and 
     // to easily deal with points outside the area using ContainsKey
-    Dictionary<Pos, int> GetMap(string input)
+    private static Dictionary<Pos, int> GetMap(string input)
     {
         var map = input.Split("\n");
         return new Dictionary<Pos, int>(
@@ -82,10 +85,11 @@ public class Y2021D11
         );
     }
 
-    IEnumerable<Pos> Neighbours(Pos pos) =>
+    private static IEnumerable<Pos> Neighbours(Pos pos) =>
         from dx in new int[] { -1, 0, 1 }
         from dy in new int[] { -1, 0, 1 }
         where dx != 0 || dy != 0
         select new Pos(pos.x + dx, pos.y + dy);
 }
-record Pos(int x, int y);
+
+internal record Pos(int x, int y);

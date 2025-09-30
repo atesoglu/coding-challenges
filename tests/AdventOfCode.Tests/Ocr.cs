@@ -1,19 +1,19 @@
 ﻿namespace AdventOfCode.Tests;
 
-static class OcrExtension
+internal static class ScreenTextExtension
 {
-    public static OcrString Ocr(this string st)
+    public static ScreenText ToScreenText(this string st)
     {
-        return new OcrString(st);
+        return new ScreenText(st);
     }
 }
 
-record OcrString(string st)
+internal record ScreenText(string rawText)
 {
     public override string ToString()
     {
-        var lines = st.Split("\n")
-            .SkipWhile(x => string.IsNullOrWhiteSpace(x))
+        var lines = rawText.Split("\n")
+            .SkipWhile(string.IsNullOrWhiteSpace)
             .TakeWhile(x => !string.IsNullOrWhiteSpace(x))
             .ToArray();
 
@@ -94,7 +94,7 @@ record OcrString(string st)
         throw new Exception($"Unrecognized letter: \n{textRect}\n");
     }
 
-    string GetRect(string[] st, int icol0, int irow0, int ccol, int crow)
+    private static string GetRect(string[] st, int icol0, int irow0, int ccol, int crow)
     {
         var res = "";
         for (var irow = irow0; irow < irow0 + crow; irow++)

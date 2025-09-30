@@ -35,23 +35,26 @@ public class Y2022D08
     }
 
 
-    static Direction Left = new Direction(0, -1);
-    static Direction Right = new Direction(0, 1);
-    static Direction Up = new Direction(-1, 0);
-    static Direction Down = new Direction(1, 0);
+    private static Direction Left = new Direction(0, -1);
+    private static Direction Right = new Direction(0, 1);
+    private static Direction Up = new Direction(-1, 0);
+    private static Direction Down = new Direction(1, 0);
 
-    Forest Parse(string input)
+    private static Forest Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var items = input.Split("\n");
         var (ccol, crow) = (items[0].Length, items.Length);
         return new Forest(items, crow, ccol);
     }
 
-    record Direction(int drow, int dcol);
+    private record Direction(int drow, int dcol);
 
-    record Tree(int height, int irow, int icol);
+    private record Tree(int height, int irow, int icol);
 
-    record Forest(string[] items, int crow, int ccol)
+    private record Forest(string[] items, int crow, int ccol)
     {
         public IEnumerable<Tree> Trees() =>
             from irow in Enumerable.Range(0, crow)
@@ -66,10 +69,10 @@ public class Y2022D08
         public bool IsTallest(Tree tree, Direction dir) =>
             TreesInDirection(tree, dir).All(treeT => treeT.height < tree.height);
 
-        IEnumerable<Tree> SmallerTrees(Tree tree, Direction dir) =>
+        private IEnumerable<Tree> SmallerTrees(Tree tree, Direction dir) =>
             TreesInDirection(tree, dir).TakeWhile(treeT => treeT.height < tree.height);
 
-        IEnumerable<Tree> TreesInDirection(Tree tree, Direction dir)
+        private IEnumerable<Tree> TreesInDirection(Tree tree, Direction dir)
         {
             var (first, irow, icol) = (true, tree.irow, tree.icol);
             while (irow >= 0 && irow < crow && icol >= 0 && icol < ccol)

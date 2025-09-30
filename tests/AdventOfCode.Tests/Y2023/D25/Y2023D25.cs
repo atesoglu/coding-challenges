@@ -32,7 +32,7 @@ public class Y2023D25
     // but it's 'likely' to find the minimal cut in reasonable time. 
     // The algorithm is extended to return the sizes of the two components 
     // separated by the cut as well.
-    (int size, int c1, int c2) FindCut(string input, Random r)
+    private (int size, int c1, int c2) FindCut(string input, Random r)
     {
         var graph = Parse(input);
         var componentSize = graph.Keys.ToDictionary(k => k, _ => 1);
@@ -84,8 +84,11 @@ public class Y2023D25
 
     // returns an adjacency list representation of the input. Edges are recorded 
     // both ways, unlike in the input which contains them in one direction only.
-    Dictionary<string, List<string>> Parse(string input)
+    private static Dictionary<string, List<string>> Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var graph = new Dictionary<string, List<string>>();
 
         var registerEdge = (string u, string v) =>

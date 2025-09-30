@@ -8,12 +8,12 @@ namespace AdventOfCode.Tests.Y2024.D18;
 [ChallengeName("RAM Run")]
 public class Y2024D18
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D18\Y2024D18-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D18\Y2024D18-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Distance(GetBlocks(_input).Take(1024));
+        var output = CalculateShortestDistance(ParseBlockPositions(_lines).Take(1024));
 
         output.Should().Be(438);
     }
@@ -21,55 +21,51 @@ public class Y2024D18
     [Fact]
     public void PartTwo()
     {
-        // find the first block position that will cut off the goal position
-        // we can use a binary search for this
-
-        var blocks = GetBlocks(_input);
-        var (lo, hi) = (0, blocks.Length);
-        while (hi - lo > 1)
+        var blockPositions = ParseBlockPositions(_lines);
+        var (lowIndex, highIndex) = (0, blockPositions.Length);
+        while (highIndex - lowIndex > 1)
         {
-            var m = (lo + hi) / 2;
-            if (Distance(blocks.Take(m)) == null)
+            var middleIndex = (lowIndex + highIndex) / 2;
+            if (CalculateShortestDistance(blockPositions.Take(middleIndex)) == null)
             {
-                hi = m;
+                highIndex = middleIndex;
             }
             else
             {
-                lo = m;
+                lowIndex = middleIndex;
             }
         }
 
-        var output = $"{blocks[lo].Real},{blocks[lo].Imaginary}";
+        var output = $"{blockPositions[lowIndex].Real},{blockPositions[lowIndex].Imaginary}";
 
         output.Should().Be("26,22");
     }
 
-    int? Distance(IEnumerable<Complex> blocks)
+    private static int? CalculateShortestDistance(IEnumerable<Complex> blocks)
     {
-        var size = 70;
-        var start = Complex.Zero;
-        var goal = size + size * Complex.ImaginaryOne;
-        var blocked = blocks.Concat(new[] { start }).ToHashSet();
+        var gridSize = 70;
+        var startPosition = Complex.Zero;
+        var goalPosition = gridSize + gridSize * Complex.ImaginaryOne;
+        var blockedPositions = blocks.Concat(new[] { startPosition }).ToHashSet();
 
-        var q = new PriorityQueue<Complex, int>();
-        q.Enqueue(start, 0);
-        while (q.TryDequeue(out var pos, out var dist))
+        var queue = new PriorityQueue<Complex, int>();
+        queue.Enqueue(startPosition, 0);
+        while (queue.TryDequeue(out var currentPosition, out var distance))
         {
-            if (pos == goal)
+            if (currentPosition == goalPosition)
             {
-                return dist;
+                return distance;
             }
 
-            foreach (var dir in new[] { 1, -1, Complex.ImaginaryOne, -Complex.ImaginaryOne })
+            foreach (var direction in new[] { 1, -1, Complex.ImaginaryOne, -Complex.ImaginaryOne })
             {
-                var posT = pos + dir;
-                if (!blocked.Contains(posT) &&
-                    0 <= posT.Imaginary && posT.Imaginary <= size &&
-                    0 <= posT.Real && posT.Real <= size
-                   )
+                var nextPosition = currentPosition + direction;
+                if (!blockedPositions.Contains(nextPosition) &&
+                    0 <= nextPosition.Imaginary && nextPosition.Imaginary <= gridSize &&
+                    0 <= nextPosition.Real && nextPosition.Real <= gridSize)
                 {
-                    q.Enqueue(posT, dist + 1);
-                    blocked.Add(posT);
+                    queue.Enqueue(nextPosition, distance + 1);
+                    blockedPositions.Add(nextPosition);
                 }
             }
         }
@@ -77,10 +73,9 @@ public class Y2024D18
         return null;
     }
 
-
-    Complex[] GetBlocks(string input) => (
-        from line in input.Split("\n")
-        let nums = Regex.Matches(line, @"\d+").Select(m => int.Parse(m.Value)).ToArray()
-        select nums[0] + nums[1] * Complex.ImaginaryOne
+    private static Complex[] ParseBlockPositions(IEnumerable<string> lines) => (
+        from line in lines
+        let numbers = Regex.Matches(line, @"\d+").Select(match => int.Parse(match.Value)).ToArray()
+        select numbers[0] + numbers[1] * Complex.ImaginaryOne
     ).ToArray();
 }

@@ -9,12 +9,12 @@ namespace AdventOfCode.Tests.Y2024.D08;
 [ChallengeName("Resonant Collinearity")]
 public class Y2024D08
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D08\Y2024D08-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D08\Y2024D08-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = GetUniquePositions(_input, GetAntinodes1).Count();
+        var output = GetUniquePositions(_lines, GetAntinodes1).Count();
 
         output.Should().Be(413);
     }
@@ -22,15 +22,15 @@ public class Y2024D08
     [Fact]
     public void PartTwo()
     {
-        var output = GetUniquePositions(_input, GetAntinodes2).Count();
+        var output = GetUniquePositions(_lines, GetAntinodes2).Count();
 
         output.Should().Be(1417);
     }
 
 
-    HashSet<Complex> GetUniquePositions(string input, GetAntinodes getAntinodes)
+    private HashSet<Complex> GetUniquePositions(IEnumerable<string> lines, GetAntinodes getAntinodes)
     {
-        var map = GetMap(input);
+        var map = BuildMap(lines);
 
         var antennaLocations = (
             from pos in map.Keys
@@ -47,11 +47,9 @@ public class Y2024D08
         ).ToHashSet();
     }
 
-    // returns the antinode positions of srcAntenna on the dstAntenna side
-    delegate IEnumerable<Complex> GetAntinodes(Complex srcAntenna, Complex dstAntenna, Map map);
+    private delegate IEnumerable<Complex> GetAntinodes(Complex srcAntenna, Complex dstAntenna, Map map);
 
-    // in part 1 we just look at the immediate neighbour
-    IEnumerable<Complex> GetAntinodes1(Complex srcAntenna, Complex dstAntenna, Map map)
+    private IEnumerable<Complex> GetAntinodes1(Complex srcAntenna, Complex dstAntenna, Map map)
     {
         var dir = dstAntenna - srcAntenna;
         var antinote = dstAntenna + dir;
@@ -61,8 +59,7 @@ public class Y2024D08
         }
     }
 
-    // in part 2 this becomes a cycle, plus dstAntenna is also a valid position now
-    IEnumerable<Complex> GetAntinodes2(Complex srcAntenna, Complex dstAntenna, Map map)
+    private IEnumerable<Complex> GetAntinodes2(Complex srcAntenna, Complex dstAntenna, Map map)
     {
         var dir = dstAntenna - srcAntenna;
         var antinote = dstAntenna;
@@ -73,15 +70,13 @@ public class Y2024D08
         }
     }
 
-    // store the points in a dictionary so that we can iterate over them and 
-    // to easily deal with points outside the area using GetValueOrDefault
-    Map GetMap(string input)
+    private static Map BuildMap(IEnumerable<string> lines)
     {
-        var map = input.Split("\n");
+        var rowArray = lines.ToArray();
         return (
-            from y in Enumerable.Range(0, map.Length)
-            from x in Enumerable.Range(0, map[0].Length)
-            select new KeyValuePair<Complex, char>(x - y * Complex.ImaginaryOne, map[y][x])
+            from y in Enumerable.Range(0, rowArray.Length)
+            from x in Enumerable.Range(0, rowArray[0].Length)
+            select new KeyValuePair<Complex, char>(x - y * Complex.ImaginaryOne, rowArray[y][x])
         ).ToImmutableDictionary();
     }
 }

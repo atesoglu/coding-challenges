@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace AdventOfCode.Tests.Y2017.D23;
 
 [ChallengeName("Coprocessor Conflagration")]
 public class Y2017D23
 {
-    private readonly string _input = System.IO.File.ReadAllText(@"Y2017\D23\Y2017D23-input.txt");
+    private readonly string[] _lines = File.ReadAllLines(@"Y2017\D23\Y2017D23-input.txt");
 
     [Fact]
     public void PartOne()
@@ -15,16 +13,10 @@ public class Y2017D23
         var regs = new Dictionary<string, int>();
         var ip = 0;
 
-        int getReg(string reg)
-        {
-            return int.TryParse(reg, out var n) ? n
-                : regs.ContainsKey(reg) ? regs[reg]
-                : 0;
-        }
-
+        int getReg(string reg) => int.TryParse(reg, out var n) ? n : regs.GetValueOrDefault(reg, 0);
         void setReg(string reg, int value) => regs[reg] = value;
 
-        var prog = _input.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var prog = _lines;
         var mulCount = 0;
 
         while (ip >= 0 && ip < prog.Length)
@@ -74,7 +66,7 @@ public class Y2017D23
     }
 
     // Checks if a number is prime
-    bool IsPrime(int n)
+    private static bool IsPrime(int n)
     {
         if (n < 2) return false;
         if (n == 2) return true;

@@ -7,12 +7,12 @@ namespace AdventOfCode.Tests.Y2018.D18;
 [ChallengeName("Settlers of The North Pole")]
 public class Y2018D18
 {
-    private readonly string _input = File.ReadAllText(@"Y2018\D18\Y2018D18-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2018\D18\Y2018D18-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Iterate(_input, 10);
+        var output = Iterate(10);
 
         output.Should().Be(483840);
     }
@@ -20,16 +20,16 @@ public class Y2018D18
     [Fact]
     public void PartTwo()
     {
-        var output = Iterate(_input, 1000000000);
+        var output = Iterate(1000000000);
 
         output.Should().Be(219919);
     }
 
 
-    int Iterate(string input, int lim)
+    private int Iterate(int lim)
     {
         var seen = new Dictionary<string, int>();
-        var mtx = input.Split("\n");
+        var mtx = _lines;
 
         for (var t = 0; t < lim; t++)
         {
@@ -53,7 +53,7 @@ public class Y2018D18
         return Regex.Matches(res, @"\#").Count * Regex.Matches(res, @"\|").Count;
     }
 
-    string[] Step(string[] mtx)
+    private static string[] Step(string[] mtx)
     {
         var res = new List<string>();
         var crow = mtx.Length;

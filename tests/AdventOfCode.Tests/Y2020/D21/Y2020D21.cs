@@ -53,8 +53,11 @@ public class Y2020D21
         output.Should().Be("hkflr,ctmcqjf,bfrq,srxphcm,snmxl,zvx,bd,mqvk");
     }
 
-    private Problem Parse(string input)
+    private static Problem Parse(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var mapping = (
             from line in input.Split("\n")
             let parts = line.Trim(')').Split(" (contains ")
@@ -70,7 +73,7 @@ public class Y2020D21
         );
     }
 
-    private Dictionary<string, HashSet<string>> GetIngredientsByAllergene(Problem problem) =>
+    private static Dictionary<string, HashSet<string>> GetIngredientsByAllergene(Problem problem) =>
         problem.allergens.ToDictionary(
             allergene => allergene,
             allergene => problem.mapping
@@ -80,7 +83,8 @@ public class Y2020D21
                     (res, entry) => res.Intersect(entry.ingredients))
                 .ToHashSet());
 }
-record Problem(
+
+internal record Problem(
     HashSet<string> allergens,
     HashSet<string> ingredients,
     (HashSet<string> ingredients, HashSet<string> allergens)[] mapping);

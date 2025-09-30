@@ -5,64 +5,68 @@ using FluentAssertions;
 namespace AdventOfCode.Tests.Y2015.D14;
 
 [ChallengeName("Reindeer Olympics")]
-public class Y2015D14
+public partial class Y2015D14
 {
-    private readonly IEnumerable<int>[] _reindeerDistances = File.ReadAllLines(@"Y2015\D14\Y2015D14-input.txt", Encoding.UTF8).Select(GenerateDistanceSequence).ToArray();
+    private readonly IEnumerable<int>[] _reindeerDistanceSequences = File.ReadAllLines(@"Y2015\D14\Y2015D14-input.txt", Encoding.UTF8).Select(GenerateReindeerDistance).ToArray();
 
     [Fact]
     public void PartOne()
     {
-        var output = DistanceSteps(_reindeerDistances).Skip(2502).First().Max();
+        var output = SimulateRaceDistances(_reindeerDistanceSequences).Skip(2502).First().Max();
+
         output.Should().Be(2660);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = PointsSteps(_reindeerDistances).Skip(2502).First().Max();
+        var output = SimulateRacePoints(_reindeerDistanceSequences).Skip(2502).First().Max();
+
         output.Should().Be(1256);
     }
 
-    private static IEnumerable<int[]> DistanceSteps(IEnumerable<int>[] reindeers)
+    private static IEnumerable<int[]> SimulateRaceDistances(IEnumerable<int>[] reindeers)
     {
-        var enumerators = reindeers.Select(r => r.GetEnumerator()).ToArray();
+        var reindeerEnumerators = reindeers.Select(r => r.GetEnumerator()).ToArray();
+
         while (true)
         {
-            var distances = new int[reindeers.Length];
-            for (var i = 0; i < enumerators.Length; i++)
+            var currentDistances = new int[reindeers.Length];
+            for (var i = 0; i < reindeerEnumerators.Length; i++)
             {
-                enumerators[i].MoveNext();
-                distances[i] = enumerators[i].Current;
+                reindeerEnumerators[i].MoveNext();
+                currentDistances[i] = reindeerEnumerators[i].Current;
             }
 
-            yield return distances;
+            yield return currentDistances;
         }
     }
 
-    private IEnumerable<int[]> PointsSteps(IEnumerable<int>[] reindeers)
+    private static IEnumerable<int[]> SimulateRacePoints(IEnumerable<int>[] reindeers)
     {
-        var points = new int[reindeers.Length];
-        foreach (var step in DistanceSteps(reindeers))
+        var scores = new int[reindeers.Length];
+
+        foreach (var distancesAtSecond in SimulateRaceDistances(reindeers))
         {
-            var maxDistance = step.Max();
-            for (var i = 0; i < step.Length; i++)
+            var maxDistance = distancesAtSecond.Max();
+            for (var i = 0; i < distancesAtSecond.Length; i++)
             {
-                if (step[i] == maxDistance)
-                    points[i]++;
+                if (distancesAtSecond[i] == maxDistance)
+                    scores[i]++;
             }
 
-            yield return points;
+            yield return scores;
         }
     }
 
-    private static IEnumerable<int> GenerateDistanceSequence(string line)
+    private static IEnumerable<int> GenerateReindeerDistance(string line)
     {
-        var m = Regex.Match(line, @"(.*) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.");
-        var speed = int.Parse(m.Groups[2].Value);
-        var flyTime = int.Parse(m.Groups[3].Value);
-        var restTime = int.Parse(m.Groups[4].Value);
+        var match = DistanceRegex().Match(line);
+        var speed = int.Parse(match.Groups[2].Value);
+        var flyDuration = int.Parse(match.Groups[3].Value);
+        var restDuration = int.Parse(match.Groups[4].Value);
 
-        var elapsedTime = 0;
+        var currentPhaseTime = 0;
         var distance = 0;
         var isFlying = true;
 
@@ -71,15 +75,19 @@ public class Y2015D14
             if (isFlying)
                 distance += speed;
 
-            elapsedTime++;
+            currentPhaseTime++;
 
-            if ((isFlying && elapsedTime == flyTime) || (!isFlying && elapsedTime == restTime))
+            if ((isFlying && currentPhaseTime == flyDuration) ||
+                (!isFlying && currentPhaseTime == restDuration))
             {
                 isFlying = !isFlying;
-                elapsedTime = 0;
+                currentPhaseTime = 0;
             }
 
             yield return distance;
         }
     }
+
+    [GeneratedRegex(@"(.*) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.")]
+    private static partial Regex DistanceRegex();
 }

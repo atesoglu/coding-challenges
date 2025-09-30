@@ -25,7 +25,7 @@ public class Y2019D01
     }
 
 
-    int Solve(string input, bool recursive)
+    private static int Solve(string input, bool recursive)
     {
         var weights = new Queue<int>(input.Split("\n").Select(x => int.Parse(x)));
         var res = 0;

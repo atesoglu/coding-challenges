@@ -9,12 +9,12 @@ using Circuit = Dictionary<string, Gate>;
 [ChallengeName("Crossed Wires")]
 public class Y2024D24
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D24\Y2024D24-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D24\Y2024D24-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var (inputs, circuit) = Parse(_input);
+        var (inputs, circuit) = Parse(_lines);
 
         var outputs = from label in circuit.Keys where label.StartsWith("z") select label;
 
@@ -32,13 +32,13 @@ public class Y2024D24
     [Fact]
     public void PartTwo()
     {
-        var circuit = Parse(_input).circuit;
+        var circuit = Parse(_lines).circuit;
         var output = string.Join(",", Fix(circuit).OrderBy(label => label));
 
         output.Should().Be("dpg,kmb,mmf,tvp,vdk,z10,z15,z25");
     }
 
-    int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
+    private static int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
     {
         if (inputs.TryGetValue(label, out var res))
         {
@@ -56,9 +56,7 @@ public class Y2024D24
         }
     }
 
-    // the circuit should define a full adder for two 44 bit numbers
-    // this fixer is specific to my input.
-    IEnumerable<string> Fix(Circuit circuit)
+    private IEnumerable<string> Fix(Circuit circuit)
     {
         var cin = Output(circuit, "x00", "AND", "y00");
         for (var i = 1; i < 45; i++)
@@ -91,24 +89,25 @@ public class Y2024D24
         return [];
     }
 
-    IEnumerable<string> SwapAndFix(Circuit circuit, string out1, string out2)
+    private IEnumerable<string> SwapAndFix(Circuit circuit, string out1, string out2)
     {
         (circuit[out1], circuit[out2]) = (circuit[out2], circuit[out1]);
         return Fix(circuit).Concat([out1, out2]);
     }
 
-    string Output(Circuit circuit, string x, string kind, string y) =>
+    private static string Output(Circuit circuit, string x, string kind, string y) =>
         circuit.SingleOrDefault(pair =>
             (pair.Value.in1 == x && pair.Value.kind == kind && pair.Value.in2 == y) ||
             (pair.Value.in1 == y && pair.Value.kind == kind && pair.Value.in2 == x)
         ).Key;
 
-    (Dictionary<string, int> inputs, Circuit circuit) Parse(string input)
+    private static (Dictionary<string, int> inputs, Circuit circuit) Parse(IEnumerable<string> lines)
     {
         var inputs = new Dictionary<string, int>();
         var circuit = new Circuit();
 
-        var blocks = input.Split("\n\n");
+        var inputText = string.Join("\n", lines);
+        var blocks = inputText.Split("\n\n");
 
         foreach (var line in blocks[0].Split("\n"))
         {
@@ -126,4 +125,4 @@ public class Y2024D24
     }
 }
 
-record struct Gate(string in1, string kind, string in2);
+internal record struct Gate(string in1, string kind, string in2);

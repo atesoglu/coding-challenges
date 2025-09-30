@@ -6,11 +6,14 @@ namespace AdventOfCode.Tests.Y2022.D25;
 [ChallengeName("Full of Hot Air")]
 public class Y2022D25
 {
-    private readonly string _input = File.ReadAllText(@"Y2022\D25\Y2022D25-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2022\D25\Y2022D25-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var output = LongToSnafu(_input.Split("\n").Select(SnafuToLong).Sum());
 
         output.Should().Be("2=01-0-2-0=-0==-1=01");
@@ -19,7 +22,7 @@ public class Y2022D25
 
     // This is just string to number conversion in base 5
     // with the two special digits that's worth -2 and -1.
-    long SnafuToLong(string snafu)
+    private long SnafuToLong(string snafu)
     {
         var res = 0L;
         foreach (var digit in snafu)
@@ -42,7 +45,7 @@ public class Y2022D25
     // standard base 5 conversion, but when dealing with digits 3 and 4 we 
     // need to increment the higher decimal place so that we have
     // something to subtract 2 and 1 from.
-    string LongToSnafu(long d)
+    private static string LongToSnafu(long d)
     {
         var res = "";
         while (d > 0)

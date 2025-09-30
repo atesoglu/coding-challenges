@@ -23,8 +23,7 @@ public class Y2022D10
     [Fact]
     public void PartTwo()
     {
-        var output = Signal(_input)
-            .Select(signal =>
+        var output = Signal(_input).Select(signal =>
             {
                 var spriteMiddle = signal.x;
                 var screenColumn = (signal.cycle - 1) % 40;
@@ -33,13 +32,16 @@ public class Y2022D10
             .Chunk(40)
             .Select(line => new string(line))
             .Aggregate("", (screen, line) => screen + line + "\n")
-            .Ocr().ToString();
+            .ToScreenText().ToString();
 
         output.Should().Be("PCPBKAPJ");
     }
 
-    IEnumerable<(int cycle, int x)> Signal(string input)
+    private static IEnumerable<(int cycle, int x)> Signal(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var (cycle, x) = (1, 1);
         foreach (var line in input.Split("\n"))
         {

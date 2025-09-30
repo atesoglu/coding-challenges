@@ -42,7 +42,7 @@ public class Y2020D10
         output.Should().Be(518344341716992);
     }
 
-    ImmutableList<int> Parse(string input)
+    private static ImmutableList<int> Parse(string input)
     {
         var num = input.Split("\n").Select(int.Parse).OrderBy(x => x);
         return ImmutableList

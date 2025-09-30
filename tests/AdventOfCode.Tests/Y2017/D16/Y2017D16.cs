@@ -37,7 +37,7 @@ public class Y2017D16
     }
 
 
-    int Mod(Func<string, string> step, string startState)
+    private static int Mod(Func<string, string> step, string startState)
     {
         var state = startState;
         for (var i = 0;; i++)
@@ -50,7 +50,7 @@ public class Y2017D16
         }
     }
 
-    Func<string, string> ParseStep(string input)
+    private Func<string, string> ParseStep(string input)
     {
         var moves = (
             from stm in input.Split(',')
@@ -96,7 +96,7 @@ public class Y2017D16
         };
     }
 
-    Func<List<char>, List<char>> ParseMove(string stm, string pattern, Func<string[], Func<List<char>, List<char>>> a)
+    private static Func<List<char>, List<char>> ParseMove(string stm, string pattern, Func<string[], Func<List<char>, List<char>>> a)
     {
         var match = Regex.Match(stm, pattern);
         if (match.Success)

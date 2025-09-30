@@ -7,12 +7,12 @@ namespace AdventOfCode.Tests.Y2024.D20;
 [ChallengeName("Race Condition")]
 public class Y2024D20
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D20\Y2024D20-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D20\Y2024D20-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Solve(_input, 2);
+        var output = CalculateCheatScore(_lines, 2);
 
         output.Should().Be(1293);
     }
@@ -20,59 +20,54 @@ public class Y2024D20
     [Fact]
     public void PartTwo()
     {
-        var output = Solve(_input, 20);
+        var output = CalculateCheatScore(_lines, 20);
 
         output.Should().Be(977747);
     }
 
-
-    int Solve(string input, int cheat)
+    private int CalculateCheatScore(IEnumerable<string> lines, int maxDistance)
     {
-        var path = GetPath(input);
+        var path = BuildPathFromGoalToStart(lines);
         var indices = Enumerable.Range(0, path.Length).ToArray();
 
-        // sum up the worthy cheats for each index along the path
-        var cheatsFromI = (int i) => (
-            from j in indices[0..i]
-            let dist = Manhattan(path[i], path[j])
-            let saving = i - (j + dist)
-            where dist <= cheat && saving >= 100
+        var calculateCheatsFromIndex = (int index) => (
+            from previousIndex in indices[0..index]
+            let distance = CalculateManhattanDistance(path[index], path[previousIndex])
+            let timeSaving = index - (previousIndex + distance)
+            where distance <= maxDistance && timeSaving >= 100
             select 1
         ).Sum();
 
-        // parallel is gold today, it gives us an 3-4x boost
-        return indices.AsParallel().Select(cheatsFromI).Sum();
+        return indices.AsParallel().Select(calculateCheatsFromIndex).Sum();
     }
 
-    int Manhattan(Complex a, Complex b) =>
-        (int)(Math.Abs(a.Imaginary - b.Imaginary) + Math.Abs(a.Real - b.Real));
+    private static int CalculateManhattanDistance(Complex positionA, Complex positionB) =>
+        (int)(Math.Abs(positionA.Imaginary - positionB.Imaginary) + Math.Abs(positionA.Real - positionB.Real));
 
-    // Follow the path from finish to start, supposed that there is a single track in the input.
-    // The index of a position in the returned array equals to its distance from the finish
-    Complex[] GetPath(string input)
+    private static Complex[] BuildPathFromGoalToStart(IEnumerable<string> lines)
     {
-        var lines = input.Split("\n");
+        var rowArray = lines.ToArray();
         var map = (
-            from y in Enumerable.Range(0, lines.Length)
-            from x in Enumerable.Range(0, lines[0].Length)
-            select new KeyValuePair<Complex, char>(x + y * Complex.ImaginaryOne, lines[y][x])
+            from y in Enumerable.Range(0, rowArray.Length)
+            from x in Enumerable.Range(0, rowArray[0].Length)
+            select new KeyValuePair<Complex, char>(x + y * Complex.ImaginaryOne, rowArray[y][x])
         ).ToDictionary();
 
-        Complex[] dirs = [-1, 1, Complex.ImaginaryOne, -Complex.ImaginaryOne];
+        Complex[] directions = [-1, 1, Complex.ImaginaryOne, -Complex.ImaginaryOne];
 
-        var start = map.Keys.Single(k => map[k] == 'S');
-        var goal = map.Keys.Single(k => map[k] == 'E');
+        var startPosition = map.Keys.Single(key => map[key] == 'S');
+        var goalPosition = map.Keys.Single(key => map[key] == 'E');
 
-        var (prev, cur) = ((Complex?)null, goal);
-        var res = new List<Complex> { cur };
+        var (previousPosition, currentPosition) = ((Complex?)null, goalPosition);
+        var path = new List<Complex> { currentPosition };
 
-        while (cur != start)
+        while (currentPosition != startPosition)
         {
-            var dir = dirs.Single(dir => map[cur + dir] != '#' && cur + dir != prev);
-            (prev, cur) = (cur, cur + dir);
-            res.Add(cur);
+            var direction = directions.Single(dir => map[currentPosition + dir] != '#' && currentPosition + dir != previousPosition);
+            (previousPosition, currentPosition) = (currentPosition, currentPosition + direction);
+            path.Add(currentPosition);
         }
 
-        return res.ToArray();
+        return path.ToArray();
     }
 }

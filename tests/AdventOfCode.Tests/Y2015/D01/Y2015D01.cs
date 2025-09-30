@@ -11,17 +11,7 @@ public class Y2015D01
     [Fact]
     public void PartOne()
     {
-        var output = 0;
-
-        foreach (var line in _lines)
-        {
-            if (string.IsNullOrEmpty(line))
-            {
-                continue;
-            }
-
-            output += line.Sum(c => c == '(' ? 1 : -1);
-        }
+        var output = _lines.Where(line => !string.IsNullOrEmpty(line)).Sum(line => line.Sum(c => c == '(' ? 1 : -1));
 
         output.Should().Be(74);
     }

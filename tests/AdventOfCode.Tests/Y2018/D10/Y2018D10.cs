@@ -12,7 +12,7 @@ public class Y2018D10
     [Fact]
     public void PartOne()
     {
-        var output = Solver(_input).st.Ocr().ToString();
+        var output = Solver(_input).st.ToScreenText().ToString();
 
         output.Should().Be("RRANZLAC");
     }
@@ -26,7 +26,7 @@ public class Y2018D10
     }
 
 
-    (string st, int seconds) Solver(string input)
+    private static (string st, int seconds) Solver(string input)
     {
         // position=< 21992, -10766> velocity=<-2,  1>
         var rx = new Regex(@"position=\<\s*(?<x>-?\d+),\s*(?<y>-?\d+)\> velocity=\<\s*(?<vx>-?\d+),\s*(?<vy>-?\d+)\>");
@@ -95,7 +95,8 @@ public class Y2018D10
         }
     }
 }
-class Point {
+
+internal class Point {
     public int x;
     public int y;
     public int vx;

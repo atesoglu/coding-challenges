@@ -65,7 +65,7 @@ public class Y2019D13
         output.Should().Be(16309);
     }
 
-    private T[][] Chunk<T>(IEnumerable<T> source, int chunksize)
+    private static T[][] Chunk<T>(IEnumerable<T> source, int chunksize)
     {
         var res = new List<T[]>();
         while (source.Any())

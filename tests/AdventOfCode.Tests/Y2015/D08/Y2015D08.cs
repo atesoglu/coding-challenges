@@ -12,12 +12,7 @@ public class Y2015D08
     [Fact]
     public void PartOne()
     {
-        var output = 0;
-        foreach (var line in _lines)
-        {
-            var u = Regex.Unescape(line.Substring(1, line.Length - 2));
-            output += line.Length - u.Length;
-        }
+        var output = (from line in _lines let u = Regex.Unescape(line.Substring(1, line.Length - 2)) select line.Length - u.Length).Sum();
 
         output.Should().Be(1333);
     }
@@ -25,12 +20,7 @@ public class Y2015D08
     [Fact]
     public void PartTwo()
     {
-        var output = 0;
-        foreach (var line in _lines)
-        {
-            var u = "\"" + line.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
-            output += u.Length - line.Length;
-        }
+        var output = (from line in _lines let u = "\"" + line.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"" select u.Length - line.Length).Sum();
 
         output.Should().Be(2046);
     }

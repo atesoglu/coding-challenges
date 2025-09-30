@@ -4,9 +4,9 @@ using Boxes = System.Collections.Generic.List<AdventOfCode.Tests.Y2023.D15.Lens>
 
 namespace AdventOfCode.Tests.Y2023.D15;
 
-record Lens(string label, int focalLength);
+internal record Lens(string label, int focalLength);
 
-record Step(string label, int? focalLength);
+internal record Step(string label, int? focalLength);
 
 [ChallengeName("Lens Library")]
 public class Y2023D15
@@ -30,7 +30,7 @@ public class Y2023D15
         output.Should().Be(265345);
     }
 
-    Boxes UpdateBoxes(Boxes boxes, Step step)
+    private Boxes UpdateBoxes(Boxes boxes, Step step)
     {
         var box = boxes[Hash(step.label)];
         var ilens = box.FindIndex(lens => lens.label == step.label);
@@ -51,19 +51,19 @@ public class Y2023D15
         return boxes;
     }
 
-    IEnumerable<Step> ParseSteps(string input) =>
+    private static IEnumerable<Step> ParseSteps(string input) =>
         from item in input.Split(',')
         let parts = item.Split('-', '=')
         select new Step(parts[0], parts[1] == "" ? null : int.Parse(parts[1]));
 
-    Boxes MakeBoxes(int count) =>
+    private static Boxes MakeBoxes(int count) =>
         Enumerable.Range(0, count).Select(_ => new List<Lens>()).ToArray();
 
-    int GetFocusingPower(Boxes boxes) => (
+    private int GetFocusingPower(Boxes boxes) => (
         from ibox in Enumerable.Range(0, boxes.Length)
         from ilens in Enumerable.Range(0, boxes[ibox].Count)
         select (ibox + 1) * (ilens + 1) * boxes[ibox][ilens].focalLength
     ).Sum();
 
-    int Hash(string st) => st.Aggregate(0, (ch, a) => (ch + a) * 17 % 256);
+    private int Hash(string st) => st.Aggregate(0, (ch, a) => (ch + a) * 17 % 256);
 }

@@ -26,7 +26,7 @@ public class Y2018D03
     }
 
 
-    (int overlapArea, int intactId) Decorate(string input)
+    private static (int overlapArea, int intactId) Decorate(string input)
     {
         // #1 @ 55,885: 22x10
         var rx = new Regex(@"(?<id>\d+) @ (?<x>\d+),(?<y>\d+): (?<width>\d+)x(?<height>\d+)");

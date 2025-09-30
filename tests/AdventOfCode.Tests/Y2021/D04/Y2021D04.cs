@@ -25,8 +25,11 @@ public class Y2021D04
     }
 
 
-    IEnumerable<BingoBoard> BoardsInOrderOfCompletion(string input)
+    private static IEnumerable<BingoBoard> BoardsInOrderOfCompletion(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
 
         // first block contains the numbers to be drawn, rest describe bingo boards:
@@ -49,18 +52,18 @@ public class Y2021D04
     }
 }
 
-record Cell(string number, bool marked = false);
+internal record Cell(string number, bool marked = false);
 
 // Let's be ho-ho-hoOOP this time.
-class BingoBoard
+internal class BingoBoard
 {
     public int score { get; private set; }
     private List<Cell> cells;
 
-    IEnumerable<Cell> CellsInRow(int irow) =>
+    private IEnumerable<Cell> CellsInRow(int irow) =>
         from icol in Enumerable.Range(0, 5) select cells[irow * 5 + icol];
 
-    IEnumerable<Cell> CellsInCol(int icol) =>
+    private IEnumerable<Cell> CellsInCol(int icol) =>
         from irow in Enumerable.Range(0, 5) select cells[irow * 5 + icol];
 
     public BingoBoard(string st)

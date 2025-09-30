@@ -25,7 +25,7 @@ public class Y2021D23
     }
 
 
-    string Upscale(string input)
+    private static string Upscale(string input)
     {
         var lines = input.Split("\n").ToList();
         lines.Insert(3, "  #D#C#B#A#");
@@ -33,7 +33,7 @@ public class Y2021D23
         return string.Join("\n", lines);
     }
 
-    int Solve(string input)
+    private int Solve(string input)
     {
         var maze = Maze.Parse(input);
 
@@ -65,12 +65,12 @@ public class Y2021D23
         throw new Exception();
     }
 
-    int stepCost(char actor)
+    private static int stepCost(char actor)
     {
         return actor == 'A' ? 1 : actor == 'B' ? 10 : actor == 'C' ? 100 : 1000;
     }
 
-    int getIcolDst(char ch)
+    private static int getIcolDst(char ch)
     {
         return
             ch == 'A' ? 3 :
@@ -80,7 +80,7 @@ public class Y2021D23
             throw new Exception();
     }
 
-    (Maze maze, int cost) HallwayToRoom(Maze maze)
+    private (Maze maze, int cost) HallwayToRoom(Maze maze)
     {
         for (var icol = 1; icol < 12; icol++)
         {
@@ -112,7 +112,7 @@ public class Y2021D23
         return (maze, 0);
     }
 
-    IEnumerable<(Maze maze, int cost)> RoomToHallway(Maze maze)
+    private IEnumerable<(Maze maze, int cost)> RoomToHallway(Maze maze)
     {
         var hallwayColumns = new int[] { 1, 2, 4, 6, 8, 10, 11 };
 
@@ -163,14 +163,14 @@ public class Y2021D23
         }
     }
 
-    IEnumerable<(Maze maze, int cost)> Neighbours(Maze maze)
+    private IEnumerable<(Maze maze, int cost)> Neighbours(Maze maze)
     {
         var hallwayToRoom = HallwayToRoom(maze);
         return hallwayToRoom.cost != 0 ? new[] { hallwayToRoom } : RoomToHallway(maze);
     }
 }
 
-record Point(int irow, int icol)
+internal record Point(int irow, int icol)
 {
     public Point Below => new Point(irow + 1, icol);
     public Point Above => new Point(irow - 1, icol);
@@ -178,12 +178,12 @@ record Point(int irow, int icol)
     public Point Right => new Point(irow, icol + 1);
 }
 
-record Maze
+internal record Maze
 {
-    const int columnMaskA = (1 << 11) | (1 << 15) | (1 << 19) | (1 << 23);
-    const int columnMaskB = (1 << 12) | (1 << 16) | (1 << 20) | (1 << 24);
-    const int columnMaskC = (1 << 13) | (1 << 17) | (1 << 21) | (1 << 25);
-    const int columnMaskD = (1 << 14) | (1 << 18) | (1 << 22) | (1 << 26);
+    private const int columnMaskA = (1 << 11) | (1 << 15) | (1 << 19) | (1 << 23);
+    private const int columnMaskB = (1 << 12) | (1 << 16) | (1 << 20) | (1 << 24);
+    private const int columnMaskC = (1 << 13) | (1 << 17) | (1 << 21) | (1 << 25);
+    private const int columnMaskD = (1 << 14) | (1 << 18) | (1 << 22) | (1 << 26);
 
     public static Maze Parse(string input)
     {
@@ -201,9 +201,9 @@ record Maze
         return maze;
     }
 
-    int a, b, c, d;
+    private int a, b, c, d;
 
-    Maze(int a, int b, int c, int d)
+    private Maze(int a, int b, int c, int d)
     {
         this.a = a;
         this.b = b;
@@ -211,7 +211,7 @@ record Maze
         this.d = d;
     }
 
-    int BitFromPoint(Point pt) =>
+    private static int BitFromPoint(Point pt) =>
         (pt.irow, pt.icol) switch
         {
             (1, 1) => 1 << 0,
@@ -269,7 +269,7 @@ record Maze
         var pt = step(new Point(1, icolFrom));
         while (pt.icol != icolTo)
         {
-            if (this.ItemAt(pt) != '.')
+            if (ItemAt(pt) != '.')
             {
                 return false;
             }

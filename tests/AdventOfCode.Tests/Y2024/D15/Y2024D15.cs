@@ -14,7 +14,7 @@ public class Y2024D15
     [Fact]
     public void PartOne()
     {
-        var output = Solve(_input);
+        var output = CalculateScore(_input);
 
         output.Should().Be(1511865);
     }
@@ -22,107 +22,107 @@ public class Y2024D15
     [Fact]
     public void PartTwo()
     {
-        var output = Solve(ScaleUp(_input));
+        var output = CalculateScore(ScaleUpMap(_input));
 
         output.Should().Be(1519991);
     }
 
 
-    static Complex Up = -Complex.ImaginaryOne;
-    static Complex Down = Complex.ImaginaryOne;
-    static Complex Left = -1;
-    static Complex Right = 1;
+    private static Complex Up = -Complex.ImaginaryOne;
+    private static Complex Down = Complex.ImaginaryOne;
+    private static Complex Left = -1;
+    private static Complex Right = 1;
 
-    private double Solve(string input)
+    private double CalculateScore(string input)
     {
-        var (map, steps) = Parse(input);
+        var (map, steps) = ParseMapAndSteps(input);
 
-        var robot = map.Keys.Single(k => map[k] == '@');
-        foreach (var dir in steps)
+        var robotPosition = map.Keys.Single(key => map[key] == '@');
+        foreach (var direction in steps)
         {
-            if (TryToStep(ref map, robot, dir))
+            if (TryMoveRobot(ref map, robotPosition, direction))
             {
-                robot += dir;
+                robotPosition += direction;
             }
         }
 
         return map.Keys
-            .Where(k => map[k] == '[' || map[k] == 'O')
+            .Where(key => map[key] == '[' || map[key] == 'O')
             .Sum(box => box.Real + 100 * box.Imaginary);
     }
 
-    // Attempts to move the robot in the given direction on the map, pushing boxes as necessary.
-    // If the move is successful, the map is updated to reflect the new positions and the function returns true.
-    // Otherwise, the map remains unchanged and the function returns false.
-    bool TryToStep(ref Map map, Complex pos, Complex dir)
+    private static bool TryMoveRobot(ref Map map, Complex position, Complex direction)
     {
-        var mapOrig = map;
+        var originalMap = map;
 
-        if (map[pos] == '.')
+        if (map[position] == '.')
         {
             return true;
         }
-        else if (map[pos] == 'O' || map[pos] == '@')
+        else if (map[position] == 'O' || map[position] == '@')
         {
-            if (TryToStep(ref map, pos + dir, dir))
+            if (TryMoveRobot(ref map, position + direction, direction))
             {
                 map = map
-                    .SetItem(pos + dir, map[pos])
-                    .SetItem(pos, '.');
+                    .SetItem(position + direction, map[position])
+                    .SetItem(position, '.');
                 return true;
             }
         }
-        else if (map[pos] == ']')
+        else if (map[position] == ']')
         {
-            return TryToStep(ref map, pos + Left, dir);
+            return TryMoveRobot(ref map, position + Left, direction);
         }
-        else if (map[pos] == '[')
+        else if (map[position] == '[')
         {
-            if (dir == Left)
+            if (direction == Left)
             {
-                if (TryToStep(ref map, pos + Left, dir))
+                if (TryMoveRobot(ref map, position + Left, direction))
                 {
                     map = map
-                        .SetItem(pos + Left, '[')
-                        .SetItem(pos, ']')
-                        .SetItem(pos + Right, '.');
+                        .SetItem(position + Left, '[')
+                        .SetItem(position, ']')
+                        .SetItem(position + Right, '.');
                     return true;
                 }
             }
-            else if (dir == Right)
+            else if (direction == Right)
             {
-                if (TryToStep(ref map, pos + 2 * Right, dir))
+                if (TryMoveRobot(ref map, position + 2 * Right, direction))
                 {
                     map = map
-                        .SetItem(pos, '.')
-                        .SetItem(pos + Right, '[')
-                        .SetItem(pos + 2 * Right, ']');
+                        .SetItem(position, '.')
+                        .SetItem(position + Right, '[')
+                        .SetItem(position + 2 * Right, ']');
                     return true;
                 }
             }
             else
             {
-                if (TryToStep(ref map, pos + dir, dir) && TryToStep(ref map, pos + Right + dir, dir))
+                if (TryMoveRobot(ref map, position + direction, direction) && TryMoveRobot(ref map, position + Right + direction, direction))
                 {
                     map = map
-                        .SetItem(pos, '.')
-                        .SetItem(pos + Right, '.')
-                        .SetItem(pos + dir, '[')
-                        .SetItem(pos + dir + Right, ']');
+                        .SetItem(position, '.')
+                        .SetItem(position + Right, '.')
+                        .SetItem(position + direction, '[')
+                        .SetItem(position + direction + Right, ']');
                     return true;
                 }
             }
         }
 
-        map = mapOrig;
+        map = originalMap;
         return false;
     }
 
-    string ScaleUp(string input) =>
+    private static string ScaleUpMap(string input) =>
         input.Replace("#", "##").Replace(".", "..").Replace("O", "[]").Replace("@", "@.");
 
-    (Map, Complex[]) Parse(string input)
+    private static (Map, Complex[]) ParseMapAndSteps(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         var lines = blocks[0].Split("\n");
         var map = (
@@ -131,8 +131,8 @@ public class Y2024D15
             select new KeyValuePair<Complex, char>(x + y * Down, lines[y][x])
         ).ToImmutableDictionary();
 
-        var steps = blocks[1].ReplaceLineEndings("").Select(ch =>
-            ch switch
+        var steps = blocks[1].ReplaceLineEndings("").Select(character =>
+            character switch
             {
                 '^' => Up,
                 '<' => Left,

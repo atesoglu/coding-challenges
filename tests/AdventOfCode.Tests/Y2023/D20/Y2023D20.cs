@@ -41,7 +41,7 @@ public class Y2023D20
         output.Should().Be(233283622908263);
     }
 
-    int LoopLength(string input, string output)
+    private int LoopLength(string input, string output)
     {
         var gates = ParseGates(input);
         for (var i = 1;; i++)
@@ -56,7 +56,7 @@ public class Y2023D20
 
     // emits a button press, executes until things settle down and returns 
     // all signals for investigation.
-    IEnumerable<Signal> Trigger(Dictionary<string, Gate> gates)
+    private static IEnumerable<Signal> Trigger(Dictionary<string, Gate> gates)
     {
         var q = new Queue<Signal>();
         q.Enqueue(new Signal("button", "broadcaster", false));
@@ -73,7 +73,7 @@ public class Y2023D20
         }
     }
 
-    Dictionary<string, Gate> ParseGates(string input)
+    private Dictionary<string, Gate> ParseGates(string input)
     {
         input += "\nrx ->"; // an extra rule for rx with no output
 
@@ -97,7 +97,7 @@ public class Y2023D20
         );
     }
 
-    Gate NandGate(string name, string[] inputs, string[] outputs)
+    private static Gate NandGate(string name, string[] inputs, string[] outputs)
     {
         // initially assign low value for each input:
         var state = inputs.ToDictionary(input => input, _ => false);
@@ -110,7 +110,7 @@ public class Y2023D20
         });
     }
 
-    Gate FlipFlop(string name, string[] inputs, string[] outputs)
+    private static Gate FlipFlop(string name, string[] inputs, string[] outputs)
     {
         var state = false;
 
@@ -128,11 +128,12 @@ public class Y2023D20
         });
     }
 
-    Gate Repeater(string name, string[] inputs, string[] outputs)
+    private static Gate Repeater(string name, string[] inputs, string[] outputs)
     {
         return new Gate(inputs, (Signal s) =>
             from o in outputs select new Signal(name, o, s.value)
         );
     }
 }
-record Gate(string[] inputs, Func<Signal, IEnumerable<Signal>> handle);
+
+internal record Gate(string[] inputs, Func<Signal, IEnumerable<Signal>> handle);

@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests.Y2024.D13;
 
 using Machine = (Vec2 a, Vec2 b, Vec2 p);
 
-record struct Vec2(long x, long y);
+internal record struct Vec2(long x, long y);
 
 [ChallengeName("Claw Contraption")]
 public class Y2024D13
@@ -16,7 +16,7 @@ public class Y2024D13
     [Fact]
     public void PartOne()
     {
-        var output = Parse(_input).Sum(GetPrize);
+        var output = ParseMachines(_input).Sum(CalculatePrize);
 
         output.Should().Be(36758);
     }
@@ -24,24 +24,23 @@ public class Y2024D13
     [Fact]
     public void PartTwo()
     {
-        var output = Parse(_input, shift: 10000000000000).Sum(GetPrize);
+        var output = ParseMachines(_input, shift: 10000000000000).Sum(CalculatePrize);
 
         output.Should().Be(76358113886726);
     }
 
-
-    long GetPrize(Machine m)
+    private long CalculatePrize(Machine machine)
     {
-        var (a, b, p) = m;
+        var (vectorA, vectorB, targetPoint) = machine;
 
-        // solve a * i + b * j = p for i and j using Cramer's rule
-        var i = Det(p, b) / Det(a, b);
-        var j = Det(a, p) / Det(a, b);
+        var coefficientI = CalculateDeterminant(targetPoint, vectorB) / CalculateDeterminant(vectorA, vectorB);
+        var coefficientJ = CalculateDeterminant(vectorA, targetPoint) / CalculateDeterminant(vectorA, vectorB);
 
-        // return the prize when a non negative _integer_ solution is found
-        if (i >= 0 && j >= 0 && a.x * i + b.x * j == p.x && a.y * i + b.y * j == p.y)
+        if (coefficientI >= 0 && coefficientJ >= 0 && 
+            vectorA.x * coefficientI + vectorB.x * coefficientJ == targetPoint.x && 
+            vectorA.y * coefficientI + vectorB.y * coefficientJ == targetPoint.y)
         {
-            return 3 * i + j;
+            return 3 * coefficientI + coefficientJ;
         }
         else
         {
@@ -49,21 +48,24 @@ public class Y2024D13
         }
     }
 
-    long Det(Vec2 a, Vec2 b) => a.x * b.y - a.y * b.x;
+    private static long CalculateDeterminant(Vec2 vectorA, Vec2 vectorB) => vectorA.x * vectorB.y - vectorA.y * vectorB.x;
 
-    IEnumerable<Machine> Parse(string input, long shift = 0)
+    private static IEnumerable<Machine> ParseMachines(string input, long shift = 0)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var blocks = input.Split("\n\n");
         foreach (var block in blocks)
         {
-            var nums =
+            var numbers =
                 Regex.Matches(block, @"\d+", RegexOptions.Multiline)
-                    .Select(m => int.Parse(m.Value))
-                    .Chunk(2).Select(p => new Vec2(p[0], p[1]))
+                    .Select(match => int.Parse(match.Value))
+                    .Chunk(2).Select(pair => new Vec2(pair[0], pair[1]))
                     .ToArray();
 
-            nums[2] = new Vec2(nums[2].x + shift, nums[2].y + shift);
-            yield return (nums[0], nums[1], nums[2]);
+            numbers[2] = new Vec2(numbers[2].x + shift, numbers[2].y + shift);
+            yield return (numbers[0], numbers[1], numbers[2]);
         }
     }
 }

@@ -24,19 +24,19 @@ public class Y2022D17
         output.Should().Be(1523167155404);
     }
 
-    class Tunnel
+    private class Tunnel
     {
-        int linesToStore;
+        private int linesToStore;
 
-        List<char[]> lines = new List<char[]>();
-        long linesNotStored;
+        private List<char[]> lines = new List<char[]>();
+        private long linesNotStored;
 
         public long Height => lines.Count + linesNotStored;
 
-        string[][] rocks;
-        string jets;
-        ModCounter irock;
-        ModCounter ijet;
+        private string[][] rocks;
+        private string jets;
+        private ModCounter irock;
+        private ModCounter ijet;
 
         // Simulation runs so that only the top N lines are kept in the tunnel.
         // This is a practical constant, there is NO THEORY BEHIND it.
@@ -51,10 +51,10 @@ public class Y2022D17
                 new[] { "#", "#", "#", "#" },
                 new[] { "##", "##" }
             };
-            this.irock = new ModCounter(0, rocks.Length);
+            irock = new ModCounter(0, rocks.Length);
 
             this.jets = jets;
-            this.ijet = new ModCounter(0, jets.Length);
+            ijet = new ModCounter(0, jets.Length);
         }
 
         public Tunnel AddRocks(long rocksToAdd)
@@ -74,7 +74,7 @@ public class Y2022D17
                 if (seen.TryGetValue(hash, out var cache))
                 {
                     // we have seen this pattern, advance forwad as much as possible
-                    var heightOfPeriod = this.Height - cache.height;
+                    var heightOfPeriod = Height - cache.height;
                     var periodLength = cache.rocksToAdd - rocksToAdd;
                     linesNotStored += (rocksToAdd / periodLength) * heightOfPeriod;
                     rocksToAdd = rocksToAdd % periodLength;
@@ -82,15 +82,15 @@ public class Y2022D17
                 }
                 else
                 {
-                    seen[hash] = (rocksToAdd, this.Height);
-                    this.AddRock();
+                    seen[hash] = (rocksToAdd, Height);
+                    AddRock();
                     rocksToAdd--;
                 }
             }
 
             while (rocksToAdd > 0)
             {
-                this.AddRock();
+                AddRock();
                 rocksToAdd--;
             }
 
@@ -135,13 +135,13 @@ public class Y2022D17
         }
 
         // tells if a rock can be placed in the given location or hits something
-        bool Hit(string[] rock, Pos pos) =>
+        private bool Hit(string[] rock, Pos pos) =>
             Area(rock).Any(pt =>
                 Get(rock, pt) == '#' &&
                 Get(lines, pt + pos) != ' '
             );
 
-        void Draw(string[] rock, Pos pos)
+        private void Draw(string[] rock, Pos pos)
         {
             // draws a rock pattern into the cave at the given x,y coordinates,
             foreach (var pt in Area(rock))
@@ -167,22 +167,22 @@ public class Y2022D17
         }
     }
 
-    static IEnumerable<Pos> Area(string[] mat) =>
+    private static IEnumerable<Pos> Area(string[] mat) =>
         from irow in Enumerable.Range(0, mat.Length)
         from icol in Enumerable.Range(0, mat[0].Length)
         select new Pos(irow, icol);
 
-    static char Get(IEnumerable<IEnumerable<char>> mat, Pos pos)
+    private static char Get(IEnumerable<IEnumerable<char>> mat, Pos pos)
     {
         return (mat.ElementAtOrDefault(pos.irow) ?? "#########").ElementAt(pos.icol);
     }
 
-    static char Set(IList<char[]> mat, Pos pos, char ch)
+    private static char Set(IList<char[]> mat, Pos pos, char ch)
     {
         return mat[pos.irow][pos.icol] = ch;
     }
 
-    record struct Pos(int irow, int icol)
+    private record struct Pos(int irow, int icol)
     {
         public Pos Left => new Pos(irow, icol - 1);
         public Pos Right => new Pos(irow, icol + 1);
@@ -192,7 +192,7 @@ public class Y2022D17
             new Pos(posA.irow + posB.irow, posA.icol + posB.icol);
     }
 
-    record struct ModCounter(int index, int mod)
+    private record struct ModCounter(int index, int mod)
     {
         public static explicit operator int(ModCounter c) => c.index;
 

@@ -81,10 +81,10 @@ public class Y2019D25
         }
     }
 
-    List<string> directions = new List<string>() { "south", "east", "west", "north" };
-    string ReverseDir(string direction) => directions[3 - directions.IndexOf(direction)];
+    private List<string> directions = new List<string>() { "south", "east", "west", "north" };
+    private string ReverseDir(string direction) => directions[3 - directions.IndexOf(direction)];
 
-    string VisitRooms(
+    private string VisitRooms(
         string securityRoom,
         IntCodeMachine icm,
         string description,
@@ -131,9 +131,9 @@ public class Y2019D25
         return DFS(description, null);
     }
 
-    IEnumerable<string> Inventory(IntCodeMachine icm) => GetListItems(icm.Run("inv").ToAscii());
+    private IEnumerable<string> Inventory(IntCodeMachine icm) => GetListItems(icm.Run("inv").ToAscii());
 
-    IEnumerable<string> GetListItems(string description) =>
+    private static IEnumerable<string> GetListItems(string description) =>
         from line in description.Split("\n")
         where line.StartsWith("- ")
         select line.Substring(2);

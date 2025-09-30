@@ -23,8 +23,7 @@ public partial class Y2015D15
 
     public Y2015D15()
     {
-        _ingredients = File.ReadAllLines(@"Y2015\D15\Y2015D15-input.txt", Encoding.UTF8)
-            .Select(line =>
+        _ingredients = File.ReadAllLines(@"Y2015\D15\Y2015D15-input.txt", Encoding.UTF8).Select(line =>
             {
                 var match = IngredientRegex().Match(line);
                 return match.Groups.Cast<Group>().Skip(1).Select(g => int.Parse(g.Value)).ToArray();

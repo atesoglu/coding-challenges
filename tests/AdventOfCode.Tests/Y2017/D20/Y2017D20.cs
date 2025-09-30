@@ -74,7 +74,7 @@ public class Y2017D20
     }
 
 
-    List<Particle> Parse(string input)
+    private static List<Particle> Parse(string input)
     {
         var lines = input.Split('\n');
         return (
@@ -87,7 +87,7 @@ public class Y2017D20
             .ToList();
     }
 
-    class Point
+    private class Point
     {
         public int x;
         public int y;
@@ -103,7 +103,7 @@ public class Y2017D20
         }
     }
 
-    class Particle
+    private class Particle
     {
         public int i;
         public Point pos;
@@ -139,7 +139,7 @@ public class Y2017D20
         private IEnumerable<int> CollisionTimeOnAxis(int da, int dv, int dp) =>
             SolveIntEq(da / 2, dv, dp);
 
-        private IEnumerable<int> SolveIntEq(int a, int b, int c)
+        private static IEnumerable<int> SolveIntEq(int a, int b, int c)
         {
             if (a == 0)
             {

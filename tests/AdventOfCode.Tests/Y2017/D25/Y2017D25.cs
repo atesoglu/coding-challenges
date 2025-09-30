@@ -7,17 +7,17 @@ namespace AdventOfCode.Tests.Y2017.D25;
 [ChallengeName("The Halting Problem")]
 public class Y2017D25
 {
-    private readonly string _input = File.ReadAllText(@"Y2017\D25\Y2017D25-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2017\D25\Y2017D25-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var machine = Parse(_input);
+        var machine = Parse();
         var tape = new Dictionary<int, int>();
         var pos = 0;
         while (machine.iterations > 0)
         {
-            var read = tape.TryGetValue(pos, out var t) ? t : 0;
+            var read = tape.GetValueOrDefault(pos, 0);
             var (write, dir, newState) = machine.prg[(machine.state, read)];
             machine.state = newState;
             tape[pos] = write;
@@ -30,9 +30,9 @@ public class Y2017D25
         output.Should().Be(4385);
     }
 
-    Machine Parse(string input)
+    private Machine Parse()
     {
-        var lines = input.Split('\n').Where(line => !string.IsNullOrEmpty(line)).ToArray();
+        var lines = _lines.Where(line => !string.IsNullOrEmpty(line)).ToArray();
         var iline = 0;
 
         var machine = new Machine();
@@ -78,7 +78,7 @@ public class Y2017D25
         return machine;
     }
 
-    class Machine
+    private class Machine
     {
         public string state;
         public int iterations;

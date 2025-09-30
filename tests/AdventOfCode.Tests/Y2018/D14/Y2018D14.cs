@@ -25,7 +25,7 @@ public class Y2018D14
     }
 
 
-    IEnumerable<(int i, string st)> Window(int w)
+    private IEnumerable<(int i, string st)> Window(int w)
     {
         var st = "";
         var i = 0;
@@ -45,7 +45,7 @@ public class Y2018D14
         }
     }
 
-    IEnumerable<int> Scores()
+    private static IEnumerable<int> Scores()
     {
         var scores = new List<int>();
         Func<int, int> add = (i) =>

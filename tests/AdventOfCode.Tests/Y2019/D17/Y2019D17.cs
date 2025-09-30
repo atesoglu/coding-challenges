@@ -46,14 +46,14 @@ public class Y2019D17
         output.Should().Be(880360);
     }
 
-    string[] Screenshot(string input)
+    private static string[] Screenshot(string input)
     {
         var icm = new IntCodeMachine(input);
         var output = icm.Run();
         return output.ToAscii().Split("\n").Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
     }
 
-    IEnumerable<string> GeneratePrograms(string path)
+    private IEnumerable<string> GeneratePrograms(string path)
     {
         IEnumerable<(ImmutableList<int> indices, ImmutableList<string> functions)> GenerateRec(string path, ImmutableList<string> functions)
         {
@@ -103,7 +103,7 @@ public class Y2019D17
         }
     }
 
-    string Compress(string st)
+    private string Compress(string st)
     {
         var steps = new List<string>();
         var l = 0;
@@ -135,7 +135,7 @@ public class Y2019D17
         return string.Join(",", steps);
     }
 
-    string Path(string input)
+    private string Path(string input)
     {
         var mx = Screenshot(input);
         var crow = mx.Length;
@@ -176,7 +176,7 @@ public class Y2019D17
         return path;
     }
 
-    ((int irow, int icol) pos, (int drow, int dcol) dir) FindRobot(string[] mx) => (
+    private static ((int irow, int icol) pos, (int drow, int dcol) dir) FindRobot(string[] mx) => (
         from irow in Enumerable.Range(0, mx.Length)
         from icol in Enumerable.Range(0, mx[0].Length)
         let ch = mx[irow][icol]

@@ -22,7 +22,7 @@ namespace AdventOfCode.Tests.Y2017.D19
             output.Should().Be(17420);
         }
 
-        (string msg, int steps) FollowPath(string input)
+        private static (string msg, int steps) FollowPath(string input)
         {
             var map = input.Split('\n');
             var rows = map.Length;

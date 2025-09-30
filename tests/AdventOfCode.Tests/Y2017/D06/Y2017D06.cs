@@ -30,9 +30,9 @@ public class Y2017D06
     }
 
 
-    List<int> Parse(string input) => input.Split('\t').Select(int.Parse).ToList();
+    private static List<int> Parse(string input) => input.Split('\t').Select(int.Parse).ToList();
 
-    int GetStepCount(List<int> numbers)
+    private int GetStepCount(List<int> numbers)
     {
         var stepCount = 0;
         var seen = new HashSet<string>();
@@ -50,7 +50,7 @@ public class Y2017D06
         }
     }
 
-    void Redistribute(List<int> numbers)
+    private static void Redistribute(List<int> numbers)
     {
         var max = numbers.Max();
         var i = numbers.IndexOf(max);

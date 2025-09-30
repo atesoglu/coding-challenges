@@ -29,13 +29,13 @@ public class Y2023D16
     }
 
 
-    static readonly Complex Up = -Complex.ImaginaryOne;
-    static readonly Complex Down = Complex.ImaginaryOne;
-    static readonly Complex Left = -Complex.One;
-    static readonly Complex Right = Complex.One;
+    private static readonly Complex Up = -Complex.ImaginaryOne;
+    private static readonly Complex Down = Complex.ImaginaryOne;
+    private static readonly Complex Left = -Complex.One;
+    private static readonly Complex Right = Complex.One;
 
     // follow the beam in the map and return the energized cell count.
-    int EnergizedCells(Map map, Beam beam)
+    private int EnergizedCells(Map map, Beam beam)
     {
         // this is essentially just a flood fill algorithm.
         var q = new Queue<Beam>([beam]);
@@ -59,7 +59,7 @@ public class Y2023D16
 
     // go around the edges (top, right, bottom, left order) of the map
     // and return the inward pointing directions
-    IEnumerable<Beam> StartBeams(Map map)
+    private static IEnumerable<Beam> StartBeams(Map map)
     {
         var maxX = map.Keys.Max(p => p.Real);
         var maxY = map.Keys.Max(p => p.Imaginary);
@@ -75,8 +75,11 @@ public class Y2023D16
 
 
     // using a dictionary helps with bounds check (simply containskey):
-    Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var lines = input.TrimEnd().Split('\n');
         return (
             from irow in Enumerable.Range(0, lines.Length)
@@ -89,7 +92,7 @@ public class Y2023D16
 
     // the 'exit' direction(s) of the given cell when entered by a beam moving in 'dir'
     // we have some special cases for mirrors and spliters, the rest keeps the direction
-    Complex[] Exits(char cell, Complex dir) => cell switch
+    private static Complex[] Exits(char cell, Complex dir) => cell switch
     {
         '-' when dir == Up || dir == Down => [Left, Right],
         '|' when dir == Left || dir == Right => [Up, Down],

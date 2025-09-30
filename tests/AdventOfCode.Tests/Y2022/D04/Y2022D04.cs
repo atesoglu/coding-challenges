@@ -33,16 +33,16 @@ public class Y2022D04
     private record struct Range(int from, int to);
 
     // True if r1 contains r2 [ { } ]
-    bool Contains(Range r1, Range r2) => r1.from <= r2.from && r2.to <= r1.to;
+    private bool Contains(Range r1, Range r2) => r1.from <= r2.from && r2.to <= r1.to;
 
     // True if r1 overlaps r2 { [ } ], the other direction is not checked.
-    bool Overlaps(Range r1, Range r2) => r1.to >= r2.from && r1.from <= r2.to;
+    private bool Overlaps(Range r1, Range r2) => r1.to >= r2.from && r1.from <= r2.to;
 
     // DuplicatedWorkCount parses each input line into ranges and applies 
     // rangeCheck on them to find duplicated work. RangeCheck doesnt have to be 
     // symmetrical in its arguments, but DuplicatedWorkCount makes it so calling
     // it twice with the arguments swapped.
-    private int DuplicatedWorkCount(
+    private static int DuplicatedWorkCount(
         string input,
         Func<Range, Range, bool> rangeCheck
     )

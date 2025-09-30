@@ -18,16 +18,7 @@ public class Y2015D05
         foreach (var line in _lines)
         {
             var vowelCount = line.Count(c => Vowels.Contains(c));
-            var hasDouble = false;
-
-            for (var i = 0; i < line.Length; i++)
-            {
-                if (i > 0 && line[i] == line[i - 1])
-                {
-                    hasDouble = true;
-                    break;
-                }
-            }
+            var hasDouble = line.Where((t, i) => i > 0 && t == line[i - 1]).Any();
 
             var hasForbidden = Forbidden.Any(line.Contains);
 

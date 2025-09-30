@@ -28,7 +28,7 @@ public class Y2016D11
         output.Should().Be(57);
     }
 
-    int Solve(ulong state)
+    private static int Solve(ulong state)
     {
         var steps = 0;
         var seen = new HashSet<ulong>();
@@ -56,7 +56,7 @@ public class Y2016D11
         return 0;
     }
 
-    ulong Parse(string input)
+    private static ulong Parse(string input)
     {
         var nextMask = 1;
         var elementToMask = new Dictionary<string, int>();
@@ -95,22 +95,23 @@ public class Y2016D11
         return state;
     }
 }
-static class StateExtensions
+
+internal static class StateExtensions
 {
-    const int elementCount = 7;  // now supports 7 elements
-    const int itemsPerFloor = 2 * elementCount;
-    const int floorCount = 4;
-    const int elevatorBits = 2;  // 0..3 floors, need 2 bits
+    private const int elementCount = 7;  // now supports 7 elements
+    private const int itemsPerFloor = 2 * elementCount;
+    private const int floorCount = 4;
+    private const int elevatorBits = 2;  // 0..3 floors, need 2 bits
 
     // floor bit offsets
-    static int[] floorShift = Enumerable.Range(0, floorCount).Select(f => f * itemsPerFloor).ToArray();
-    const int elevatorShift = floorCount * itemsPerFloor;
+    private static int[] floorShift = Enumerable.Range(0, floorCount).Select(f => f * itemsPerFloor).ToArray();
+    private const int elevatorShift = floorCount * itemsPerFloor;
 
     // mask for clearing elevator bits
-    const ulong elevatorMask = ~((1UL << elevatorBits) - 1UL << elevatorShift);
+    private const ulong elevatorMask = ~((1UL << elevatorBits) - 1UL << elevatorShift);
 
     // mask for extracting chips/generators
-    static ulong floorMask(int floor) => ((1UL << itemsPerFloor) - 1UL) << floorShift[floor];
+    private static ulong floorMask(int floor) => ((1UL << itemsPerFloor) - 1UL) << floorShift[floor];
 
     public static ulong SetFloor(this ulong state, int floor, ulong chips, ulong generators) =>
         (state & ~floorMask(floor)) |
@@ -196,7 +197,7 @@ static class StateExtensions
     }
 
     // helper: generate combinations of k elements
-    static IEnumerable<List<T>> Combinations<T>(List<T> list, int k)
+    private static IEnumerable<List<T>> Combinations<T>(List<T> list, int k)
     {
         if (k == 0) yield return new List<T>();
         else
@@ -223,7 +224,7 @@ static class StateExtensions
     }
 }
 
-enum Element
+internal enum Element
 {
     Thulium = 0b1,
     Plutonium = 0b10,

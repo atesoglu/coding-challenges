@@ -25,7 +25,7 @@ public class Y2016D09
         output.Should().Be(11052855125);
     }
 
-    long Expand(string input, int i, int lim, bool recursive)
+    private static long Expand(string input, int i, int lim, bool recursive)
     {
         var res = 0L;
         while (i < lim)

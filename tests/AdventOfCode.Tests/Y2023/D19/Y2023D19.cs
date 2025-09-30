@@ -11,7 +11,7 @@ namespace AdventOfCode.Tests.Y2023.D19;
 [ChallengeName("Aplenty")]
 public class Y2023D19
 {
-    private readonly string _input = File.ReadAllText(@"Y2023\D19\Y2023D19-input.txt", Encoding.UTF8);
+    private string _input = File.ReadAllText(@"Y2023\D19\Y2023D19-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
@@ -25,6 +25,9 @@ public class Y2023D19
 
         // We can use this algorithm to solve Part 1 starting from unit sized cubes
         // and checking if they are fully accepted or not.
+
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
 
         var parts = _input.Split("\n\n");
         var rules = ParseRules(parts[0]);
@@ -42,6 +45,9 @@ public class Y2023D19
     [Fact]
     public void PartTwo()
     {
+        // Normalize line endings to just "\n"
+        _input = _input.Replace("\r\n", "\n").TrimEnd();
+
         var parts = _input.Split("\n\n");
         var rules = ParseRules(parts[0]);
         var cube = Enumerable.Repeat(new Range(1, 4000), 4).ToImmutableArray();
@@ -51,7 +57,7 @@ public class Y2023D19
         output.Should().Be(121964982771486);
     }
 
-    BigInteger AcceptedVolume(Rules rules, Cube cube)
+    private BigInteger AcceptedVolume(Rules rules, Cube cube)
     {
         var q = new Queue<(Cube cube, string state)>();
         q.Enqueue((cube, "in"));
@@ -100,11 +106,11 @@ public class Y2023D19
         return res;
     }
 
-    BigInteger Volume(Cube cube) =>
+    private static BigInteger Volume(Cube cube) =>
         cube.Aggregate(BigInteger.One, (m, r) => m * (r.end - r.begin + 1));
 
     // Cuts a cube along the specified dimension, other dimensions are unaffected.
-    (Cube lo, Cube hi) CutCube(Cube cube, int dim, int num)
+    private static (Cube lo, Cube hi) CutCube(Cube cube, int dim, int num)
     {
         var r = cube[dim];
         return (
@@ -113,7 +119,7 @@ public class Y2023D19
         );
     }
 
-    Cond TryParseCond(string st) =>
+    private static Cond TryParseCond(string st) =>
         st.Split('<', '>', ':') switch
         {
             ["x", var num, var state] => new Cond(0, st[1], int.Parse(num), state),
@@ -123,16 +129,24 @@ public class Y2023D19
             _ => null
         };
 
-    Rules ParseRules(string input) => (
-        from line in input.Split('\n')
-        let parts = line.Split('{', '}')
-        select new KeyValuePair<string, string>(parts[0], parts[1])
-    ).ToDictionary();
+    private static Rules ParseRules(string input)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
 
-    IEnumerable<Cube> ParseUnitCube(string input) =>
+        return (
+            from line in input.Split('\n')
+            let parts = line.Split('{', '}')
+            select new KeyValuePair<string, string>(parts[0], parts[1])
+        ).ToDictionary();
+    }
+
+    private static IEnumerable<Cube> ParseUnitCube(string input) =>
         from line in input.Split('\n')
         let nums = Regex.Matches(line, @"\d+").Select(m => int.Parse(m.Value))
         select nums.Select(n => new Range(n, n)).ToImmutableArray();
 }
-record Range(int begin, int end);
-record Cond(int dim, char op, int num, string state);
+
+internal record Range(int begin, int end);
+
+internal record Cond(int dim, char op, int num, string state);

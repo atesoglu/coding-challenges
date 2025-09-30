@@ -34,7 +34,7 @@ public class Y2021D18
         output.Should().Be(4664);
     }
 
-    long Magnitude(Number number)
+    private long Magnitude(Number number)
     {
         var itoken = 0; // we will process the number tokenwise
 
@@ -61,9 +61,9 @@ public class Y2021D18
 
 
     // just wrap A and B in a new 'number' and reduce:
-    Number Sum(Number numberA, Number numberB) => Reduce(Number.Pair(numberA, numberB));
+    private Number Sum(Number numberA, Number numberB) => Reduce(Number.Pair(numberA, numberB));
 
-    Number Reduce(Number number)
+    private Number Reduce(Number number)
     {
         while (Explode(number) || Split(number))
         {
@@ -73,7 +73,7 @@ public class Y2021D18
         return number;
     }
 
-    bool Explode(Number number)
+    private static bool Explode(Number number)
     {
         // exploding means we need to find the first pair in the number 
         // that is embedded in 4 other pairs and get rid of it:
@@ -125,7 +125,7 @@ public class Y2021D18
         return false;
     }
 
-    bool Split(Number number)
+    private static bool Split(Number number)
     {
         // spliting means we neeed to find a token with a high value and make a pair out of it:
         for (var i = 0; i < number.Count; i++)
@@ -146,7 +146,7 @@ public class Y2021D18
     }
 
     // tokenize the input to a list of '[' ']' and digit tokens
-    Number ParseNumber(string st)
+    private Number ParseNumber(string st)
     {
         var res = new Number();
         var n = "";
@@ -185,14 +185,15 @@ public class Y2021D18
     }
 }
 // we will work with a list of tokens directly
-enum TokenKind {
+internal enum TokenKind {
     Open,
     Close,
     Digit
 }
-record Token(TokenKind kind, int value = 0);
 
-class Number : List<Token> {
+internal record Token(TokenKind kind, int value = 0);
+
+internal class Number : List<Token> {
     public static Number Digit(int value) =>
         new Number(){
             new Token(TokenKind.Digit, value)

@@ -6,108 +6,111 @@ namespace AdventOfCode.Tests.Y2016.D23;
 [ChallengeName("Safe Cracking")]
 public class Y2016D23
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D23\Y2016D23-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2016\D23\Y2016D23-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Solve(_input, 7);
-
+        var output = ExecuteSafeProgram(7);
         output.Should().Be(12703);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = Solve(_input, 12);
-
+        var output = ExecuteSafeProgram(12);
         output.Should().Be(479009263);
     }
 
-
-    int Solve(string input, int a)
+    private int ExecuteSafeProgram(int initialEggs)
     {
-        var prg = Parse(Patch(input));
-        var regs = new Dictionary<string, int>();
-        var ip = 0;
+        var instructions = ParseProgram(PatchProgram(_lines));
+        var registers = new Dictionary<string, int> { ["a"] = initialEggs };
+        var instructionPointer = 0;
 
-        int getReg(string reg)
+        while (instructionPointer >= 0 && instructionPointer < instructions.Length)
         {
-            return int.TryParse(reg, out var n) ? n
-                : regs.ContainsKey(reg) ? regs[reg]
-                : 0;
-        }
+            var parts = instructions[instructionPointer];
+            var operation = parts[0];
 
-        void setReg(string reg, int value)
-        {
-            if (!int.TryParse(reg, out var _))
-            {
-                regs[reg] = value;
-            }
-        }
-
-        setReg("a", a);
-
-        while (ip < prg.Length)
-        {
-            var stm = prg[ip];
-            switch (stm[0])
+            switch (operation)
             {
                 case "cpy":
-                    setReg(stm[2], getReg(stm[1]));
-                    ip++;
+                    SetRegister(registers, parts[2], GetValue(registers, parts[1]));
+                    instructionPointer++;
                     break;
+
                 case "inc":
-                    setReg(stm[1], getReg(stm[1]) + 1);
-                    ip++;
+                    SetRegister(registers, parts[1], GetValue(registers, parts[1]) + 1);
+                    instructionPointer++;
                     break;
-                case "mul":
-                    setReg(stm[2], getReg(stm[1]) * getReg(stm[2]));
-                    ip++;
-                    break;
+
                 case "dec":
-                    setReg(stm[1], getReg(stm[1]) - 1);
-                    ip++;
+                    SetRegister(registers, parts[1], GetValue(registers, parts[1]) - 1);
+                    instructionPointer++;
                     break;
+
+                case "mul":
+                    SetRegister(registers, parts[2], GetValue(registers, parts[1]) * GetValue(registers, parts[2]));
+                    instructionPointer++;
+                    break;
+
                 case "jnz":
-                    ip += getReg(stm[1]) != 0 ? getReg(stm[2]) : 1;
+                    instructionPointer += GetValue(registers, parts[1]) != 0 ? GetValue(registers, parts[2]) : 1;
                     break;
+
                 case "tgl":
-                    var ipDst = ip + getReg(stm[1]);
-                    if (ipDst >= 0 && ipDst < prg.Length)
+                    var targetIndex = instructionPointer + GetValue(registers, parts[1]);
+                    if (targetIndex >= 0 && targetIndex < instructions.Length)
                     {
-                        var stmDst = prg[ipDst];
-                        stmDst[0] = stmDst[0] switch
-                        {
-                            "cpy" => "jnz",
-                            "inc" => "dec",
-                            "dec" => "inc",
-                            "jnz" => "cpy",
-                            "tgl" => "inc",
-                            _ => stmDst[0]
-                        };
+                        ToggleInstruction(instructions[targetIndex]);
                     }
 
-                    ip++;
+                    instructionPointer++;
                     break;
+
                 default:
-                    throw new Exception("Cannot parse " + string.Join(" ", stm));
+                    throw new InvalidOperationException($"Unknown assembunny instruction: {string.Join(" ", parts)}");
             }
         }
 
-        return getReg("a");
+        return registers.GetValueOrDefault("a");
     }
 
-    string Patch(string input)
+    // Helper: get value from register or literal
+    private static int GetValue(Dictionary<string, int> registers, string token) => int.TryParse(token, out var n) ? n : registers.GetValueOrDefault(token);
+
+    // Helper: set register value
+    private static void SetRegister(Dictionary<string, int> registers, string register, int value)
     {
-        var lines = input.Split('\n');
+        if (!int.TryParse(register, out _))
+            registers[register] = value;
+    }
+
+    // Helper: toggle assembunny instruction
+    private static void ToggleInstruction(string[] instruction)
+    {
+        instruction[0] = instruction[0] switch
+        {
+            "cpy" => "jnz",
+            "inc" => "dec",
+            "dec" => "inc",
+            "jnz" => "cpy",
+            "tgl" => "inc",
+            _ => instruction[0]
+        };
+    }
+
+    // Patch program to optimize multiplication
+    private static string[] PatchProgram(string[] lines)
+    {
         lines[5] = "cpy c a";
         lines[6] = "mul d a";
         lines[7] = "cpy 0 d";
         lines[8] = "cpy 0 c";
-        return string.Join("\n", lines);
+        return lines;
     }
 
-    string[][] Parse(string input) =>
-        input.Split('\n').Select(line => line.Split(' ')).ToArray();
+    // Parse program into instructions
+    private static string[][] ParseProgram(string[] lines) => lines.Select(line => line.Split(' ')).ToArray();
 }

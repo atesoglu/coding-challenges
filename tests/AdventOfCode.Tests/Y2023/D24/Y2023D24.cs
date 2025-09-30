@@ -58,7 +58,7 @@ public class Y2023D24
         output.Should().Be(885093461440405);
     }
 
-    Vec2 Solve2D(Particle2[] particles)
+    private Vec2 Solve2D(Particle2[] particles)
     {
         // We try to guess the speed of our stone (a for loop), then supposing 
         // that it is the right velocity we create a new reference frame that 
@@ -93,14 +93,14 @@ public class Y2023D24
         throw new Exception();
     }
 
-    bool Hits(Particle2 p, Vec2 pos)
+    private static bool Hits(Particle2 p, Vec2 pos)
     {
         if (pos == null) return false;
         var d = (pos.x0 - p.pos.x0) * p.vel.x1 - (pos.x1 - p.pos.x1) * p.vel.x0;
         return Math.Abs(d) < (decimal)0.0001;
     }
 
-    Vec2 Intersection(Particle2 p1, Particle2 p2)
+    private static Vec2 Intersection(Particle2 p1, Particle2 p2)
     {
         // this would look way better if I had a matrix library at my disposal.
         var determinant = p1.vel.x0 * p2.vel.x1 - p1.vel.x1 * p2.vel.x0;
@@ -118,7 +118,7 @@ public class Y2023D24
         );
     }
 
-    Particle3[] ParseParticles(string input) =>
+    private Particle3[] ParseParticles(string input) =>
     [
         ..
         from line in input.Split('\n')
@@ -126,14 +126,14 @@ public class Y2023D24
         select new Particle3(new(v[0], v[1], v[2]), new(v[3], v[4], v[5]))
     ];
 
-    decimal[] ParseNum(string l) =>
+    private static decimal[] ParseNum(string l) =>
     [
         ..
         from m in Regex.Matches(l, @"-?\d+") select decimal.Parse(m.Value)
     ];
 
     // Project particles to a 2D plane:
-    Particle2[] Project(Particle3[] ps, Func<Vec3, (decimal, decimal)> proj) =>
+    private static Particle2[] Project(Particle3[] ps, Func<Vec3, (decimal, decimal)> proj) =>
     [
         ..
         from p in ps
@@ -143,7 +143,11 @@ public class Y2023D24
         )
     ];
 }
-record Vec2(decimal x0, decimal x1);
-record Vec3(decimal x0, decimal x1, decimal x2);
-record Particle2(Vec2 pos, Vec2 vel);
-record Particle3(Vec3 pos, Vec3 vel);
+
+internal record Vec2(decimal x0, decimal x1);
+
+internal record Vec3(decimal x0, decimal x1, decimal x2);
+
+internal record Particle2(Vec2 pos, Vec2 vel);
+
+internal record Particle3(Vec3 pos, Vec3 vel);

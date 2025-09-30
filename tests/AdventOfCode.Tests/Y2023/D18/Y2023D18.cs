@@ -26,7 +26,7 @@ public class Y2023D18
     }
 
 
-    IEnumerable<Complex> Steps1(string input) =>
+    private static IEnumerable<Complex> Steps1(string input) =>
         from line in input.Split('\n')
         let parts = line.Split(' ')
         let dir = parts[0] switch
@@ -40,7 +40,7 @@ public class Y2023D18
         let dist = int.Parse(parts[1])
         select dir * dist;
 
-    IEnumerable<Complex> Steps2(string input) =>
+    private static IEnumerable<Complex> Steps2(string input) =>
         from line in input.Split('\n')
         let hex = line.Split(' ')[2]
         let dir = hex[7] switch
@@ -55,7 +55,7 @@ public class Y2023D18
         select dir * dist;
 
     // We are using a combination of the shoelace formula with Pick's theorem
-    double Area(IEnumerable<Complex> steps)
+    private double Area(IEnumerable<Complex> steps)
     {
         var vertices = Vertices(steps).ToList();
 
@@ -76,7 +76,7 @@ public class Y2023D18
         return boundary + interior;
     }
 
-    IEnumerable<Complex> Vertices(IEnumerable<Complex> steps)
+    private static IEnumerable<Complex> Vertices(IEnumerable<Complex> steps)
     {
         var pos = Complex.Zero;
         foreach (var step in steps)

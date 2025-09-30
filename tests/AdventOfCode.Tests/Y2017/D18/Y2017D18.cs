@@ -6,14 +6,14 @@ namespace AdventOfCode.Tests.Y2017.D18;
 [ChallengeName("Duet")]
 public class Y2017D18
 {
-    private readonly string _input = File.ReadAllText(@"Y2017\D18\Y2017D18-input.txt", Encoding.UTF8);
+    private readonly string[] _programLines = File.ReadAllLines(@"Y2017\D18\Y2017D18-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = new Machine1()
-            .Execute(_input)
-            .First(received => received != null).Value;
+        var output = new SingleProgramMachine()
+            .Execute(_programLines)
+            .First(value => value.HasValue).Value;
 
         output.Should().Be(9423);
     }
@@ -21,164 +21,153 @@ public class Y2017D18
     [Fact]
     public void PartTwo()
     {
-        var p0Input = new Queue<long>();
-        var p1Input = new Queue<long>();
+        var queue0 = new Queue<long>();
+        var queue1 = new Queue<long>();
 
-        var output = Enumerable
-            .Zip(
-                new Machine2(0, p0Input, p1Input).Execute(_input),
-                new Machine2(1, p1Input, p0Input).Execute(_input),
-                (state0, state1) => (state0: state0, state1: state1))
-            .First(x => !x.state0.running && !x.state1.running)
-            .state1.valueSent;
+        int program1Sends = new DualProgramMachine(0, queue0, queue1)
+            .Execute(_programLines)
+            .Zip(new DualProgramMachine(1, queue1, queue0).Execute(_programLines),
+                (p0, p1) => (p0: p0, p1: p1))
+            .First(pair => !pair.p0.Running && !pair.p1.Running)
+            .p1.SentCount;
 
-        output.Should().Be(7620);
+        program1Sends.Should().Be(7620);
     }
 
-    abstract class Machine<TState>
+    private abstract class DuetMachine<TState>
     {
-        private Dictionary<string, long> regs = new Dictionary<string, long>();
+        private readonly Dictionary<string, long> _registers = new();
+        protected int InstructionPointer = 0;
+        protected bool Running;
 
-        protected bool running;
-        protected int ip = 0;
+        protected long GetValue(string token)
+            => long.TryParse(token, out var n) ? n : _registers.GetValueOrDefault(token);
+
+        protected void SetRegister(string register, long value)
+        {
+            if (!long.TryParse(register, out _)) _registers[register] = value;
+        }
 
         protected long this[string reg]
         {
-            get
-            {
-                return long.TryParse(reg, out var n) ? n
-                    : regs.ContainsKey(reg) ? regs[reg]
-                    : 0;
-            }
-            set { regs[reg] = value; }
+            get => GetValue(reg);
+            set => SetRegister(reg, value);
         }
 
-        public IEnumerable<TState> Execute(string input)
+        public IEnumerable<TState> Execute(string[] lines)
         {
-            var prog = input.Split('\n').ToArray();
-
-            while (ip >= 0 && ip < prog.Length)
+            while (InstructionPointer >= 0 && InstructionPointer < lines.Length)
             {
-                running = true;
-                var line = prog[ip];
-                var parts = line.Split(' ');
+                Running = true;
+                var parts = lines[InstructionPointer].Split(' ');
+
                 switch (parts[0])
                 {
-                    case "snd": snd(parts[1]); break;
-                    case "rcv": rcv(parts[1]); break;
-                    case "set": set(parts[1], parts[2]); break;
-                    case "add": add(parts[1], parts[2]); break;
-                    case "mul": mul(parts[1], parts[2]); break;
-                    case "mod": mod(parts[1], parts[2]); break;
-                    case "jgz": jgz(parts[1], parts[2]); break;
-                    default: throw new Exception("Cannot parse " + line);
+                    case "snd": Snd(parts[1]); break;
+                    case "rcv": Rcv(parts[1]); break;
+                    case "set": Set(parts[1], parts[2]); break;
+                    case "add": Add(parts[1], parts[2]); break;
+                    case "mul": Mul(parts[1], parts[2]); break;
+                    case "mod": Mod(parts[1], parts[2]); break;
+                    case "jgz": Jgz(parts[1], parts[2]); break;
+                    default: throw new InvalidOperationException($"Cannot parse {lines[InstructionPointer]}");
                 }
 
-                yield return State();
+                yield return GetState();
             }
 
-            running = false;
-            yield return State();
+            Running = false;
+            yield return GetState();
         }
 
-        protected abstract TState State();
+        protected abstract TState GetState();
+        protected abstract void Snd(string reg);
+        protected abstract void Rcv(string reg);
 
-        protected abstract void snd(string reg);
-
-        protected abstract void rcv(string reg);
-
-        protected void set(string reg0, string reg1)
+        private void Set(string x, string y)
         {
-            this[reg0] = this[reg1];
-            ip++;
+            this[x] = GetValue(y);
+            InstructionPointer++;
         }
 
-        protected void add(string reg0, string reg1)
+        private void Add(string x, string y)
         {
-            this[reg0] += this[reg1];
-            ip++;
+            this[x] += GetValue(y);
+            InstructionPointer++;
         }
 
-        protected void mul(string reg0, string reg1)
+        private void Mul(string x, string y)
         {
-            this[reg0] *= this[reg1];
-            ip++;
+            this[x] *= GetValue(y);
+            InstructionPointer++;
         }
 
-        protected void mod(string reg0, string reg1)
+        private void Mod(string x, string y)
         {
-            this[reg0] %= this[reg1];
-            ip++;
+            this[x] %= GetValue(y);
+            InstructionPointer++;
         }
 
-        protected void jgz(string reg0, string reg1)
+        private void Jgz(string x, string y)
         {
-            ip += this[reg0] > 0 ? (int)this[reg1] : 1;
+            InstructionPointer += GetValue(x) > 0 ? (int)GetValue(y) : 1;
         }
     }
 
-    class Machine1 : Machine<long?>
+    private class SingleProgramMachine : DuetMachine<long?>
     {
-        private long? sent = null;
-        private long? received = null;
+        private long? _lastSound = null;
+        private long? _recovered = null;
 
-        protected override long? State()
+        protected override long? GetState() => _recovered;
+
+        protected override void Snd(string reg)
         {
-            return received;
+            _lastSound = this[reg];
+            InstructionPointer++;
         }
 
-        protected override void snd(string reg)
+        protected override void Rcv(string reg)
         {
-            sent = this[reg];
-            ip++;
-        }
-
-        protected override void rcv(string reg)
-        {
-            if (this[reg] != 0)
-            {
-                received = sent;
-            }
-
-            ip++;
+            if (this[reg] != 0) _recovered = _lastSound;
+            InstructionPointer++;
         }
     }
 
-    class Machine2 : Machine<(bool running, int valueSent)>
+    private class DualProgramMachine : DuetMachine<(bool Running, int SentCount)>
     {
-        private int valueSent = 0;
-        private Queue<long> qIn;
-        private Queue<long> qOut;
+        private readonly Queue<long> _inputQueue;
+        private readonly Queue<long> _outputQueue;
+        private int _sentCount;
 
-        public Machine2(long p, Queue<long> qIn, Queue<long> qOut)
+        public int SentCount => _sentCount;
+
+        public DualProgramMachine(long programId, Queue<long> inputQueue, Queue<long> outputQueue)
         {
-            this["p"] = p;
-            this.qIn = qIn;
-            this.qOut = qOut;
+            this["p"] = programId;
+            _inputQueue = inputQueue;
+            _outputQueue = outputQueue;
         }
 
-        protected override (bool running, int valueSent) State()
+        protected override (bool Running, int SentCount) GetState() => (Running, _sentCount);
+
+        protected override void Snd(string reg)
         {
-            return (running: running, valueSent: valueSent);
+            _outputQueue.Enqueue(this[reg]);
+            _sentCount++;
+            InstructionPointer++;
         }
 
-        protected override void snd(string reg)
+        protected override void Rcv(string reg)
         {
-            qOut.Enqueue(this[reg]);
-            valueSent++;
-            ip++;
-        }
-
-        protected override void rcv(string reg)
-        {
-            if (qIn.Any())
+            if (_inputQueue.Any())
             {
-                this[reg] = qIn.Dequeue();
-                ip++;
+                this[reg] = _inputQueue.Dequeue();
+                InstructionPointer++;
             }
             else
             {
-                running = false;
+                Running = false; // wait
             }
         }
     }

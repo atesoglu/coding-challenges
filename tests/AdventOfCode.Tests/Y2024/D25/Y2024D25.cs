@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests.Y2024.D25;
 [ChallengeName("Code Chronicle")]
 public class Y2024D25
 {
-    private readonly string _input = File.ReadAllText(@"Y2024\D25\Y2024D25-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2024\D25\Y2024D25-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
@@ -19,7 +19,7 @@ public class Y2024D25
         bool match(int[] k, int[] l) =>
             Enumerable.Range(0, k.Length).All(i => k[i] + l[i] <= 7);
 
-        var patterns = _input.Split("\n\n").Select(b => b.Split("\n"));
+        var patterns = string.Join("\n", _lines).Split("\n\n").Select(b => b.Split("\n"));
         var keys = patterns.Where(p => p[0][0] == '.').Select(parsePattern).ToList();
         var locks = patterns.Where(p => p[0][0] == '#').Select(parsePattern).ToList();
 

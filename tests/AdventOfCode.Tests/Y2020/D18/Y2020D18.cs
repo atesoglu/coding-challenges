@@ -27,8 +27,11 @@ public class Y2020D18
         output.Should().Be(85660197232452);
     }
 
-    long Solve(string input, bool part1)
+    private static long Solve(string input, bool part1)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var sum = 0L;
         foreach (var line in input.Split("\n"))
         {

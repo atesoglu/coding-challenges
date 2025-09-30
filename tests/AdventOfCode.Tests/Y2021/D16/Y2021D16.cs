@@ -26,11 +26,11 @@ public class Y2021D16
     }
 
     // recursively sum the versions of a packet and its content for part 1:
-    int GetTotalVersion(Packet packet) =>
+    private int GetTotalVersion(Packet packet) =>
         packet.version + packet.packets.Select(GetTotalVersion).Sum();
 
     // recursively evaluate the packet and its contents based on the type tag for part 2:
-    long Evaluate(Packet packet)
+    private long Evaluate(Packet packet)
     {
         var parts = packet.packets.Select(Evaluate).ToArray();
         return packet.type switch
@@ -48,7 +48,7 @@ public class Y2021D16
     }
 
     // convert hex string to bit sequence reader
-    BitSequenceReader GetReader(string input) => new BitSequenceReader(
+    private static BitSequenceReader GetReader(string input) => new BitSequenceReader(
         new BitArray((
                 from hexChar in input
                 // get the 4 bits out of a hex char:
@@ -60,7 +60,7 @@ public class Y2021D16
         ));
 
     // make sense of the bit sequence:
-    Packet GetPacket(BitSequenceReader reader)
+    private static Packet GetPacket(BitSequenceReader reader)
     {
         var version = reader.ReadInt(3);
         var type = reader.ReadInt(3);
@@ -102,7 +102,7 @@ public class Y2021D16
 }
 
 // Reader class with convenience methods to retrieve n-bit integers and subreaders as needed
-class BitSequenceReader
+internal class BitSequenceReader
 {
     private BitArray bits;
     private int ptr;
@@ -141,4 +141,4 @@ class BitSequenceReader
 }
 
 // Each packet has all fields, type tag tells how to interpret the contents
-record Packet(int version, int type, long payload, Packet[] packets);
+internal record Packet(int version, int type, long payload, Packet[] packets);

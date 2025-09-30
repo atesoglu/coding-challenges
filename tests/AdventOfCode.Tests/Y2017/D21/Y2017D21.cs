@@ -5,14 +5,14 @@ using FluentAssertions;
 namespace AdventOfCode.Tests.Y2017.D21;
 
 [ChallengeName("Fractal Art")]
-public class Y2017D21
+public partial class Y2017D21
 {
-    private readonly string _input = File.ReadAllText(@"Y2017\D21\Y2017D21-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2017\D21\Y2017D21-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Iterate(_input, 5);
+        var output = Iterate(5);
 
         output.Should().Be(179);
     }
@@ -20,16 +20,16 @@ public class Y2017D21
     [Fact]
     public void PartTwo()
     {
-        var output = Iterate(_input, 18);
+        var output = Iterate(18);
 
         output.Should().Be(2766750);
     }
 
 
-    int Iterate(string input, int iterations)
+    private int Iterate(int iterations)
     {
         var mtx = Mtx.FromString(".#./..#/###");
-        var ruleset = new RuleSet(input);
+        var ruleset = new RuleSet(_lines);
         for (var i = 0; i < iterations; i++)
         {
             mtx = ruleset.Apply(mtx);
@@ -38,19 +38,19 @@ public class Y2017D21
         return mtx.Count();
     }
 
-    class RuleSet
+    private partial class RuleSet
     {
-        private Dictionary<int, Mtx> rules2;
-        private Dictionary<int, Mtx> rules3;
+        private readonly Dictionary<int, Mtx> rules2;
+        private readonly Dictionary<int, Mtx> rules3;
 
-        public RuleSet(string input)
+        public RuleSet(string[] lines)
         {
             rules2 = new Dictionary<int, Mtx>();
             rules3 = new Dictionary<int, Mtx>();
 
-            foreach (var line in input.Split('\n'))
+            foreach (var line in lines)
             {
-                var parts = Regex.Split(line, " => ");
+                var parts = PartsRegex().Split(line);
                 var left = parts[0];
                 var right = parts[1];
                 var rules =
@@ -75,7 +75,7 @@ public class Y2017D21
             ).ToArray());
         }
 
-        IEnumerable<Mtx> Variations(Mtx mtx)
+        private static IEnumerable<Mtx> Variations(Mtx mtx)
         {
             for (var j = 0; j < 2; j++)
             {
@@ -88,11 +88,14 @@ public class Y2017D21
                 mtx = mtx.Flip();
             }
         }
+
+        [GeneratedRegex(" => ")]
+        private static partial Regex PartsRegex();
     }
 
-    class Mtx
+    private class Mtx
     {
-        private bool[] flags;
+        private readonly bool[] flags;
 
         public int Size { get; private set; }
 
@@ -121,10 +124,10 @@ public class Y2017D21
             }
         }
 
-        public Mtx(int size)
+        private Mtx(int size)
         {
-            this.flags = new bool[size * size];
-            this.Size = size;
+            flags = new bool[size * size];
+            Size = size;
         }
 
         public static Mtx FromString(string st)
@@ -188,7 +191,7 @@ public class Y2017D21
 
         public Mtx Flip()
         {
-            var res = new Mtx(this.Size);
+            var res = new Mtx(Size);
             for (var irow = 0; irow < Size; irow++)
             {
                 for (var icol = 0; icol < Size; icol++)
@@ -202,7 +205,7 @@ public class Y2017D21
 
         public Mtx Rotate()
         {
-            var res = new Mtx(this.Size);
+            var res = new Mtx(Size);
             for (var i = 0; i < Size; i++)
             {
                 for (var j = 0; j < Size; j++)
@@ -249,8 +252,8 @@ public class Y2017D21
 
         private bool this[int irow, int icol]
         {
-            get { return flags[(Size * irow) + icol]; }
-            set { flags[(Size * irow) + icol] = value; }
+            get => flags[(Size * irow) + icol];
+            set => flags[(Size * irow) + icol] = value;
         }
     }
 }

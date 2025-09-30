@@ -53,5 +53,5 @@ public class Y2018D25
         output.Should().Be(352);
     }
 
-    int Dist(int[] a, int[] b) => Enumerable.Range(0, a.Length).Select(i => Math.Abs(a[i] - b[i])).Sum();
+    private static int Dist(int[] a, int[] b) => Enumerable.Range(0, a.Length).Select(i => Math.Abs(a[i] - b[i])).Sum();
 }

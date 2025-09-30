@@ -87,12 +87,12 @@ public class Y2018D06
         output.Should().Be(39560);
     }
 
-    int Dist((int x, int y) c1, (int x, int y) c2)
+    private static int Dist((int x, int y) c1, (int x, int y) c2)
     {
         return Math.Abs(c1.x - c2.x) + Math.Abs(c1.y - c2.y);
     }
 
-    (int x, int y)[] Parse(string input) => (
+    private static (int x, int y)[] Parse(string input) => (
         from line in input.Split("\n")
         let coords = line.Split(", ").Select(int.Parse).ToArray()
         select (coords[0], coords[1])

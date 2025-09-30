@@ -35,6 +35,9 @@ public class Y2020D20
 
     private object SolvePartTwo(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var image = MergeTiles(AssemblePuzzle(input));
 
         var monster = new string[]
@@ -58,7 +61,7 @@ public class Y2020D20
         }
     }
 
-    private Tile[] ParseTiles(string input)
+    private static Tile[] ParseTiles(string input)
     {
         return (
             from block in input.Split("\n\n")
@@ -71,6 +74,9 @@ public class Y2020D20
 
     private Tile[][] AssemblePuzzle(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var tiles = ParseTiles(input);
 
         // Collects tiles sharing a common edge. 
@@ -153,7 +159,7 @@ public class Y2020D20
         return puzzle;
     }
 
-    private Tile MergeTiles(Tile[][] tiles)
+    private static Tile MergeTiles(Tile[][] tiles)
     {
         // create a big tile leaving out the borders
         var image = new List<string>();
@@ -176,7 +182,7 @@ public class Y2020D20
         return new Tile(42, image.ToArray());
     }
 
-    int MatchCount(Tile image, params string[] pattern)
+    private static int MatchCount(Tile image, params string[] pattern)
     {
         var res = 0;
         var (ccolP, crowP) = (pattern[0].Length, pattern.Length);
@@ -206,10 +212,11 @@ public class Y2020D20
         return res;
     }
 }
-class Tile {
+
+internal class Tile {
     public long id;
     public int size;
-    string[] image;
+    private string[] image;
 
     // This is a bit tricky, but makes operations fast and easy to implement.
     //
@@ -220,16 +227,16 @@ class Tile {
     // where the input coordinates are adjusted accordingly.
     //
     // Checking each 8 possible orientation for a tile requires just 7 incrementation of this value.
-    int orentation = 0;
+    private int orentation = 0;
 
     public Tile(long id, string[] image) {
         this.id = id;
         this.image = image;
-        this.size = image.Length;
+        size = image.Length;
     }
 
     public void ChangeOrientation() {
-        this.orentation++;
+        orentation++;
     }
 
     public char this[int irow, int icol] {
@@ -242,7 +249,7 @@ class Tile {
                 icol = size - 1 - icol; // flip vertical axis
             }
 
-            return this.image[irow][icol];
+            return image[irow][icol];
         }
     }
 
@@ -257,7 +264,7 @@ class Tile {
         return $"Tile {id}:\n" + string.Join("\n", Enumerable.Range(0, size).Select(i => Row(i)));
     }
 
-    string GetSlice(int irow, int icol, int drow, int dcol) {
+    private string GetSlice(int irow, int icol, int drow, int dcol) {
         var st = "";
         for (var i = 0; i < size; i++) {
             st += this[irow, icol];

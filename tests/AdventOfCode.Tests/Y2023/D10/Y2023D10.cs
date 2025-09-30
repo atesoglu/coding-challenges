@@ -31,13 +31,13 @@ public class Y2023D10
     }
 
 
-    static readonly Complex Up = -Complex.ImaginaryOne;
-    static readonly Complex Down = Complex.ImaginaryOne;
-    static readonly Complex Left = -Complex.One;
-    static readonly Complex Right = Complex.One;
-    static readonly Complex[] Dirs = [Up, Right, Down, Left];
+    private static readonly Complex Up = -Complex.ImaginaryOne;
+    private static readonly Complex Down = Complex.ImaginaryOne;
+    private static readonly Complex Left = -Complex.One;
+    private static readonly Complex Right = Complex.One;
+    private static readonly Complex[] Dirs = [Up, Right, Down, Left];
 
-    static readonly Dictionary<char, Complex[]> Exits = new Dictionary<char, Complex[]>
+    private static readonly Dictionary<char, Complex[]> Exits = new Dictionary<char, Complex[]>
     {
         { '7', [Left, Down] },
         { 'F', [Right, Down] },
@@ -50,7 +50,7 @@ public class Y2023D10
     };
 
     // Returns the positions that make up the loop containing 'S'
-    HashSet<Complex> LoopPositions(Map map)
+    private static HashSet<Complex> LoopPositions(Map map)
     {
         var position = map.Keys.Single(k => map[k] == 'S');
         var positions = new HashSet<Complex>();
@@ -74,7 +74,7 @@ public class Y2023D10
     }
 
     // Check if position is inside the loop using ray casting algorithm
-    bool Inside(Complex position, Map map, HashSet<Complex> loop)
+    private static bool Inside(Complex position, Map map, HashSet<Complex> loop)
     {
         // Imagine a small elf starting from the top half of a cell and moving 
         // to the left jumping over the pipes it encounters. It needs to jump 
@@ -101,8 +101,11 @@ public class Y2023D10
         return inside;
     }
 
-    Map ParseMap(string input)
+    private static Map ParseMap(string input)
     {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
         var rows = input.Split("\n");
         return (
             from irow in Enumerable.Range(0, rows.Length)

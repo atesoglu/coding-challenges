@@ -5,27 +5,25 @@ namespace AdventOfCode.Tests.Y2019.D20;
 [ChallengeName("Donut Maze")]
 public class Y2019D20
 {
-    private readonly string _input = File.ReadAllText(@"Y2019\D20\Y2019D20-input.txt");
+    private readonly string[] _lines = File.ReadAllLines(@"Y2019\D20\Y2019D20-input.txt");
 
     [Fact]
     public void PartOne()
     {
-        var output = Solve(_input, false);
+        var output = Solve(false);
         output.Should().Be(668);
     }
 
     [Fact]
     public void PartTwo()
     {
-        var output = Solve(_input, true);
+        var output = Solve(true);
         output.Should().Be(7778);
     }
 
-    int Solve(string input, bool part2)
+    private int Solve(bool part2)
     {
-        var mx = input.Split("\n", StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.ToCharArray())
-            .ToArray();
+        var mx = _lines.Select(x => x.ToCharArray()).ToArray();
 
         var (portals, start, end) = Explore(mx);
 
@@ -72,7 +70,7 @@ public class Y2019D20
         throw new Exception("No path found");
     }
 
-    (Dictionary<Pos2, PosD> portals, Pos3 start, Pos3 goal) Explore(char[][] mx)
+    private static (Dictionary<Pos2, PosD> portals, Pos3 start, Pos3 goal) Explore(char[][] mx)
     {
         var portals = new Dictionary<Pos2, PosD>();
         var tmp = new Dictionary<string, Pos2>();
@@ -128,8 +126,8 @@ public class Y2019D20
     }
 }
 
-record Pos2(int irow, int icol);
+internal record Pos2(int irow, int icol);
 
-record Pos3(int irow, int icol, int level);
+internal record Pos3(int irow, int icol, int level);
 
-record PosD(int irow, int icol, int dlevel);
+internal record PosD(int irow, int icol, int dlevel);

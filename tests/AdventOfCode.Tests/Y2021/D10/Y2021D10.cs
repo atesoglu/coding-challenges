@@ -25,13 +25,13 @@ public class Y2021D10
     }
 
 
-    private long Median(IEnumerable<long> items) =>
+    private static long Median(IEnumerable<long> items) =>
         items.OrderBy(x => x).ElementAt(items.Count() / 2);
 
-    IEnumerable<long> GetScores(string input, bool getSyntaxErrorScore) =>
+    private IEnumerable<long> GetScores(string input, bool getSyntaxErrorScore) =>
         input.Split("\n").Select(line => GetScore(line, getSyntaxErrorScore)).Where(score => score > 0);
 
-    long GetScore(string line, bool getSyntaxErrorScore)
+    private static long GetScore(string line, bool getSyntaxErrorScore)
     {
         // standard stack based approach
         var stack = new Stack<char>();

@@ -25,7 +25,7 @@ public class Y2019D07
         output.Should().Be(69816958);
     }
 
-    long Solve(string prg, bool loop, int[] prgids)
+    private long Solve(string prg, bool loop, int[] prgids)
     {
         var amps = Enumerable.Range(0, 5).Select(x => new IntCodeMachine(prg)).ToArray();
         var max = 0L;
@@ -38,7 +38,7 @@ public class Y2019D07
         return max;
     }
 
-    long ExecAmps(IntCodeMachine[] amps, int[] prgid, bool loop)
+    private static long ExecAmps(IntCodeMachine[] amps, int[] prgid, bool loop)
     {
         for (var i = 0; i < amps.Length; i++)
         {
@@ -67,7 +67,7 @@ public class Y2019D07
         }
     }
 
-    IEnumerable<T[]> Permutations<T>(T[] rgt)
+    private static IEnumerable<T[]> Permutations<T>(T[] rgt)
     {
         IEnumerable<T[]> PermutationsRec(int i)
         {

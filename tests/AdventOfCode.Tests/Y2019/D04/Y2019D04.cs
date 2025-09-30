@@ -50,7 +50,7 @@ public class Y2019D04
         ).Any();
     }
 
-    private IEnumerable<string> Split(string st)
+    private static IEnumerable<string> Split(string st)
     {
         var ich = 0;
         while (ich < st.Length)

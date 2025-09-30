@@ -31,7 +31,7 @@ public class Y2020D02
     }
 
 
-    int ValidCount(string input, Func<PasswordEntry, bool> isValid) =>
+    private static int ValidCount(string input, Func<PasswordEntry, bool> isValid) =>
         input
             .Split("\n")
             .Select(line =>
@@ -43,4 +43,5 @@ public class Y2020D02
             })
             .Count(isValid);
 }
-record PasswordEntry(int a, int b, char ch, string password);
+
+internal record PasswordEntry(int a, int b, char ch, string password);
