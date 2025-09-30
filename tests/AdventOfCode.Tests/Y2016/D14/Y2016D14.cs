@@ -27,7 +27,7 @@ public class Y2016D14
     }
 
 
-    int Solve(IEnumerable<string> hashes)
+    private int Solve(IEnumerable<string> hashes)
     {
         var found = 0;
         var nextIdx = Enumerable.Range(0, 16).Select(_ => new Queue<int>()).ToArray();

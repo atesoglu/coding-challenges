@@ -35,7 +35,7 @@ public class Y2024D22
         output.Should().Be(2221);
     }
 
-    Dictionary<(int, int, int, int), int> BuildBuyingOptions(int seed)
+    private Dictionary<(int, int, int, int), int> BuildBuyingOptions(int seed)
     {
         var bananasSold = GetBananasPerStep(seed).ToArray();
         var buyingOptions = new Dictionary<(int, int, int, int), int>();
@@ -53,11 +53,11 @@ public class Y2024D22
         return buyingOptions;
     }
 
-    int[] GetBananasPerStep(int seed) => GenerateSecretNumbers(seed).Select(n => n % 10).ToArray();
+    private int[] GetBananasPerStep(int seed) => GenerateSecretNumbers(seed).Select(n => n % 10).ToArray();
 
-    int[] Diff(IEnumerable<int> x) => x.Zip(x.Skip(1)).Select(p => p.Second - p.First).ToArray();
+    private int[] Diff(IEnumerable<int> x) => x.Zip(x.Skip(1)).Select(p => p.Second - p.First).ToArray();
 
-    IEnumerable<int> GenerateSecretNumbers(int seed)
+    private IEnumerable<int> GenerateSecretNumbers(int seed)
     {
         var mixAndPrune = (int a, int b) => (a ^ b) & 0xffffff;
 
@@ -71,5 +71,5 @@ public class Y2024D22
         }
     }
 
-    IEnumerable<int> ParseSeeds(IEnumerable<string> lines) => lines.Select(int.Parse);
+    private IEnumerable<int> ParseSeeds(IEnumerable<string> lines) => lines.Select(int.Parse);
 }

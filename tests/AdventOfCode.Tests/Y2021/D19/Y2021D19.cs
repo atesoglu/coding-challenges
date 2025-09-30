@@ -37,7 +37,7 @@ public class Y2021D19
         output.Should().Be(10918);
     }
 
-    HashSet<Scanner> LocateScanners(string input)
+    private HashSet<Scanner> LocateScanners(string input)
     {
         var scanners = new HashSet<Scanner>(Parse(input));
         var locatedScanners = new HashSet<Scanner>();
@@ -70,7 +70,7 @@ public class Y2021D19
         return locatedScanners;
     }
 
-    Scanner TryToLocate(Scanner scannerA, Scanner scannerB)
+    private Scanner TryToLocate(Scanner scannerA, Scanner scannerB)
     {
         var beaconsInA = scannerA.GetBeaconsInWorld().ToArray();
 
@@ -100,7 +100,7 @@ public class Y2021D19
         return null;
     }
 
-    IEnumerable<(Coord beaconInA, Coord beaconInB)> PotentialMatchingBeacons(Scanner scannerA, Scanner scannerB)
+    private IEnumerable<(Coord beaconInA, Coord beaconInB)> PotentialMatchingBeacons(Scanner scannerA, Scanner scannerB)
     {
         // If we had a matching beaconInA and beaconInB and moved the center
         // of the scanners to these then we would find at least 12 beacons 
@@ -147,7 +147,7 @@ public class Y2021D19
         }
     }
 
-    Scanner[] Parse(string input) => (
+    private Scanner[] Parse(string input) => (
         from block in input.Split("\n\n")
         let beacons =
             from line in block.Split("\n").Skip(1)
@@ -157,9 +157,9 @@ public class Y2021D19
     ).ToArray();
 }
 
-record Coord(int x, int y, int z);
+internal record Coord(int x, int y, int z);
 
-record Scanner(Coord center, int rotation, List<Coord> beaconsInLocal)
+internal record Scanner(Coord center, int rotation, List<Coord> beaconsInLocal)
 {
     public Scanner Rotate() => new Scanner(center, rotation + 1, beaconsInLocal);
 

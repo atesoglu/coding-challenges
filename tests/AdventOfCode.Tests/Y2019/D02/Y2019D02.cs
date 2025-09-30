@@ -44,7 +44,7 @@ public class Y2019D02
         }
     }
 
-    long ExecIntCode(IntCodeMachine icm, int noun, int verb)
+    private long ExecIntCode(IntCodeMachine icm, int noun, int verb)
     {
         icm.Reset();
         icm.memory[1] = noun;
@@ -54,14 +54,14 @@ public class Y2019D02
     }
 }
 
-enum Mode
+internal enum Mode
 {
     Positional = 0,
     Immediate = 1,
     Relative = 2
 }
 
-enum Opcode
+internal enum Opcode
 {
     Add = 1,
     Mul = 2,
@@ -75,10 +75,10 @@ enum Opcode
     Hlt = 99,
 }
 
-class Memory
+internal class Memory
 {
     public long[] initial;
-    Dictionary<long, long> mem = new Dictionary<long, long>();
+    private Dictionary<long, long> mem = new Dictionary<long, long>();
 
     public Memory(long[] initial)
     {
@@ -113,9 +113,9 @@ class Memory
     }
 }
 
-class ImmutableIntCodeMachine
+internal class ImmutableIntCodeMachine
 {
-    IntCodeMachine icm;
+    private IntCodeMachine icm;
 
     public ImmutableIntCodeMachine(string stPrg) : this(new IntCodeMachine(stPrg))
     {
@@ -141,9 +141,9 @@ class ImmutableIntCodeMachine
     public bool Halted() => this.icm.Halted();
 }
 
-class IntCodeOutput : IReadOnlyList<long>
+internal class IntCodeOutput : IReadOnlyList<long>
 {
-    long[] output;
+    private long[] output;
 
     public IntCodeOutput(long[] output)
     {
@@ -161,7 +161,7 @@ class IntCodeOutput : IReadOnlyList<long>
     IEnumerator IEnumerable.GetEnumerator() => this.output.GetEnumerator();
 }
 
-class IntCodeMachine
+internal class IntCodeMachine
 {
     private static int[] modeMask = new int[] { 0, 100, 1000, 10000 };
 
@@ -230,7 +230,7 @@ class IntCodeMachine
         return (from ch in st select (long)ch).ToArray();
     }
 
-    bool Match(string stm, string pattern, out int[] m)
+    private bool Match(string stm, string pattern, out int[] m)
     {
         var match = Regex.Match(stm, pattern);
         m = null;

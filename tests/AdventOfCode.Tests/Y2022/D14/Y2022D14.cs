@@ -26,12 +26,12 @@ public class Y2022D14
     }
 }
 
-class Cave
+internal class Cave
 {
-    bool hasFloor;
+    private bool hasFloor;
 
-    Dictionary<Complex, char> map;
-    int maxImaginary;
+    private Dictionary<Complex, char> map;
+    private int maxImaginary;
 
     public Cave(string input, bool hasFloor)
     {
@@ -99,7 +99,7 @@ class Cave
     }
 
     // Returns the final location of a falling unit of sand following the rules of cave physics
-    Complex SimulateFallingSand(Complex sand)
+    private Complex SimulateFallingSand(Complex sand)
     {
         var down = new Complex(0, 1);
         var left = new Complex(-1, 1);

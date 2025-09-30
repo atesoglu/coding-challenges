@@ -27,7 +27,7 @@ public class Y2018D12
     }
 
 
-    long Iterate(string input, long iterations)
+    private long Iterate(string input, long iterations)
     {
         var (state, rules) = Parse(input);
 
@@ -49,7 +49,7 @@ public class Y2018D12
         return Enumerable.Range(0, state.pots.Length).Select(i => state.pots[i] == '#' ? i + state.left : 0).Sum();
     }
 
-    State Step(State state, Dictionary<string, string> rules)
+    private State Step(State state, Dictionary<string, string> rules)
     {
         var pots = "....." + state.pots + ".....";
         var newPots = "";
@@ -69,7 +69,7 @@ public class Y2018D12
         return res;
     }
 
-    (State state, Dictionary<string, string> rules) Parse(string input)
+    private (State state, Dictionary<string, string> rules) Parse(string input)
     {
         var lines = input.Split("\n");
         var state = new State { left = 0, pots = lines[0].Substring("initial state: ".Length) };
@@ -77,7 +77,8 @@ public class Y2018D12
         return (state, rules);
     }
 }
-class State {
+
+internal class State {
     public long left;
     public string pots;
 }

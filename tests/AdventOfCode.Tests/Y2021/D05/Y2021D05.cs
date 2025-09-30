@@ -28,11 +28,11 @@ public class Y2021D05
     }
 
 
-    IEnumerable<Vec2> GetIntersections(IEnumerable<IEnumerable<Vec2>> lines) =>
+    private IEnumerable<Vec2> GetIntersections(IEnumerable<IEnumerable<Vec2>> lines) =>
         // group all the points and return the intersections:
         lines.SelectMany(pt => pt).GroupBy(pt => pt).Where(g => g.Count() > 1).Select(g => g.Key);
 
-    IEnumerable<IEnumerable<Vec2>> ParseLines(string input, bool skipDiagonals) =>
+    private IEnumerable<IEnumerable<Vec2>> ParseLines(string input, bool skipDiagonals) =>
         from line in input.Split("\n")
         // parse out numbers first:
         let ns = (
@@ -56,4 +56,5 @@ public class Y2021D05
         where !skipDiagonals || dir.x == 0 || dir.y == 0
         select points;
 }
-record Vec2(int x, int y);
+
+internal record Vec2(int x, int y);

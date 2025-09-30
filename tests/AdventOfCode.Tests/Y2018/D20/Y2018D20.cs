@@ -25,7 +25,7 @@ public class Y2018D20
     }
 
 
-    (int dMax, int distantRooms) Solver(string input)
+    private (int dMax, int distantRooms) Solver(string input)
     {
         var grid = Doors(input)
             .ToList()
@@ -62,7 +62,7 @@ public class Y2018D20
         return (dMax, distantRooms);
     }
 
-    IEnumerable<((int x, int y) posFrom, (int x, int y) posTo)> Doors(string input)
+    private IEnumerable<((int x, int y) posFrom, (int x, int y) posTo)> Doors(string input)
     {
         var s = new Stack<(int x, int y)>();
         (int x, int y) pos = (0, 0);

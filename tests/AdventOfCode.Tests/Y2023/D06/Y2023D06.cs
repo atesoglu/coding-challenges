@@ -26,7 +26,7 @@ public class Y2023D06
     }
 
 
-    long Solve(string input)
+    private long Solve(string input)
     {
         var rows = input.Split("\n");
         var times = Parse(rows[0]);
@@ -41,7 +41,7 @@ public class Y2023D06
         return res;
     }
 
-    long WinningMoves(long time, long record)
+    private long WinningMoves(long time, long record)
     {
         // If we wait x ms, our boat moves `(time - x) * x` millimeters.
         // This breaks the record when `(time - x) * x > record`
@@ -57,7 +57,7 @@ public class Y2023D06
     }
 
     // solves ax^2 + bx + c = 0 (supposing two different roots)
-    (double, double) SolveEq(long a, long b, long c)
+    private (double, double) SolveEq(long a, long b, long c)
     {
         var d = Math.Sqrt(b * b - 4 * a * c);
         var x1 = (-b - d) / (2 * a);
@@ -65,7 +65,7 @@ public class Y2023D06
         return (Math.Min(x1, x2), Math.Max(x1, x2));
     }
 
-    long[] Parse(string input) => (
+    private long[] Parse(string input) => (
         from m in Regex.Matches(input, @"\d+")
         select long.Parse(m.Value)
     ).ToArray();

@@ -32,7 +32,7 @@ public class Y2023D17
 
     // Graph search using a priority queue. We can simply store the heatloss in
     // the priority.
-    int Heatloss(string input, int minStraight, int maxStraight)
+    private int Heatloss(string input, int minStraight, int maxStraight)
     {
         var map = ParseMap(input);
         var goal = map.Keys.MaxBy(pos => pos.Imaginary + pos.Real);
@@ -64,7 +64,7 @@ public class Y2023D17
     }
 
     // returns possible next states based on the rules
-    IEnumerable<Crucible> Moves(Crucible c, int minStraight, int maxStraight)
+    private IEnumerable<Crucible> Moves(Crucible c, int minStraight, int maxStraight)
     {
         if (c.straight < maxStraight)
         {
@@ -84,7 +84,7 @@ public class Y2023D17
     }
 
     // using a dictionary helps with bounds check (simply containskey):
-    Map ParseMap(string input)
+    private Map ParseMap(string input)
     {
         var lines = input.Split('\n');
         return (
@@ -96,4 +96,5 @@ public class Y2023D17
         ).ToDictionary();
     }
 }
-record Crucible(Complex pos, Complex dir, int straight);
+
+internal record Crucible(Complex pos, Complex dir, int straight);

@@ -32,9 +32,9 @@ public class Y2022D11
         output.Should().Be(23641658401);
     }
 
-    Monkey[] ParseMonkeys(string input) => input.Split("\n\n").Select(ParseMonkey).ToArray();
+    private Monkey[] ParseMonkeys(string input) => input.Split("\n\n").Select(ParseMonkey).ToArray();
 
-    Monkey ParseMonkey(string input)
+    private Monkey ParseMonkey(string input)
     {
         var monkey = new Monkey();
 
@@ -82,13 +82,13 @@ public class Y2022D11
         return monkey;
     }
 
-    long GetMonkeyBusinessLevel(IEnumerable<Monkey> monkeys) =>
+    private long GetMonkeyBusinessLevel(IEnumerable<Monkey> monkeys) =>
         monkeys
             .OrderByDescending(monkey => monkey.inspectedItems)
             .Take(2)
             .Aggregate(1L, (res, monkey) => res * monkey.inspectedItems);
 
-    void Run(int rounds, Monkey[] monkeys, Func<long, long> updateWorryLevel)
+    private void Run(int rounds, Monkey[] monkeys, Func<long, long> updateWorryLevel)
     {
         for (var i = 0; i < rounds; i++)
         {
@@ -110,7 +110,7 @@ public class Y2022D11
         }
     }
 
-    class Monkey
+    private class Monkey
     {
         public Queue<long> items;
         public Func<long, long> operation;
@@ -120,7 +120,7 @@ public class Y2022D11
     }
 
     // converts a line into a tryParse-style parser function
-    TryParse LineParser(string line)
+    private TryParse LineParser(string line)
     {
         bool match(string pattern, out string arg)
         {
@@ -140,5 +140,5 @@ public class Y2022D11
         return match;
     }
 
-    delegate bool TryParse(string pattern, out string arg);
+    private delegate bool TryParse(string pattern, out string arg);
 }

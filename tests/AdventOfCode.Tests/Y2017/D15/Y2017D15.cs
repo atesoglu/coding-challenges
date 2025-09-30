@@ -26,11 +26,11 @@ public class Y2017D15
         output.Should().Be(320);
     }
 
-    IEnumerable<(long, long)> Combine((IEnumerable<long> a, IEnumerable<long> b) items) => Enumerable.Zip(items.a, items.b, (a, b) => (a, b));
+    private IEnumerable<(long, long)> Combine((IEnumerable<long> a, IEnumerable<long> b) items) => Enumerable.Zip(items.a, items.b, (a, b) => (a, b));
 
-    int MatchCount(IEnumerable<(long a, long b)> items) => items.Count(item => (item.a & 0xffff) == (item.b & 0xffff));
+    private int MatchCount(IEnumerable<(long a, long b)> items) => items.Count(item => (item.a & 0xffff) == (item.b & 0xffff));
 
-    (IEnumerable<long> a, IEnumerable<long> b) ParseGenerators(string input)
+    private (IEnumerable<long> a, IEnumerable<long> b) ParseGenerators(string input)
     {
         var lines = input.Split('\n');
         var startA = int.Parse(lines[0].Substring("Generator A starts with ".Length));
@@ -39,7 +39,7 @@ public class Y2017D15
         return (Generator(startA, 16807), Generator(startB, 48271));
     }
 
-    IEnumerable<long> Generator(int start, int mul)
+    private IEnumerable<long> Generator(int start, int mul)
     {
         var mod = 2147483647;
 

@@ -25,14 +25,14 @@ public class Y2023D01
         output.Should().Be(54203);
     }
 
-    int CalculateCalibrationSum(IEnumerable<string> lines, string pattern) => (
+    private int CalculateCalibrationSum(IEnumerable<string> lines, string pattern) => (
         from line in lines
         let first = Regex.Match(line, pattern)
         let last = Regex.Match(line, pattern, RegexOptions.RightToLeft)
         select ParseToken(first.Value) * 10 + ParseToken(last.Value)
     ).Sum();
 
-    int ParseToken(string token) => token switch
+    private int ParseToken(string token) => token switch
     {
         "one" => 1,
         "two" => 2,

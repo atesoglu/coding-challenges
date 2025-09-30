@@ -148,7 +148,7 @@ public class Y2022D19
         }
     }
 
-    IEnumerable<Blueprint> Parse(string input)
+    private IEnumerable<Blueprint> Parse(string input)
     {
         foreach (var line in input.Split("\n"))
         {
@@ -163,13 +163,13 @@ public class Y2022D19
         }
     }
 
-    static Material Nothing = new Material(0, 0, 0, 0);
-    static Material Ore = new Material(1, 0, 0, 0);
-    static Material Clay = new Material(0, 1, 0, 0);
-    static Material Obsidian = new Material(0, 0, 1, 0);
-    static Material Geode = new Material(0, 0, 0, 1);
+    private static Material Nothing = new Material(0, 0, 0, 0);
+    private static Material Ore = new Material(1, 0, 0, 0);
+    private static Material Clay = new Material(0, 1, 0, 0);
+    private static Material Obsidian = new Material(0, 0, 1, 0);
+    private static Material Geode = new Material(0, 0, 0, 1);
 
-    record Material(int ore, int clay, int obsidian, int geode)
+    private record Material(int ore, int clay, int obsidian, int geode)
     {
         public static Material operator *(int m, Material a)
         {
@@ -215,11 +215,11 @@ public class Y2022D19
         }
     }
 
-    record Robot(int id, Material cost, Material producing);
+    private record Robot(int id, Material cost, Material producing);
 
-    record State(int remainingTime, Material available, Material producing, int dontBuild);
+    private record State(int remainingTime, Material available, Material producing, int dontBuild);
 
-    record Blueprint(int id, params Robot[] robots)
+    private record Blueprint(int id, params Robot[] robots)
     {
         public Material maxCost = new Material(
             ore: robots.Select(robot => robot.cost.ore).Max(),

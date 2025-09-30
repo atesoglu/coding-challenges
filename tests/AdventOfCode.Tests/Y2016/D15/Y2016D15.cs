@@ -25,13 +25,13 @@ public class Y2016D15
         output.Should().Be(3903937);
     }
 
-    (int pos, int mod)[] Parse(string input) => (
+    private (int pos, int mod)[] Parse(string input) => (
         from line in input.Split('\n')
         let m = Regex.Match(line, @"Disc #\d has (\d+) positions; at time=0, it is at position (\d+).")
         select (pos: int.Parse(m.Groups[2].Value), mod: int.Parse(m.Groups[1].Value))
     ).ToArray();
 
-    IEnumerable<(int t, bool ok)> Iterate((int pos, int mod)[] discs)
+    private IEnumerable<(int t, bool ok)> Iterate((int pos, int mod)[] discs)
     {
         for (var t = 0;; t++)
         {

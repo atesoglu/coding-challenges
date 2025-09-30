@@ -41,7 +41,7 @@ public class Y2018D24
     }
 
 
-    (bool immuneSystem, long units) Fight(string input, int boost)
+    private (bool immuneSystem, long units) Fight(string input, int boost)
     {
         var army = Parse(input);
         foreach (var g in army)
@@ -93,7 +93,7 @@ public class Y2018D24
         return (army.All(x => x.immuneSystem), army.Select(x => x.units).Sum());
     }
 
-    List<Group> Parse(string input)
+    private List<Group> Parse(string input)
     {
         var lines = input.Split("\n");
         var immuneSystem = false;
@@ -157,7 +157,7 @@ public class Y2018D24
     }
 }
 
-class Group
+internal class Group
 {
     //4 units each with 9798 hit points (immune to bludgeoning) with an attack that does 1151 fire damage at initiative 9
     public bool immuneSystem;

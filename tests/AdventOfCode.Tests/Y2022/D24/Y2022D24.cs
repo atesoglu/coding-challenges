@@ -39,7 +39,7 @@ public class Y2022D24
     private record Pos(int time, int irow, int icol);
 
     // Standard A* algorithm
-    Pos WalkTo(Pos start, Pos goal, Maps maps)
+    private Pos WalkTo(Pos start, Pos goal, Maps maps)
     {
         var q = new PriorityQueue<Pos, int>();
 
@@ -77,7 +77,7 @@ public class Y2022D24
     }
 
     // Increase time, look for free neighbours
-    IEnumerable<Pos> NextPositions(Pos pos, Maps maps) {
+    private IEnumerable<Pos> NextPositions(Pos pos, Maps maps) {
         pos = pos with {time = pos.time + 1};
         foreach (var nextPos in new Pos[]{
             pos,
@@ -92,7 +92,7 @@ public class Y2022D24
         }
     }
 
-    (Pos entry, Pos exit, Maps maps) Parse(string input) {
+    private (Pos entry, Pos exit, Maps maps) Parse(string input) {
         var maps = new Maps(input);
         var entry = new Pos(0, 0, 1);
         var exit = new Pos(int.MaxValue, maps.crow - 1, maps.ccol - 2);
@@ -100,7 +100,7 @@ public class Y2022D24
     }
 
     // Space-time indexable map
-    class Maps {
+    private class Maps {
         private string[] map;
         public readonly int crow;
         public readonly int ccol;

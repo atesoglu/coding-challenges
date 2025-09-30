@@ -26,7 +26,7 @@ public class Y2018D17
     }
 
 
-    string Fill(string input)
+    private string Fill(string input)
     {
         var (width, height) = (2000, 2000);
         var mtx = new char[width, height];
@@ -84,7 +84,7 @@ public class Y2018D17
         return sb.ToString();
     }
 
-    void FillRecursive(char[,] mtx, int x, int y)
+    private void FillRecursive(char[,] mtx, int x, int y)
     {
         var width = mtx.GetLength(0);
         var height = mtx.GetLength(1);
@@ -126,7 +126,7 @@ public class Y2018D17
         }
     }
 
-    bool IsStill(char[,] mtx, int x, int y)
+    private bool IsStill(char[,] mtx, int x, int y)
     {
         var width = mtx.GetLength(0);
         foreach (var dx in new[] { -1, 1 })

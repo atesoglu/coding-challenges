@@ -28,7 +28,7 @@ public class Y2019D10
     }
 
 
-    IEnumerable<(int irow, int icol)> Destroy(string input)
+    private IEnumerable<(int irow, int icol)> Destroy(string input)
     {
         var (station, asteroidsByDir) = SelectStationPosition(input);
 
@@ -56,7 +56,7 @@ public class Y2019D10
         }
     }
 
-    IEnumerable<(int drow, int dcol)> Rotate(IEnumerable<(int drow, int dcol)> dirs)
+    private IEnumerable<(int drow, int dcol)> Rotate(IEnumerable<(int drow, int dcol)> dirs)
     {
         var ordered = dirs.OrderBy(dir => -Math.Atan2(dir.dcol, dir.drow)).ToList();
         for (var i = 0;; i++)
@@ -65,7 +65,7 @@ public class Y2019D10
         }
     }
 
-    ((int irow, int icol) station, AsteroidsByDir asteroidsByDir) SelectStationPosition(string input)
+    private ((int irow, int icol) station, AsteroidsByDir asteroidsByDir) SelectStationPosition(string input)
     {
         var res = ((0, 0), asteroidsByDir: new AsteroidsByDir());
         var asteroids = Asteroids(input);
@@ -99,7 +99,7 @@ public class Y2019D10
         return res;
     }
 
-    List<(int irow, int icol)> Asteroids(string input)
+    private List<(int irow, int icol)> Asteroids(string input)
     {
         var map = input.Split("\n");
         var (crow, ccol) = (map.Length, map[0].Length);
@@ -112,5 +112,5 @@ public class Y2019D10
         ).ToList();
     }
 
-    int Gcd(int a, int b) => b == 0 ? a : Gcd(b, a % b);
+    private int Gcd(int a, int b) => b == 0 ? a : Gcd(b, a % b);
 }

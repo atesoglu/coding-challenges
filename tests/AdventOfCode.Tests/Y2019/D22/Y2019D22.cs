@@ -34,10 +34,10 @@ public class Y2019D22
         output.Should().Be(1644352419829);
     }
 
-    BigInteger Mod(BigInteger a, BigInteger m) => ((a % m) + m) % m;
-    BigInteger ModInv(BigInteger a, BigInteger m) => BigInteger.ModPow(a, m - 2, m);
+    private BigInteger Mod(BigInteger a, BigInteger m) => ((a % m) + m) % m;
+    private BigInteger ModInv(BigInteger a, BigInteger m) => BigInteger.ModPow(a, m - 2, m);
 
-    (BigInteger a, BigInteger big) Parse(string input, long m, long n)
+    private (BigInteger a, BigInteger big) Parse(string input, long m, long n)
     {
         var a = new BigInteger(1);
         var b = new BigInteger(0);

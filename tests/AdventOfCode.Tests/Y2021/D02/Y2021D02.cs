@@ -53,13 +53,16 @@ public class Y2021D02
         output.Should().Be(2101031224);
     }
 
-    IEnumerable<Input> Parse(string st) =>
+    private IEnumerable<Input> Parse(string st) =>
         from
             line in st.Split('\n')
         let parts = line.Split()
         select
             new Input(parts[0][0], int.Parse(parts[1]));
 }
-record Input(char dir, int amount);
-record State1(int x, int y);
-record State2(int x, int y, int aim);
+
+internal record Input(char dir, int amount);
+
+internal record State1(int x, int y);
+
+internal record State2(int x, int y, int aim);

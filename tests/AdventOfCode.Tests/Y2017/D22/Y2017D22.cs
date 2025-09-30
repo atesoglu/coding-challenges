@@ -42,7 +42,7 @@ public class Y2017D22
         output.Should().Be(2512380);
     }
 
-    int Iterate(string input, int iterations, Func<State, int, int, (State State, int irow, int icol)> update)
+    private int Iterate(string input, int iterations, Func<State, int, int, (State State, int irow, int icol)> update)
     {
         var lines = input.Split('\n');
         var crow = lines.Length;
@@ -88,7 +88,7 @@ public class Y2017D22
         return infections;
     }
 
-    enum State
+    private enum State
     {
         Clean,
         Weakened,

@@ -39,7 +39,7 @@ public class Y2020D13
     }
 
 
-    (int earliestDepart, (long period, int delay)[] buses) Parse(string input)
+    private (int earliestDepart, (long period, int delay)[] buses) Parse(string input)
     {
         var lines = input.Split("\n");
         var earliestDepart = int.Parse(lines[0]);
@@ -52,7 +52,7 @@ public class Y2020D13
     }
 
     // https://rosettacode.org/wiki/Chinese_remainder_theorem#C.23
-    long ChineseRemainderTheorem((long mod, long a)[] items)
+    private long ChineseRemainderTheorem((long mod, long a)[] items)
     {
         var prod = items.Aggregate(1L, (acc, item) => acc * item.mod);
         var sum = items.Select((item, i) =>
@@ -64,5 +64,5 @@ public class Y2020D13
         return sum % prod;
     }
 
-    long ModInv(long a, long m) => (long)BigInteger.ModPow(a, m - 2, m);
+    private long ModInv(long a, long m) => (long)BigInteger.ModPow(a, m - 2, m);
 }

@@ -24,7 +24,7 @@ public class Y2017D09
         output.Should().Be(5601);
     }
 
-    IEnumerable<int> BlockScores(string input)
+    private IEnumerable<int> BlockScores(string input)
     {
         var score = 0;
         foreach (var ch in Classify(input).Where((x) => !x.garbage).Select(x => x.ch))
@@ -41,7 +41,7 @@ public class Y2017D09
         }
     }
 
-    IEnumerable<(char ch, bool garbage)> Classify(string input)
+    private IEnumerable<(char ch, bool garbage)> Classify(string input)
     {
         var skip = false;
         var garbage = false;

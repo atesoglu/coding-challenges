@@ -41,7 +41,7 @@ public class Y2023D21
     }
 
     // walks around and returns the number of available positions at each step
-    IEnumerable<long> Steps(HashSet<Complex> map)
+    private IEnumerable<long> Steps(HashSet<Complex> map)
     {
         var positions = new HashSet<Complex> { new Complex(65, 65) };
         while (true)
@@ -51,7 +51,7 @@ public class Y2023D21
         }
     }
 
-    HashSet<Complex> Step(HashSet<Complex> map, HashSet<Complex> positions)
+    private HashSet<Complex> Step(HashSet<Complex> map, HashSet<Complex> positions)
     {
         Complex[] dirs = [1, -1, Complex.ImaginaryOne, -Complex.ImaginaryOne];
 
@@ -74,9 +74,9 @@ public class Y2023D21
     }
 
     // the double % takes care of negative numbers
-    double Mod(double n, int m) => ((n % m) + m) % m;
+    private double Mod(double n, int m) => ((n % m) + m) % m;
 
-    HashSet<Complex> ParseMap(string input)
+    private HashSet<Complex> ParseMap(string input)
     {
         var lines = input.Split("\n");
         return (

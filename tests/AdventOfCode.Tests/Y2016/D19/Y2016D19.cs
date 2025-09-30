@@ -29,7 +29,7 @@ public class Y2016D19
         output.Should().Be(1417887);
     }
 
-    int Solve(Elf elf, Elf elfVictim, int elfCount, Func<Elf, int, Elf> nextVictim)
+    private int Solve(Elf elf, Elf elfVictim, int elfCount, Func<Elf, int, Elf> nextVictim)
     {
         while (elfCount > 1)
         {
@@ -43,7 +43,7 @@ public class Y2016D19
         return elf.id;
     }
 
-    Elf[] Elves(int count)
+    private Elf[] Elves(int count)
     {
         var elves = Enumerable.Range(0, count).Select(x => new Elf { id = x + 1 }).ToArray();
         for (var i = 0; i < count; i++)

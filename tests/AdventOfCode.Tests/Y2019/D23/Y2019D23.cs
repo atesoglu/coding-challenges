@@ -28,7 +28,7 @@ public class Y2019D23
     }
 
 
-    long Solve(string input, bool hasNat)
+    private long Solve(string input, bool hasNat)
     {
         var machines = (
             from address in Enumerable.Range(0, 50)
@@ -54,7 +54,7 @@ public class Y2019D23
         return packets.Single(packet => packet.address == natAddress).y;
     }
 
-    (List<long> data, Packets packets) Receive(Packets packets, int address)
+    private (List<long> data, Packets packets) Receive(Packets packets, int address)
     {
         var filteredPackets = new Packets();
         var data = new List<long>();
@@ -74,7 +74,7 @@ public class Y2019D23
         return (data, filteredPackets);
     }
 
-    Func<Packets, Packets> Nic(string program, int address)
+    private Func<Packets, Packets> Nic(string program, int address)
     {
         var icm = new IntCodeMachine(program);
         var output = icm.Run(address);
@@ -98,7 +98,7 @@ public class Y2019D23
         };
     }
 
-    Func<Packets, Packets> Nat(int address)
+    private Func<Packets, Packets> Nat(int address)
     {
         long? yLastSent = null;
         long? x = null;

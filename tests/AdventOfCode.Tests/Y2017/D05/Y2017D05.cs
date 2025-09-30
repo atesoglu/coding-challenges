@@ -27,7 +27,7 @@ public class Y2017D05
     }
 
 
-    int GetStepCount(string input, Func<int, int> update)
+    private int GetStepCount(string input, Func<int, int> update)
     {
         var numbers = input.Split('\n').Select(int.Parse).ToArray();
         var i = 0;

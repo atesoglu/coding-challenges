@@ -49,8 +49,7 @@ public class Y2015D19
             yield return Replace(molecule, idx, to, len);
     }
 
-    private static string Replace(string molecule, int start, string replacement, int length) =>
-        molecule.Substring(0, start) + replacement + molecule.Substring(start + length);
+    private static string Replace(string molecule, int start, string replacement, int length) => molecule.Substring(0, start) + replacement + molecule.Substring(start + length);
 
     private static IEnumerable<(int idx, int length, string to)> Replacements((string from, string to)[] rules, string molecule, bool forward)
     {
@@ -68,9 +67,7 @@ public class Y2015D19
 
     private ((string from, string to)[] rules, string molecule) Parse()
     {
-        var rules = _lines
-            .TakeWhile(line => line.Contains("=>"))
-            .Select(line =>
+        var rules = _lines.TakeWhile(line => line.Contains("=>")).Select(line =>
             {
                 var parts = line.Split(" => ");
                 return (parts[0], parts[1]);

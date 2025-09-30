@@ -17,7 +17,7 @@ public class Y2015D18
     [Fact]
     public void PartOne()
     {
-        var output = Enumerable.Range(0, 100).Aggregate(_input, (acc, _) => Step(acc, false)).Select(row => row.Sum()).Sum();
+        var output = Enumerable.Range(0, 100).Aggregate(_input, (acc, _) => NextGridState(acc, false)).Select(row => row.Sum()).Sum();
 
         output.Should().Be(821);
     }
@@ -25,51 +25,49 @@ public class Y2015D18
     [Fact]
     public void PartTwo()
     {
-        var output = Enumerable.Range(0, 100).Aggregate(_input, (acc, _) => Step(acc, true)).Select(row => row.Sum()).Sum();
+        var output = Enumerable.Range(0, 100).Aggregate(_input, (acc, _) => NextGridState(acc, true)).Select(row => row.Sum()).Sum();
 
         output.Should().Be(886);
     }
 
-    private static int[][] Step(int[][] input, bool stuck)
+    private static int[][] NextGridState(int[][] input, bool stuck)
     {
-        var res = new List<int[]>();
-        var (crow, ccol) = (input.Length, input[0].Length);
+        var nextGrid = new List<int[]>();
+        var (rowCount, colCount) = (input.Length, input[0].Length);
 
         if (stuck)
         {
             input[0][0] = 1;
-            input[crow - 1][0] = 1;
-            input[0][ccol - 1] = 1;
-            input[crow - 1][ccol - 1] = 1;
+            input[rowCount - 1][0] = 1;
+            input[0][colCount - 1] = 1;
+            input[rowCount - 1][colCount - 1] = 1;
         }
 
-        for (var irow = 0; irow < crow; irow++)
+        for (var row = 0; row < rowCount; row++)
         {
-            var row = new List<int>();
-            for (var icol = 0; icol < ccol; icol++)
+            var nextRow = new List<int>();
+            for (var col = 0; col < colCount; col++)
             {
-                if (stuck &&
-                    ((icol == 0 && irow == 0) || (icol == ccol - 1 && irow == 0) ||
-                     (icol == 0 && irow == crow - 1) || (icol == ccol - 1 && irow == crow - 1))
-                   )
+                if (stuck && ((col == 0 && row == 0) || (col == colCount - 1 && row == 0) || (col == 0 && row == rowCount - 1) || (col == colCount - 1 && row == rowCount - 1)))
                 {
-                    row.Add(1);
+                    nextRow.Add(1);
                 }
                 else
                 {
-                    var neighbours = (from d in new (int row, int col)[] { (-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1) }
-                        let irowT = irow + d.row
-                        let icolT = icol + d.col
-                        where irowT >= 0 && irowT < crow && icolT >= 0 && icolT < ccol && input[irowT][icolT] == 1
+                    var neighbours = (
+                        from d in new (int row, int col)[] { (-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1) }
+                        let irowT = row + d.row
+                        let icolT = col + d.col
+                        where irowT >= 0 && irowT < rowCount && icolT >= 0 && icolT < colCount && input[irowT][icolT] == 1
                         select 1).Sum();
 
-                    row.Add(input[irow][icol] == 1 ? new[] { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 }[neighbours] : new[] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }[neighbours]);
+                    nextRow.Add(input[row][col] == 1 ? new[] { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 }[neighbours] : new[] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 }[neighbours]);
                 }
             }
 
-            res.Add(row.ToArray());
+            nextGrid.Add(nextRow.ToArray());
         }
 
-        return res.ToArray();
+        return nextGrid.ToArray();
     }
 }

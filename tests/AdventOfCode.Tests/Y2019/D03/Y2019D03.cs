@@ -25,7 +25,7 @@ public class Y2019D03
     }
 
 
-    int Solve(string input, Func<(int irow, int icol, int distance1, int distance2), int> distance)
+    private int Solve(string input, Func<(int irow, int icol, int distance1, int distance2), int> distance)
     {
         var paths = input.Split("\n");
         var trace1 = Trace(paths[0]);
@@ -38,7 +38,7 @@ public class Y2019D03
         return distances.Min();
     }
 
-    Dictionary<(int irow, int icol), int> Trace(string path)
+    private Dictionary<(int irow, int icol), int> Trace(string path)
     {
         var res = new Dictionary<(int irow, int icol), int>();
 

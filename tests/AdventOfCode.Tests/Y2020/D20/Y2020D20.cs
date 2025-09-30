@@ -176,7 +176,7 @@ public class Y2020D20
         return new Tile(42, image.ToArray());
     }
 
-    int MatchCount(Tile image, params string[] pattern)
+    private int MatchCount(Tile image, params string[] pattern)
     {
         var res = 0;
         var (ccolP, crowP) = (pattern[0].Length, pattern.Length);
@@ -206,10 +206,11 @@ public class Y2020D20
         return res;
     }
 }
-class Tile {
+
+internal class Tile {
     public long id;
     public int size;
-    string[] image;
+    private string[] image;
 
     // This is a bit tricky, but makes operations fast and easy to implement.
     //
@@ -220,7 +221,7 @@ class Tile {
     // where the input coordinates are adjusted accordingly.
     //
     // Checking each 8 possible orientation for a tile requires just 7 incrementation of this value.
-    int orentation = 0;
+    private int orentation = 0;
 
     public Tile(long id, string[] image) {
         this.id = id;
@@ -257,7 +258,7 @@ class Tile {
         return $"Tile {id}:\n" + string.Join("\n", Enumerable.Range(0, size).Select(i => Row(i)));
     }
 
-    string GetSlice(int irow, int icol, int drow, int dcol) {
+    private string GetSlice(int irow, int icol, int drow, int dcol) {
         var st = "";
         for (var i = 0; i < size; i++) {
             st += this[irow, icol];

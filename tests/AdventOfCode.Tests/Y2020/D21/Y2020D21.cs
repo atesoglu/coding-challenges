@@ -80,7 +80,8 @@ public class Y2020D21
                     (res, entry) => res.Intersect(entry.ingredients))
                 .ToHashSet());
 }
-record Problem(
+
+internal record Problem(
     HashSet<string> allergens,
     HashSet<string> ingredients,
     (HashSet<string> ingredients, HashSet<string> allergens)[] mapping);

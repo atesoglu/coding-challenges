@@ -46,7 +46,7 @@ public class Y2019D14
         output.Should().Be(4366186);
     }
 
-    Func<long, long> Parse(string productionRules)
+    private Func<long, long> Parse(string productionRules)
     {
         (string chemical, long amount) ParseReagent(string st)
         {

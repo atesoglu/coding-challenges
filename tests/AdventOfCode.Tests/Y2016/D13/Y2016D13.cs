@@ -28,7 +28,7 @@ public class Y2016D13
         output.Should().Be(127);
     }
 
-    IEnumerable<(int steps, int row, int col)> Steps(int input)
+    private IEnumerable<(int steps, int row, int col)> Steps(int input)
     {
         var q = new Queue<(int steps, int row, int col)>();
         var seen = new HashSet<(int, int)>();
@@ -59,7 +59,7 @@ public class Y2016D13
         }
     }
 
-    int CountBits(long n)
+    private int CountBits(long n)
     {
         var count = 0;
         while (n != 0)

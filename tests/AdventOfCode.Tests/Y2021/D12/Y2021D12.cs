@@ -26,7 +26,7 @@ public class Y2021D12
     }
 
 
-    int Explore(string input, bool part2)
+    private int Explore(string input, bool part2)
     {
         var map = GetMap(input);
 
@@ -62,7 +62,7 @@ public class Y2021D12
         return pathCount("start", ImmutableHashSet.Create<string>("start"), false);
     }
 
-    Dictionary<string, string[]> GetMap(string input)
+    private Dictionary<string, string[]> GetMap(string input)
     {
         // taking all connections 'there and back':
         var connections =

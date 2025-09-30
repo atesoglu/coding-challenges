@@ -25,7 +25,7 @@ public class Y2024D20
         output.Should().Be(977747);
     }
 
-    int CalculateCheatScore(IEnumerable<string> lines, int maxDistance)
+    private int CalculateCheatScore(IEnumerable<string> lines, int maxDistance)
     {
         var path = BuildPathFromGoalToStart(lines);
         var indices = Enumerable.Range(0, path.Length).ToArray();
@@ -41,10 +41,10 @@ public class Y2024D20
         return indices.AsParallel().Select(calculateCheatsFromIndex).Sum();
     }
 
-    int CalculateManhattanDistance(Complex positionA, Complex positionB) =>
+    private int CalculateManhattanDistance(Complex positionA, Complex positionB) =>
         (int)(Math.Abs(positionA.Imaginary - positionB.Imaginary) + Math.Abs(positionA.Real - positionB.Real));
 
-    Complex[] BuildPathFromGoalToStart(IEnumerable<string> lines)
+    private Complex[] BuildPathFromGoalToStart(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         var map = (

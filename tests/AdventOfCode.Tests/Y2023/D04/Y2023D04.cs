@@ -42,7 +42,7 @@ public class Y2023D04
         output.Should().Be(8172507);
     }
 
-    Card ParseCard(string line)
+    private Card ParseCard(string line)
     {
         var parts = line.Split(':', '|');
         var l = from m in Regex.Matches(parts[1], @"\d+") select m.Value;
@@ -50,4 +50,5 @@ public class Y2023D04
         return new Card(l.Intersect(r).Count());
     }
 }
-record Card(int matches);
+
+internal record Card(int matches);

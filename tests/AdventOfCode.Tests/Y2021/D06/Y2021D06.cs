@@ -25,7 +25,7 @@ public class Y2021D06
     }
 
 
-    long FishCountAfterNDays(string input, int days)
+    private long FishCountAfterNDays(string input, int days)
     {
         // group the fish by their timer, no need to deal with them one by one:
         var fishCountByInternalTimer = new long[9];

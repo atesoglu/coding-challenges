@@ -25,11 +25,11 @@ public class Y2016D07
     }
 
 
-    bool TLS(string st) =>
+    private bool TLS(string st) =>
         Classify(st).Any(c => !c.f && Abba(c.st).Any()) &&
         Classify(st).All(c => !c.f || !Abba(c.st).Any());
 
-    bool SSL(string st) => (
+    private bool SSL(string st) => (
         from c1 in Classify(st)
         from c2 in Classify(st)
         where !c1.f && c2.f
@@ -39,7 +39,7 @@ public class Y2016D07
         select true
     ).Any();
 
-    IEnumerable<(string st, bool f)> Classify(string st)
+    private IEnumerable<(string st, bool f)> Classify(string st)
     {
         var part = "";
         for (var i = 0; i < st.Length; i++)
@@ -65,7 +65,7 @@ public class Y2016D07
             yield return (part, false);
     }
 
-    IEnumerable<string> Abba(string st)
+    private IEnumerable<string> Abba(string st)
     {
         for (var i = 0; i < st.Length - 3; i++)
         {
@@ -74,7 +74,7 @@ public class Y2016D07
         }
     }
 
-    IEnumerable<string> Aba(string st)
+    private IEnumerable<string> Aba(string st)
     {
         for (var i = 0; i < st.Length - 2; i++)
         {

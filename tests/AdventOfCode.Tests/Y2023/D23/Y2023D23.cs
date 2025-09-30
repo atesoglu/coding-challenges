@@ -35,13 +35,13 @@ public class Y2023D23
     // This reduces a problem to ~30 nodes and 120 edges for the Part 2 case
     // which can be solved using a dynamic programming approach.
 
-    static readonly Complex Up = -Complex.ImaginaryOne;
-    static readonly Complex Down = Complex.ImaginaryOne;
-    static readonly Complex Left = -1;
-    static readonly Complex Right = 1;
-    static readonly Complex[] Dirs = [Up, Down, Left, Right];
+    private static readonly Complex Up = -Complex.ImaginaryOne;
+    private static readonly Complex Down = Complex.ImaginaryOne;
+    private static readonly Complex Left = -1;
+    private static readonly Complex Right = 1;
+    private static readonly Complex[] Dirs = [Up, Down, Left, Right];
 
-    Dictionary<char, Complex[]> exits = new()
+    private Dictionary<char, Complex[]> exits = new()
     {
         ['<'] = [Left],
         ['>'] = [Right],
@@ -51,9 +51,9 @@ public class Y2023D23
         ['#'] = []
     };
 
-    string RemoveSlopes(string st) => string.Join("", st.Select(ch => ">v<^".Contains(ch) ? '.' : ch));
+    private string RemoveSlopes(string st) => string.Join("", st.Select(ch => ">v<^".Contains(ch) ? '.' : ch));
 
-    int Solve(string input)
+    private int Solve(string input)
     {
         var (nodes, edges) = MakeGraph(input);
         var (start, goal) = (nodes.First(), nodes.Last());
@@ -87,7 +87,7 @@ public class Y2023D23
         return LongestPath(start, 0);
     }
 
-    (Node[], Edge[]) MakeGraph(string input)
+    private (Node[], Edge[]) MakeGraph(string input)
     {
         var map = ParseMap(input);
 
@@ -116,7 +116,7 @@ public class Y2023D23
     }
 
     // Length of the road between two crossroads; -1 if not neighbours
-    int Distance(Map map, Complex crossroadA, Complex crossroadB)
+    private int Distance(Map map, Complex crossroadA, Complex crossroadB)
     {
         var q = new Queue<(Complex, int)>();
         q.Enqueue((crossroadA, 0));
@@ -143,13 +143,13 @@ public class Y2023D23
         return -1;
     }
 
-    bool IsFree(Map map, Complex p) =>
+    private bool IsFree(Map map, Complex p) =>
         map.ContainsKey(p) && map[p] != '#';
 
-    bool IsRoad(Map map, Complex p) =>
+    private bool IsRoad(Map map, Complex p) =>
         IsFree(map, p) && Dirs.Count(d => IsFree(map, p + d)) == 2;
 
-    Map ParseMap(string input)
+    private Map ParseMap(string input)
     {
         var lines = input.Split('\n');
         return (
@@ -161,4 +161,4 @@ public class Y2023D23
     }
 }
 
-record Edge(Node start, Node end, int distance);
+internal record Edge(Node start, Node end, int distance);

@@ -50,7 +50,7 @@ public class Y2019D24
         output.Should().Be(1975);
     }
 
-    int[] Parse(string input)
+    private int[] Parse(string input)
     {
         var biodiversity = 0;
         var m = 1;
@@ -67,7 +67,7 @@ public class Y2019D24
         return new[] { biodiversity };
     }
 
-    IEnumerable<(int irow, int icol)> Positions()
+    private IEnumerable<(int irow, int icol)> Positions()
     {
         for (var irow = 0; irow < 5; irow++)
         {
@@ -78,17 +78,17 @@ public class Y2019D24
         }
     }
 
-    bool HasBug(int biodiversity, int irow, int icol)
+    private bool HasBug(int biodiversity, int irow, int icol)
     {
         return ((biodiversity >> (irow * 5 + icol)) & 1) == 1;
     }
 
-    int SetBug(int biodiversity, int irow, int icol)
+    private int SetBug(int biodiversity, int irow, int icol)
     {
         return biodiversity | (1 << (irow * 5 + icol));
     }
 
-    int[] Step(int[] oldLevelsT, Func<Position, IEnumerable<Position>> neighbours)
+    private int[] Step(int[] oldLevelsT, Func<Position, IEnumerable<Position>> neighbours)
     {
         var oldLevels = oldLevelsT.ToList();
         oldLevels.Insert(0, 0);
@@ -132,7 +132,7 @@ public class Y2019D24
     }
 
 
-    IEnumerable<Position> FlatNeighbours(Position pos)
+    private IEnumerable<Position> FlatNeighbours(Position pos)
     {
         foreach (var (drow, dcol) in new[] { (0, 1), (0, -1), (-1, 0), (1, 0) })
         {
@@ -144,7 +144,7 @@ public class Y2019D24
         }
     }
 
-    IEnumerable<Position> RecursiveNeighbours(Position pos)
+    private IEnumerable<Position> RecursiveNeighbours(Position pos)
     {
         var (ilevel, irow, icol) = pos;
         foreach (var (drow, dcol) in new[] { (0, 1), (0, -1), (-1, 0), (1, 0) })
@@ -198,4 +198,5 @@ public class Y2019D24
         }
     }
 }
-record Position(int ilevel, int irow, int icol);
+
+internal record Position(int ilevel, int irow, int icol);

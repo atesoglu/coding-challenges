@@ -76,17 +76,17 @@ public class Y2021D21
         output.Should().Be(647608359455719);
     }
 
-    IEnumerable<int> DeterministicThrows() =>
+    private IEnumerable<int> DeterministicThrows() =>
         from i in Enumerable.Range(1, int.MaxValue)
         select (i - 1) % 100 + 1;
 
-    IEnumerable<int> DiracThrows() =>
+    private IEnumerable<int> DiracThrows() =>
         from i in new[] { 1, 2, 3 }
         from j in new[] { 1, 2, 3 }
         from k in new[] { 1, 2, 3 }
         select i + j + k;
 
-    (Player active, Player other) Parse(string input)
+    private (Player active, Player other) Parse(string input)
     {
         var players = (
             from line in input.Split("\n")
@@ -96,7 +96,8 @@ public class Y2021D21
         return (players[0], players[1]);
     }
 }
-record Player(int score, int pos) {
+
+internal record Player(int score, int pos) {
     public Player Move(int steps) {
         var newPos = (this.pos - 1 + steps) % 10 + 1;
         return new Player(this.score + newPos, newPos);

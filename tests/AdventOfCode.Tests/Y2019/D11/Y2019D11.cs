@@ -38,12 +38,12 @@ public class Y2019D11
             st += "\n";
         }
 
-        var output = st.Ocr().ToString();
+        var output = st.ToScreenText().ToString();
 
         output.Should().Be("HJKJKGPH");
     }
 
-    Dictionary<(int irow, int icol), int> Run(string input, int startColor)
+    private Dictionary<(int irow, int icol), int> Run(string input, int startColor)
     {
         var mtx = new Dictionary<(int irow, int icol), int>();
         (int irow, int icol) pos = (0, 0);

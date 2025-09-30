@@ -32,11 +32,11 @@ public class Y2024D14
     }
 
 
-    const int width = 101;
-    const int height = 103;
+    private const int width = 101;
+    private const int height = 103;
 
 
-    IEnumerable<Robot[]> SimulateRobots(IEnumerable<string> lines)
+    private IEnumerable<Robot[]> SimulateRobots(IEnumerable<string> lines)
     {
         var robots = ParseRobots(lines).ToArray();
         while (true)
@@ -46,15 +46,15 @@ public class Y2024D14
         }
     }
 
-    Robot AdvanceRobot(Robot robot) => robot with { pos = AddWithWrapAround(robot.pos, robot.vel) };
+    private Robot AdvanceRobot(Robot robot) => robot with { pos = AddWithWrapAround(robot.pos, robot.vel) };
 
-    Vec2 GetQuadrant(Robot robot) =>
+    private Vec2 GetQuadrant(Robot robot) =>
         new Vec2(Math.Sign(robot.pos.x - width / 2), Math.Sign(robot.pos.y - height / 2));
 
-    Vec2 AddWithWrapAround(Vec2 position, Vec2 velocity) =>
+    private Vec2 AddWithWrapAround(Vec2 position, Vec2 velocity) =>
         new Vec2((position.x + velocity.x + width) % width, (position.y + velocity.y + height) % height);
 
-    string PlotRobots(IEnumerable<Robot> robots)
+    private string PlotRobots(IEnumerable<Robot> robots)
     {
         var grid = new char[height, width];
         foreach (var robot in robots)
@@ -76,12 +76,12 @@ public class Y2024D14
         return result.ToString();
     }
 
-    IEnumerable<Robot> ParseRobots(IEnumerable<string> lines) =>
+    private IEnumerable<Robot> ParseRobots(IEnumerable<string> lines) =>
         from line in lines
         let numbers = Regex.Matches(line, @"-?\d+").Select(match => int.Parse(match.Value)).ToArray()
         select new Robot(new Vec2(numbers[0], numbers[1]), new Vec2(numbers[2], numbers[3]));
 }
 
-record struct Vec2(int x, int y);
+internal record struct Vec2(int x, int y);
 
-record struct Robot(Vec2 pos, Vec2 vel);
+internal record struct Robot(Vec2 pos, Vec2 vel);

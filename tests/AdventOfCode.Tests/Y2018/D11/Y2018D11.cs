@@ -27,7 +27,7 @@ public class Y2018D11
         output.Should().Be("233,250,12");
     }
 
-    (int xMax, int yMax, int dMax) Solver(int gridSerialNumber, int D)
+    private (int xMax, int yMax, int dMax) Solver(int gridSerialNumber, int D)
     {
         var gridOriginal = new int[300, 300];
         for (var irow = 0; irow < 300; irow++)

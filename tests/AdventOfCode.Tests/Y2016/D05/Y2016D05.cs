@@ -42,38 +42,58 @@ public class Y2016D05
         output.Should().Be("863dde27");
     }
 
-    private IEnumerable<string> Hashes(string input)
+    private static IEnumerable<string> Hashes(string input)
     {
         for (var i = 0; i < int.MaxValue; i++)
         {
-            var q = new ConcurrentQueue<(int i, string hash)>();
+            var q = new ConcurrentQueue<(int i, byte[] hash)>();
 
-            Parallel.ForEach(
-                NumbersFrom(i),
-                () => MD5.Create(),
-                (i, state, md5) =>
+            Parallel.ForEach(NumbersFrom(i), MD5.Create, (num, state, md5) =>
                 {
-                    var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(input + i));
-                    var hashString = string.Join("", hash.Select(x => x.ToString("x2")));
+                    var bytes = Encoding.ASCII.GetBytes(input + num);
+                    var hash = md5.ComputeHash(bytes);
 
-                    if (hashString.StartsWith("00000"))
+                    if (HasPrefix(hash))
                     {
-                        q.Enqueue((i, hashString));
+                        q.Enqueue((num, hash));
                         state.Stop();
                     }
 
                     return md5;
                 },
-                (_) => { }
+                md5 => md5.Dispose() // clean up
             );
+
+            if (q.IsEmpty)
+            {
+                continue;
+            }
+
             var item = q.OrderBy(x => x.i).First();
             i = item.i;
-            yield return item.hash;
+            yield return HashToHex(item.hash);
         }
     }
 
-    IEnumerable<int> NumbersFrom(int i)
+    // Checks if the first 5 hex digits are zeros (20 bits)
+    private static bool HasPrefix(byte[] hash)
     {
-        for (;;) yield return i++;
+        return hash[0] == 0 && hash[1] == 0 && (hash[2] & 0xF0) == 0;
+    }
+
+    // Convert a byte array to hex string only when needed
+    private static string HashToHex(byte[] hash)
+    {
+        var sb = new StringBuilder(hash.Length * 2);
+        foreach (var b in hash)
+            sb.Append(b.ToString("x2"));
+        return sb.ToString();
+    }
+
+    // Infinite sequence generator
+    private static IEnumerable<int> NumbersFrom(int start)
+    {
+        for (var i = start;; i++)
+            yield return i;
     }
 }

@@ -38,7 +38,7 @@ public class Y2024D24
         output.Should().Be("dpg,kmb,mmf,tvp,vdk,z10,z15,z25");
     }
 
-    int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
+    private int Eval(string label, Circuit circuit, Dictionary<string, int> inputs)
     {
         if (inputs.TryGetValue(label, out var res))
         {
@@ -56,7 +56,7 @@ public class Y2024D24
         }
     }
 
-    IEnumerable<string> Fix(Circuit circuit)
+    private IEnumerable<string> Fix(Circuit circuit)
     {
         var cin = Output(circuit, "x00", "AND", "y00");
         for (var i = 1; i < 45; i++)
@@ -89,19 +89,19 @@ public class Y2024D24
         return [];
     }
 
-    IEnumerable<string> SwapAndFix(Circuit circuit, string out1, string out2)
+    private IEnumerable<string> SwapAndFix(Circuit circuit, string out1, string out2)
     {
         (circuit[out1], circuit[out2]) = (circuit[out2], circuit[out1]);
         return Fix(circuit).Concat([out1, out2]);
     }
 
-    string Output(Circuit circuit, string x, string kind, string y) =>
+    private string Output(Circuit circuit, string x, string kind, string y) =>
         circuit.SingleOrDefault(pair =>
             (pair.Value.in1 == x && pair.Value.kind == kind && pair.Value.in2 == y) ||
             (pair.Value.in1 == y && pair.Value.kind == kind && pair.Value.in2 == x)
         ).Key;
 
-    (Dictionary<string, int> inputs, Circuit circuit) Parse(IEnumerable<string> lines)
+    private (Dictionary<string, int> inputs, Circuit circuit) Parse(IEnumerable<string> lines)
     {
         var inputs = new Dictionary<string, int>();
         var circuit = new Circuit();
@@ -125,4 +125,4 @@ public class Y2024D24
     }
 }
 
-record struct Gate(string in1, string kind, string in2);
+internal record struct Gate(string in1, string kind, string in2);

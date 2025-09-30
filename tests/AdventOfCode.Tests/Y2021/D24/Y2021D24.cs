@@ -28,7 +28,7 @@ public class Y2021D24
     }
 
 
-    (string min, string max) GetSerials(string input)
+    private (string min, string max) GetSerials(string input)
     {
         var digits = Enumerable.Range(1, 9).ToArray();
 

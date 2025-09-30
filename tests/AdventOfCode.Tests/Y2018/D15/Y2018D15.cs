@@ -37,7 +37,7 @@ public class Y2018D15
         output.Should().Be(49863);
     }
 
-    (bool noElfDied, int score) Outcome(string input, int goblinAp, int elfAp, bool tsto)
+    private (bool noElfDied, int score) Outcome(string input, int goblinAp, int elfAp, bool tsto)
     {
         var game = Parse(input, goblinAp, elfAp);
         var elfCount = game.players.Count(player => player.elf);
@@ -60,7 +60,7 @@ public class Y2018D15
     }
 
 
-    Game Parse(string input, int goblinAp, int elfAp)
+    private Game Parse(string input, int goblinAp, int elfAp)
     {
         var players = new List<Player>();
         var lines = input.Split("\n");
@@ -99,7 +99,7 @@ public class Y2018D15
     }
 }
 
-class Game
+internal class Game
 {
     public Block[,] mtx;
     public List<Player> players;
@@ -165,11 +165,11 @@ class Game
     }
 }
 
-abstract class Block
+internal abstract class Block
 {
 }
 
-class Empty : Block
+internal class Empty : Block
 {
     public static readonly Empty Block = new Empty();
 
@@ -178,7 +178,7 @@ class Empty : Block
     }
 }
 
-class Wall : Block
+internal class Wall : Block
 {
     public static readonly Wall Block = new Wall();
 
@@ -187,7 +187,7 @@ class Wall : Block
     }
 }
 
-class Player : Block
+internal class Player : Block
 {
     public (int irow, int icol) pos;
     public bool elf;

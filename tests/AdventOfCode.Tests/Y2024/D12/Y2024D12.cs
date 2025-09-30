@@ -31,12 +31,12 @@ public class Y2024D12
     }
 
 
-    Complex Up = Complex.ImaginaryOne;
-    Complex Down = -Complex.ImaginaryOne;
-    Complex Left = -1;
-    Complex Right = 1;
+    private Complex Up = Complex.ImaginaryOne;
+    private Complex Down = -Complex.ImaginaryOne;
+    private Complex Left = -1;
+    private Complex Right = 1;
 
-    int CalculateFencePrice(IEnumerable<string> lines, MeasurePerimeter measure)
+    private int CalculateFencePrice(IEnumerable<string> lines, MeasurePerimeter measure)
     {
         var regions = BuildRegions(lines);
         var totalCost = 0;
@@ -54,9 +54,9 @@ public class Y2024D12
         return totalCost;
     }
 
-    delegate int MeasurePerimeter(Dictionary<Complex, Region> map, Complex pt);
+    private delegate int MeasurePerimeter(Dictionary<Complex, Region> map, Complex pt);
 
-    int CountEdges(Dictionary<Complex, Region> map, Complex pt)
+    private int CountEdges(Dictionary<Complex, Region> map, Complex pt)
     {
         var edgeCount = 0;
         var region = map[pt];
@@ -71,7 +71,7 @@ public class Y2024D12
         return edgeCount;
     }
 
-    int CountCorners(Dictionary<Complex, Region> map, Complex pt)
+    private int CountCorners(Dictionary<Complex, Region> map, Complex pt)
     {
         var cornerCount = 0;
         var region = map[pt];
@@ -95,7 +95,7 @@ public class Y2024D12
         return cornerCount;
     }
 
-    Dictionary<Complex, Region> BuildRegions(IEnumerable<string> lines)
+    private Dictionary<Complex, Region> BuildRegions(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         var garden = (

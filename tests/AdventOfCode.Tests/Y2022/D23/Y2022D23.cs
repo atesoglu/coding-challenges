@@ -27,7 +27,7 @@ public class Y2022D23
     }
 
 
-    IEnumerable<HashSet<Complex>> Simulate(HashSet<Complex> elves)
+    private IEnumerable<HashSet<Complex>> Simulate(HashSet<Complex> elves)
     {
         var lookAround = new Queue<Complex>(new[] { N, S, W, E });
 
@@ -80,7 +80,7 @@ public class Y2022D23
         }
     }
 
-    double Area(HashSet<Complex> elves)
+    private double Area(HashSet<Complex> elves)
     {
         // smallest enclosing rectangle
         var width = elves.Select(p => p.Real).Max() -
@@ -92,7 +92,7 @@ public class Y2022D23
         return width * height - elves.Count;
     }
 
-    HashSet<Complex> Parse(string input)
+    private HashSet<Complex> Parse(string input)
     {
         var lines = input.Split("\n");
         return (
@@ -104,20 +104,20 @@ public class Y2022D23
     }
 
     ///  -------
-    static Complex N = new Complex(0, -1);
+    private static Complex N = new Complex(0, -1);
 
-    static Complex E = new Complex(1, 0);
-    static Complex S = new Complex(0, 1);
-    static Complex W = new Complex(-1, 0);
-    static Complex NW = N + W;
-    static Complex NE = N + E;
-    static Complex SE = S + E;
-    static Complex SW = S + W;
+    private static Complex E = new Complex(1, 0);
+    private static Complex S = new Complex(0, 1);
+    private static Complex W = new Complex(-1, 0);
+    private static Complex NW = N + W;
+    private static Complex NE = N + E;
+    private static Complex SE = S + E;
+    private static Complex SW = S + W;
 
-    static Complex[] Directions = new[] { NW, N, NE, E, SE, S, SW, W };
+    private static Complex[] Directions = new[] { NW, N, NE, E, SE, S, SW, W };
 
     // Extends an ordinal position with its intercardinal neighbours
-    Complex[] ExtendDir(Complex dir) =>
+    private Complex[] ExtendDir(Complex dir) =>
         dir == N ? new[] { NW, N, NE } :
         dir == E ? new[] { NE, E, SE } :
         dir == S ? new[] { SW, S, SE } :

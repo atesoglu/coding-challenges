@@ -30,7 +30,7 @@ public class Y2017D25
         output.Should().Be(4385);
     }
 
-    Machine Parse(string input)
+    private Machine Parse(string input)
     {
         var lines = input.Split('\n').Where(line => !string.IsNullOrEmpty(line)).ToArray();
         var iline = 0;
@@ -78,7 +78,7 @@ public class Y2017D25
         return machine;
     }
 
-    class Machine
+    private class Machine
     {
         public string state;
         public int iterations;

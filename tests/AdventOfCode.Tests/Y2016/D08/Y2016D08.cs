@@ -38,12 +38,12 @@ public class Y2016D08
             res += "\n";
         }
 
-        var output = res.Ocr().ToString();
+        var output = res.ToScreenText().ToString();
 
         output.Should().Be("ZJHRKCPLYJ");
     }
 
-    bool[,] Execute(string input)
+    private bool[,] Execute(string input)
     {
         var (crow, ccol) = (6, 50);
         var mtx = new bool[crow, ccol];
@@ -93,7 +93,7 @@ public class Y2016D08
         return mtx;
     }
 
-    bool Match(string stm, string pattern, out string[] m)
+    private bool Match(string stm, string pattern, out string[] m)
     {
         var match = Regex.Match(stm, pattern);
         m = null;

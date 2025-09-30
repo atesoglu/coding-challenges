@@ -26,7 +26,7 @@ public class Y2018D18
     }
 
 
-    int Iterate(string input, int lim)
+    private int Iterate(string input, int lim)
     {
         var seen = new Dictionary<string, int>();
         var mtx = input.Split("\n");
@@ -53,7 +53,7 @@ public class Y2018D18
         return Regex.Matches(res, @"\#").Count * Regex.Matches(res, @"\|").Count;
     }
 
-    string[] Step(string[] mtx)
+    private string[] Step(string[] mtx)
     {
         var res = new List<string>();
         var crow = mtx.Length;

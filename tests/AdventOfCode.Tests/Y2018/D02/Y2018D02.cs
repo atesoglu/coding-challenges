@@ -44,7 +44,7 @@ public class Y2018D02
         output.Should().Be("uqcidadzwtnhsljvxyobmkfyr");
     }
 
-    bool CheckLine(string line, int n)
+    private bool CheckLine(string line, int n)
     {
         return (from ch in line
             group ch by ch
@@ -52,14 +52,14 @@ public class Y2018D02
             select g.Count()).Any(cch => cch == n);
     }
 
-    int Diff(string line1, string line2)
+    private int Diff(string line1, string line2)
     {
         return line1.Zip(line2,
             (chA, chB) => chA == chB
         ).Count(x => x == false);
     }
 
-    string Common(string line1, string line2)
+    private string Common(string line1, string line2)
     {
         return string.Join("", line1.Zip(line2, (chA, chB) => chA == chB ? chA.ToString() : ""));
     }

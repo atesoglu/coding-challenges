@@ -33,13 +33,13 @@ public class Y2022D20
 
     private record Data(int idx, long num);
 
-    List<Data> Parse(string input, long m) =>
+    private List<Data> Parse(string input, long m) =>
         input
             .Split("\n")
             .Select((line, idx) => new Data(idx, long.Parse(line) * m))
             .ToList();
 
-    List<Data> Mix(List<Data> numsWithIdx)
+    private List<Data> Mix(List<Data> numsWithIdx)
     {
         var mod = numsWithIdx.Count - 1;
         for (var idx = 0; idx < numsWithIdx.Count; idx++)
@@ -60,7 +60,7 @@ public class Y2022D20
         return numsWithIdx;
     }
 
-    long GetGrooveCoordinates(List<Data> numsWithIdx)
+    private long GetGrooveCoordinates(List<Data> numsWithIdx)
     {
         var idx = numsWithIdx.FindIndex(x => x.num == 0);
         return (

@@ -29,7 +29,7 @@ public class Y2023D05
     }
 
 
-    long Solve(string input, Func<IEnumerable<long>, IEnumerable<Range>> parseSeeds)
+    private long Solve(string input, Func<IEnumerable<long>, IEnumerable<Range>> parseSeeds)
     {
         var blocks = input.Split("\n\n");
         var seedRanges = parseSeeds(ParseNumbers(blocks[0])).ToList();
@@ -38,7 +38,7 @@ public class Y2023D05
         return maps.Aggregate(seedRanges, Project).Select(r => r.begin).Min();
     }
 
-    List<Range> Project(List<Range> inputRanges, Dictionary<Range, Range> map)
+    private List<Range> Project(List<Range> inputRanges, Dictionary<Range, Range> map)
     {
         var input = new Queue<Range>(inputRanges);
         var output = new List<Range>();
@@ -73,20 +73,20 @@ public class Y2023D05
     }
 
     // see https://stackoverflow.com/a/3269471
-    bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
+    private bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
 
     // consider each number as a range of 1 length
-    IEnumerable<Range> PartOneRanges(IEnumerable<long> numbers) =>
+    private IEnumerable<Range> PartOneRanges(IEnumerable<long> numbers) =>
         from n in numbers select new Range(n, n);
 
     // chunk is a great way to iterate over the pairs of numbers
-    IEnumerable<Range> PartTwoRanges(IEnumerable<long> numbers) =>
+    private IEnumerable<Range> PartTwoRanges(IEnumerable<long> numbers) =>
         from n in numbers.Chunk(2) select new Range(n[0], n[0] + n[1] - 1);
 
-    IEnumerable<long> ParseNumbers(string input) =>
+    private IEnumerable<long> ParseNumbers(string input) =>
         from m in Regex.Matches(input, @"\d+") select long.Parse(m.Value);
 
-    Dictionary<Range, Range> ParseMap(string input) => (
+    private Dictionary<Range, Range> ParseMap(string input) => (
         from line in input.Split("\n").Skip(1)
         let parts = ParseNumbers(line).ToArray()
         select new KeyValuePair<Range, Range>(
@@ -94,4 +94,5 @@ public class Y2023D05
             new Range(parts[0], parts[2] + parts[0] - 1))
     ).ToDictionary();
 }
-record Range(long begin, long end);
+
+internal record Range(long begin, long end);

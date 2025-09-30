@@ -25,7 +25,7 @@ public class Y2024D19
         output.Should().Be(643685981770598);
     }
 
-    IEnumerable<long> CalculateMatchCounts(string input)
+    private IEnumerable<long> CalculateMatchCounts(string input)
     {
         var blocks = input.Split("\n\n");
         var towelPieces = blocks[0].Split(", ");
@@ -34,7 +34,7 @@ public class Y2024D19
             select CountPatternMatches(towelPieces, pattern, new Cache());
     }
 
-    long CountPatternMatches(string[] towelPieces, string pattern, Cache cache) =>
+    private long CountPatternMatches(string[] towelPieces, string pattern, Cache cache) =>
         cache.GetOrAdd(pattern, (pattern) =>
             pattern switch
             {

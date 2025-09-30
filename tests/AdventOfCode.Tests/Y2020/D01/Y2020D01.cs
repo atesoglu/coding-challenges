@@ -39,7 +39,7 @@ public class Y2020D01
         output.Should().Be(262738554);
     }
 
-    HashSet<int> Numbers(string input)
+    private HashSet<int> Numbers(string input)
     {
         return input.Split('\n').Select(int.Parse).ToHashSet<int>();
     }

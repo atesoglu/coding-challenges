@@ -43,13 +43,12 @@ public class Y2015D03
         return visited.Count;
     }
 
-    private static (int row, int col) Move((int row, int col) position, char direction) =>
-        direction switch
-        {
-            '^' => (position.row - 1, position.col),
-            'v' => (position.row + 1, position.col),
-            '<' => (position.row, position.col - 1),
-            '>' => (position.row, position.col + 1),
-            _ => position
-        };
+    private static (int row, int col) Move((int row, int col) position, char direction) => direction switch
+    {
+        '^' => (position.row - 1, position.col),
+        'v' => (position.row + 1, position.col),
+        '<' => (position.row, position.col - 1),
+        '>' => (position.row, position.col + 1),
+        _ => position
+    };
 }

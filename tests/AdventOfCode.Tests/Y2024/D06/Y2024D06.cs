@@ -32,10 +32,10 @@ public class Y2024D06
     }
 
 
-    Complex Up = Complex.ImaginaryOne;
-    Complex TurnRight = -Complex.ImaginaryOne;
+    private Complex Up = Complex.ImaginaryOne;
+    private Complex TurnRight = -Complex.ImaginaryOne;
 
-    (IEnumerable<Complex> positions, bool isLoop) Walk(Map map, Complex pos)
+    private (IEnumerable<Complex> positions, bool isLoop) Walk(Map map, Complex pos)
     {
         var seen = new HashSet<(Complex pos, Complex dir)>();
         var dir = Up;
@@ -58,7 +58,7 @@ public class Y2024D06
         );
     }
 
-    (Map map, Complex start) BuildMapAndStart(string[] lines)
+    private (Map map, Complex start) BuildMapAndStart(string[] lines)
     {
         var map = (
             from y in Enumerable.Range(0, lines.Length)

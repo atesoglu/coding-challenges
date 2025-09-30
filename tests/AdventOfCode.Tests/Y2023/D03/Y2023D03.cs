@@ -42,16 +42,18 @@ public class Y2023D03
         output.Should().Be(83279367);
     }
 
-    bool Adjacent(Part p1, Part p2) =>
+    private bool Adjacent(Part p1, Part p2) =>
         Math.Abs(p2.Irow - p1.Irow) <= 1 &&
         p1.Icol <= p2.Icol + p2.Text.Length &&
         p2.Icol <= p1.Icol + p1.Text.Length;
 
-    Part[] Parse(string[] rows, Regex rx) => (
+    private Part[] Parse(string[] rows, Regex rx) => (
         from irow in Enumerable.Range(0, rows.Length)
         from match in rx.Matches(rows[irow])
         select new Part(match.Value, irow, match.Index)
     ).ToArray();
-}record Part(string Text, int Irow, int Icol) {
+}
+
+internal record Part(string Text, int Irow, int Icol) {
     public int Int => int.Parse(Text);
 }

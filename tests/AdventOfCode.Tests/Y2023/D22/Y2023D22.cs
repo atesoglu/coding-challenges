@@ -27,7 +27,7 @@ public class Y2023D22
 
     // desintegrates the blocks one by one and returns how many blocks would
     // start falling because of that.
-    IEnumerable<int> Kaboom(string input)
+    private IEnumerable<int> Kaboom(string input)
     {
         var blocks = Fall(ParseBlocks(input));
         var supports = GetSupports(blocks);
@@ -58,7 +58,7 @@ public class Y2023D22
     }
 
     // applies 'gravity' to the blocks.
-    Block[] Fall(Block[] blocks)
+    private Block[] Fall(Block[] blocks)
     {
         // sort them in Z first so that we can work in bottom to top order
         blocks = blocks.OrderBy(block => block.Bottom).ToArray();
@@ -85,7 +85,7 @@ public class Y2023D22
     }
 
     // calculate upper and lower neighbours for each block
-    Supports GetSupports(Block[] blocks)
+    private Supports GetSupports(Block[] blocks)
     {
         var blocksAbove = blocks.ToDictionary(b => b, _ => new HashSet<Block>());
         var blocksBelow = blocks.ToDictionary(b => b, _ => new HashSet<Block>());
@@ -105,13 +105,13 @@ public class Y2023D22
         return new Supports(blocksAbove, blocksBelow);
     }
 
-    bool IntersectsXY(Block blockA, Block blockB) =>
+    private bool IntersectsXY(Block blockA, Block blockB) =>
         Intersects(blockA.x, blockB.x) && Intersects(blockA.y, blockB.y);
 
     // see https://stackoverflow.com/a/3269471
-    bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
+    private bool Intersects(Range r1, Range r2) => r1.begin <= r2.end && r2.begin <= r1.end;
 
-    Block[] ParseBlocks(string input) => (
+    private Block[] ParseBlocks(string input) => (
         from line in input.Split('\n')
         let numbers = line.Split(',', '~').Select(int.Parse).ToArray()
         select new Block(
@@ -122,15 +122,15 @@ public class Y2023D22
     ).ToArray();
 }
 
-record Range(int begin, int end);
+internal record Range(int begin, int end);
 
-record Block(Range x, Range y, Range z)
+internal record Block(Range x, Range y, Range z)
 {
     public int Top => z.end;
     public int Bottom => z.begin;
 }
 
-record Supports(
+internal record Supports(
     Dictionary<Block, HashSet<Block>> blocksAbove,
     Dictionary<Block, HashSet<Block>> blocksBelow
 );

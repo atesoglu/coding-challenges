@@ -39,9 +39,9 @@ public class Y2018D23
     }
 
 
-    int Dist((int x, int y, int z) a, (int x, int y, int z) b) => Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
+    private int Dist((int x, int y, int z) a, (int x, int y, int z) b) => Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z);
 
-    IEnumerable<(int x, int y, int z)> Corners(Drone[] drones) => (
+    private IEnumerable<(int x, int y, int z)> Corners(Drone[] drones) => (
         from drone in drones
         from dx in new[] { -1, 0, 1 }
         from dy in new[] { -1, 0, 1 }
@@ -50,14 +50,14 @@ public class Y2018D23
         select (drone.pos.x + dx * drone.r, drone.pos.y + dy * drone.r, drone.pos.z + dz * drone.r)
     ).ToArray();
 
-    Drone[] Parse(string input) => (
+    private Drone[] Parse(string input) => (
         from line in input.Split("\n")
         let parts = Regex.Matches(line, @"-?\d+").Select(x => int.Parse(x.Value)).ToArray()
         select new Drone((parts[0], parts[1], parts[2]), parts[3])
     ).ToArray();
 
 
-    (int drones, int pt) Solve(Box box, Drone[] drones)
+    private (int drones, int pt) Solve(Box box, Drone[] drones)
     {
         var q = new PQueue<(int, int), (Box box, Drone[] drones)>();
         q.Enqueue((0, 0), (box, drones));
@@ -84,7 +84,7 @@ public class Y2018D23
     }
 }
 
-class Box
+internal class Box
 {
     public readonly (int x, int y, int z) min;
     public readonly (int x, int y, int z) max;
@@ -144,7 +144,7 @@ class Box
     }
 }
 
-class Drone
+internal class Drone
 {
     public readonly (int x, int y, int z) pos;
     public readonly int r;
@@ -174,10 +174,10 @@ class Drone
     }
 }
 
-class PQueue<K, T> where K : IComparable
+internal class PQueue<K, T> where K : IComparable
 {
-    SortedDictionary<K, Queue<T>> d = new SortedDictionary<K, Queue<T>>();
-    int c = 0;
+    private SortedDictionary<K, Queue<T>> d = new SortedDictionary<K, Queue<T>>();
+    private int c = 0;
 
     public bool Any()
     {

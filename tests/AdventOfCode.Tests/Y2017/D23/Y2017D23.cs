@@ -74,7 +74,7 @@ public class Y2017D23
     }
 
     // Checks if a number is prime
-    bool IsPrime(int n)
+    private bool IsPrime(int n)
     {
         if (n < 2) return false;
         if (n == 2) return true;

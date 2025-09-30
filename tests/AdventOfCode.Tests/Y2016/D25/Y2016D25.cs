@@ -6,94 +6,96 @@ namespace AdventOfCode.Tests.Y2016.D25;
 [ChallengeName("Clock Signal")]
 public class Y2016D25
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D25\Y2016D25-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2016\D25\Y2016D25-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = 0;
-
-        for (var a = 0;; a++)
-        {
-            var length = 0;
-            var expectedBit = 0;
-            foreach (var actualBit in Run(_input, a).Take(100))
-            {
-                if (actualBit == expectedBit)
-                {
-                    expectedBit = 1 - expectedBit;
-                    length++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            if (length == 100)
-            {
-                output = a;
-                break;
-            }
-        }
-
+        var output = FindLowestInputForClockSignal(_lines, signalLength: 100);
         output.Should().Be(196);
     }
 
-
-    IEnumerable<int> Run(string input, int a)
+    /// <summary>
+    /// Finds the lowest positive integer input that produces an alternating 0/1 clock signal.
+    /// </summary>
+    private static int FindLowestInputForClockSignal(string[] program, int signalLength)
     {
-        var prg = Parse(input);
-        var regs = new Dictionary<string, int>();
-        var ip = 0;
-
-        int getReg(string reg)
+        for (var input = 0;; input++)
         {
-            return int.TryParse(reg, out var n) ? n
-                : regs.ContainsKey(reg) ? regs[reg]
-                : 0;
-        }
+            var expectedBit = 0;
+            var matchedLength = 0;
 
-        void setReg(string reg, int value)
-        {
-            if (!int.TryParse(reg, out var _))
+            foreach (var actualBit in RunClockSignal(program, input).Take(signalLength))
             {
-                regs[reg] = value;
+                if (actualBit != expectedBit)
+                    break;
+
+                expectedBit = 1 - expectedBit;
+                matchedLength++;
             }
+
+            if (matchedLength == signalLength)
+                return input;
         }
+    }
 
-        setReg("a", a);
+    /// <summary>
+    /// Executes the assembunny program and yields values produced by 'out' instructions.
+    /// </summary>
+    private static IEnumerable<int> RunClockSignal(string[] programLines, int initialA)
+    {
+        var instructions = programLines.Select(line => line.Split(' ')).ToArray();
+        var registers = new Dictionary<string, int> { ["a"] = initialA };
+        var instructionPointer = 0;
 
-        while (ip < prg.Length)
+        while (instructionPointer >= 0 && instructionPointer < instructions.Length)
         {
-            var stm = prg[ip];
-            switch (stm[0])
+            var parts = instructions[instructionPointer];
+            var operation = parts[0];
+
+            switch (operation)
             {
                 case "cpy":
-                    setReg(stm[2], getReg(stm[1]));
-                    ip++;
+                    SetRegister(registers, parts[2], GetValue(registers, parts[1]));
+                    instructionPointer++;
                     break;
+
                 case "inc":
-                    setReg(stm[1], getReg(stm[1]) + 1);
-                    ip++;
+                    SetRegister(registers, parts[1], GetValue(registers, parts[1]) + 1);
+                    instructionPointer++;
                     break;
-                case "out":
-                    yield return getReg(stm[1]);
-                    ip++;
-                    break;
+
                 case "dec":
-                    setReg(stm[1], getReg(stm[1]) - 1);
-                    ip++;
+                    SetRegister(registers, parts[1], GetValue(registers, parts[1]) - 1);
+                    instructionPointer++;
                     break;
+
                 case "jnz":
-                    ip += getReg(stm[1]) != 0 ? getReg(stm[2]) : 1;
+                    instructionPointer += GetValue(registers, parts[1]) != 0 ? GetValue(registers, parts[2]) : 1;
                     break;
+
+                case "out":
+                    yield return GetValue(registers, parts[1]);
+                    instructionPointer++;
+                    break;
+
                 default:
-                    throw new Exception("Cannot parse " + string.Join(" ", stm));
+                    throw new InvalidOperationException($"Unknown assembunny instruction: {string.Join(" ", parts)}");
             }
         }
     }
 
-    string[][] Parse(string input) =>
-        input.Split('\n').Select(line => line.Split(' ')).ToArray();
+    /// <summary>
+    /// Fetches the value of a register or parses a literal integer.
+    /// </summary>
+    private static int GetValue(Dictionary<string, int> registers, string token) => int.TryParse(token, out var n) ? n : registers.GetValueOrDefault(token);
+
+    /// <summary>
+    /// Sets the value of a register (ignores literals).
+    /// </summary>
+    private static void SetRegister(Dictionary<string, int> registers, string register, int value)
+    {
+        if (!int.TryParse(register, out _))
+            registers[register] = value;
+    }
 }

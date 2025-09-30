@@ -37,7 +37,7 @@ public class Y2023D02
     }
 
 
-    Game ParseGame(string line) =>
+    private Game ParseGame(string line) =>
         new Game(
             ParseInts(line, @"Game (\d+)").First(),
             ParseInts(line, @"(\d+) red").Max(),
@@ -45,8 +45,9 @@ public class Y2023D02
             ParseInts(line, @"(\d+) blue").Max()
         );
 
-    IEnumerable<int> ParseInts(string st, string rx) =>
+    private IEnumerable<int> ParseInts(string st, string rx) =>
         from m in Regex.Matches(st, rx)
         select int.Parse(m.Groups[1].Value);
 }
-record Game(int id, int red, int green, int blue);
+
+internal record Game(int id, int red, int green, int blue);

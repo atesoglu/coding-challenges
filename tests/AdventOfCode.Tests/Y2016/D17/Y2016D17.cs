@@ -26,7 +26,7 @@ public class Y2016D17
     }
 
 
-    IEnumerable<string> Routes(string input)
+    private IEnumerable<string> Routes(string input)
     {
         var q = new Queue<(string path, int irow, int icol)>();
         q.Enqueue(("", 0, 0));
@@ -66,7 +66,7 @@ public class Y2016D17
         }
     }
 
-    (bool up, bool down, bool left, bool right) DoorState(string st)
+    private (bool up, bool down, bool left, bool right) DoorState(string st)
     {
         var md5 = MD5.Create();
         var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(st));

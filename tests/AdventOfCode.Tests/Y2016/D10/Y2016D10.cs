@@ -7,12 +7,12 @@ namespace AdventOfCode.Tests.Y2016.D10;
 [ChallengeName("Balance Bots")]
 public class Y2016D10
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D10\Y2016D10-input.txt", Encoding.UTF8);
+    private readonly IEnumerable<string> _lines = File.ReadAllLines(@"Y2016\D10\Y2016D10-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Execute(Parse(_input)).Single(v => v.min == 17 && v.max == 61).id.Split(' ')[1];
+        var output = Execute(Parse()).Single(v => v.min == 17 && v.max == 61).id.Split(' ')[1];
 
         output.Should().Be("157");
     }
@@ -20,13 +20,13 @@ public class Y2016D10
     [Fact]
     public void PartTwo()
     {
-        var m = Execute(Parse(_input)).Last().machine;
+        var m = Execute(Parse()).Last().machine;
         var output = m["output 0"].values.Single() * m["output 1"].values.Single() * m["output 2"].values.Single();
 
         output.Should().Be(1085);
     }
 
-    IEnumerable<(Dictionary<string, Node> machine, string id, int min, int max)> Execute(Dictionary<string, Node> machine)
+    private IEnumerable<(Dictionary<string, Node> machine, string id, int min, int max)> Execute(Dictionary<string, Node> machine)
     {
         var any = true;
         while (any)
@@ -47,7 +47,7 @@ public class Y2016D10
         }
     }
 
-    Dictionary<string, Node> Parse(string input)
+    private Dictionary<string, Node> Parse()
     {
         var res = new Dictionary<string, Node>();
 
@@ -62,9 +62,9 @@ public class Y2016D10
             }
         }
 
-        foreach (var line in input.Split('\n'))
+        foreach (var line in _lines)
         {
-            if (Match(line, @"(.+) gives low to (.+) and high to (.+)", out var m))
+            if (Match(line, "(.+) gives low to (.+) and high to (.+)", out var m))
             {
                 ensureNodes(m);
                 res[m[0]].outLow = m[1];
@@ -84,7 +84,7 @@ public class Y2016D10
         return res;
     }
 
-    bool Match(string stm, string pattern, out string[] m)
+    private static bool Match(string stm, string pattern, out string[] m)
     {
         var match = Regex.Match(stm, pattern);
         m = null;
@@ -99,7 +99,8 @@ public class Y2016D10
         }
     }
 }
-class Node {
+
+internal class Node {
     public string id;
     public List<int> values = new List<int>();
     public string outLow;

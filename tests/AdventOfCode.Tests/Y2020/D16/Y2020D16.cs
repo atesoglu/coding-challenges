@@ -70,9 +70,9 @@ public class Y2020D16
     }
 
 
-    Field[] FieldCandidates(IEnumerable<Field> fields, params int[] values) => fields.Where(field => values.All(field.isValid)).ToArray();
+    private Field[] FieldCandidates(IEnumerable<Field> fields, params int[] values) => fields.Where(field => values.All(field.isValid)).ToArray();
 
-    Problem Parse(string input)
+    private Problem Parse(string input)
     {
         int[] parseNumbers(string line) => (
             from m in Regex.Matches(line, "\\d+") // take the consecutive ranges of digits
@@ -107,6 +107,6 @@ public class Y2020D16
     }
 }
 
-record Field(string name, Func<int, bool> isValid);
+internal record Field(string name, Func<int, bool> isValid);
 
-record Problem(Field[] fields, int[][] tickets);
+internal record Problem(Field[] fields, int[][] tickets);

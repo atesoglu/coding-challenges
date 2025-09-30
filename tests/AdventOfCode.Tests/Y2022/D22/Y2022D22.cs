@@ -68,13 +68,13 @@ public class Y2022D22
     }
 
 
-    const int blockSize = 50;
-    const int right = 0;
-    const int down = 1;
-    const int left = 2;
-    const int up = 3;
+    private const int blockSize = 50;
+    private const int right = 0;
+    private const int down = 1;
+    private const int left = 2;
+    private const int up = 3;
 
-    int Solve(string input, string topology)
+    private int Solve(string input, string topology)
     {
         var (map, cmds) = Parse(input);
         var state = new State("A", new Coord(0, 0), right);
@@ -113,7 +113,7 @@ public class Y2022D22
                state.dir;
     }
 
-    Coord ToGlobal(State state) =>
+    private Coord ToGlobal(State state) =>
         state.block switch
         {
             "A" => state.coord + new Coord(0, blockSize),
@@ -125,7 +125,7 @@ public class Y2022D22
             _ => throw new Exception()
         };
 
-    State Step(string topology, State state)
+    private State Step(string topology, State state)
     {
         bool wrapsAround(Coord coord) =>
             coord.icol < 0 || coord.icol >= blockSize ||
@@ -186,7 +186,7 @@ public class Y2022D22
         return new State(dstBlock, coord, dir);
     }
 
-    (string[] map, Cmd[] path) Parse(string input)
+    private (string[] map, Cmd[] path) Parse(string input)
     {
         var blocks = input.Split("\n\n");
 
@@ -205,9 +205,9 @@ public class Y2022D22
         return (map, commands);
     }
 
-    record State(string block, Coord coord, int dir);
+    private record State(string block, Coord coord, int dir);
 
-    record Coord(int irow, int icol)
+    private record Coord(int irow, int icol)
     {
         public static Coord operator +(Coord a, Coord b) =>
             new Coord(a.irow + b.irow, a.icol + b.icol);
@@ -216,13 +216,13 @@ public class Y2022D22
             new Coord(a.irow - b.irow, a.icol - b.icol);
     }
 
-    interface Cmd
+    private interface Cmd
     {
     }
 
-    record Forward(int n) : Cmd;
+    private record Forward(int n) : Cmd;
 
-    record Right() : Cmd;
+    private record Right() : Cmd;
 
-    record Left() : Cmd;
+    private record Left() : Cmd;
 }

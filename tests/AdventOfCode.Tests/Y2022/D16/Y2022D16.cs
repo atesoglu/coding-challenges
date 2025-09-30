@@ -30,7 +30,7 @@ public class Y2022D16
 
     private record Valve(int id, string name, int flowRate, string[] tunnels);
 
-    int Solve(string input, bool humanOnly, int time)
+    private int Solve(string input, bool humanOnly, int time)
     {
         var map = Parse(input);
         var start = map.valves.Single(x => x.name == "AA");
@@ -51,7 +51,7 @@ public class Y2022D16
     }
 
     // Divide the valves between human and elephant in all possible ways
-    IEnumerable<(HashSet<Valve> human, HashSet<Valve> elephant)> Pairings(Valve[] valves)
+    private IEnumerable<(HashSet<Valve> human, HashSet<Valve> elephant)> Pairings(Valve[] valves)
     {
         var maxMask = 1 << (valves.Length - 1);
 
@@ -78,7 +78,7 @@ public class Y2022D16
         }
     }
 
-    int MaxFlow(
+    private int MaxFlow(
         Dictionary<string, int> cache,
         Map map,
         Valve currentValve,
@@ -121,7 +121,7 @@ public class Y2022D16
         return cache[key];
     }
 
-    Map Parse(string input)
+    private Map Parse(string input)
     {
         // Valve BB has flow rate=0; tunnels lead to valve CC
         // Valve CC has flow rate=10; tunnels lead to valves DD, EE
@@ -142,7 +142,7 @@ public class Y2022D16
         return new Map(ComputeDistances(valves), valves);
     }
 
-    int[,] ComputeDistances(Valve[] valves)
+    private int[,] ComputeDistances(Valve[] valves)
     {
         // Floyd-Warshall style distance calculation for every pair of valves.
         // See https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm

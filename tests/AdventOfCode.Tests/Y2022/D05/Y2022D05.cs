@@ -36,7 +36,7 @@ public class Y2022D05
     // by the two 'crateMover' functions.
     private record struct Move(int count, Stack<char> source, Stack<char> target);
 
-    void CrateMover9000(Move move)
+    private void CrateMover9000(Move move)
     {
         for (var i = 0; i < move.count; i++)
         {
@@ -44,7 +44,7 @@ public class Y2022D05
         }
     }
 
-    void CrateMover9001(Move move)
+    private void CrateMover9001(Move move)
     {
         // same as CrateMover9000 but keeps element order
         var helper = new Stack<char>();
@@ -52,7 +52,7 @@ public class Y2022D05
         CrateMover9000(move with { source = helper });
     }
 
-    string MoveCrates(string input, Action<Move> crateMover)
+    private string MoveCrates(string input, Action<Move> crateMover)
     {
         var parts = input.Split("\n\n");
 

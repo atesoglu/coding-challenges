@@ -19,7 +19,7 @@ public class Y2022D25
 
     // This is just string to number conversion in base 5
     // with the two special digits that's worth -2 and -1.
-    long SnafuToLong(string snafu)
+    private long SnafuToLong(string snafu)
     {
         var res = 0L;
         foreach (var digit in snafu)
@@ -42,7 +42,7 @@ public class Y2022D25
     // standard base 5 conversion, but when dealing with digits 3 and 4 we 
     // need to increment the higher decimal place so that we have
     // something to subtract 2 and 1 from.
-    string LongToSnafu(long d)
+    private string LongToSnafu(long d)
     {
         var res = "";
         while (d > 0)

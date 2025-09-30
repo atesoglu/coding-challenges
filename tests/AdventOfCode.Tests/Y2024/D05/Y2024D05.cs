@@ -33,7 +33,7 @@ public class Y2024D05
         output.Should().Be(6305);
     }
 
-    (string[][] updates, Comparer<string>) ParseInput(string input)
+    private (string[][] updates, Comparer<string>) ParseInput(string input)
     {
         var parts = input.Split("\n\n");
         var orderingPairs = new HashSet<string>(parts[0].Split("\n"));
@@ -42,8 +42,8 @@ public class Y2024D05
         return (updates, comparer);
     }
 
-    int GetMiddlePage(string[] nums) => int.Parse(nums[nums.Length / 2]);
+    private int GetMiddlePage(string[] nums) => int.Parse(nums[nums.Length / 2]);
 
-    bool Sorted(string[] pages, Comparer<string> comparer) =>
+    private bool Sorted(string[] pages, Comparer<string> comparer) =>
         Enumerable.SequenceEqual(pages, pages.OrderBy(x => x, comparer));
 }

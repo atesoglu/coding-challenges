@@ -31,20 +31,20 @@ public class Y2024D10
     }
 
 
-    Complex Up = Complex.ImaginaryOne;
-    Complex Down = -Complex.ImaginaryOne;
-    Complex Left = -1;
-    Complex Right = 1;
+    private Complex Up = Complex.ImaginaryOne;
+    private Complex Down = -Complex.ImaginaryOne;
+    private Complex Left = -1;
+    private Complex Right = 1;
 
-    Dictionary<Complex, List<Complex>> GetAllTrails(IEnumerable<string> lines)
+    private Dictionary<Complex, List<Complex>> GetAllTrails(IEnumerable<string> lines)
     {
         var map = BuildMap(lines);
         return GetTrailHeads(map).ToDictionary(t => t, t => GetTrailsFrom(map, t));
     }
 
-    IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
+    private IEnumerable<Complex> GetTrailHeads(Map map) => map.Keys.Where(pos => map[pos] == '0');
 
-    List<Complex> GetTrailsFrom(Map map, Complex trailHead)
+    private List<Complex> GetTrailsFrom(Map map, Complex trailHead)
     {
         // standard floodfill algorithm using a queue
         var positions = new Queue<Complex>();
@@ -72,7 +72,7 @@ public class Y2024D10
         return trails;
     }
 
-    Map BuildMap(IEnumerable<string> lines)
+    private Map BuildMap(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         return (

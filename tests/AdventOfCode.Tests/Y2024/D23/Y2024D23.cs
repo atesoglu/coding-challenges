@@ -39,7 +39,7 @@ public class Y2024D23
         output.Should().Be("cb,df,fo,ho,kk,nw,ox,pq,rt,sf,tq,wi,xz");
     }
 
-    HashSet<Component> Grow(Graph g, HashSet<Component> components) => (
+    private HashSet<Component> Grow(Graph g, HashSet<Component> components) => (
         from c in components.AsParallel()
         let members = Members(c)
         from neighbour in members.SelectMany(m => g[m]).Distinct()
@@ -48,12 +48,12 @@ public class Y2024D23
         select Extend(c, neighbour)
     ).ToHashSet();
 
-    IEnumerable<string> Members(Component c) =>
+    private IEnumerable<string> Members(Component c) =>
         c.Split(",");
 
-    Component Extend(Component c, string item) => string.Join(",", Members(c).Append(item).OrderBy(x => x));
+    private Component Extend(Component c, string item) => string.Join(",", Members(c).Append(item).OrderBy(x => x));
 
-    Graph BuildGraph(IEnumerable<string> lines)
+    private Graph BuildGraph(IEnumerable<string> lines)
     {
         var edges =
             from line in lines

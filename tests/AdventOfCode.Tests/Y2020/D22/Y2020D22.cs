@@ -92,10 +92,10 @@ public class Y2020D22
         output.Should().Be(33441);
     }
 
-    int Answer(Queue<int> deck1, Queue<int> deck2) =>
+    private int Answer(Queue<int> deck1, Queue<int> deck2) =>
         deck1.Concat(deck2).Reverse().Select((c, i) => c * (i + 1)).Sum();
 
-    (Queue<int> deck1, Queue<int> deck2) Parse(string input)
+    private (Queue<int> deck1, Queue<int> deck2) Parse(string input)
     {
         var decks = input.Split("\n\n");
         return (

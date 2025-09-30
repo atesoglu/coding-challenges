@@ -31,7 +31,7 @@ public class Y2017D07
         output.Should().Be(193);
     }
 
-    Tree Parse(string input)
+    private Tree Parse(string input)
     {
         var tree = new Tree();
         foreach (var line in input.Split('\n'))
@@ -53,16 +53,16 @@ public class Y2017D07
         return tree;
     }
 
-    Node Root(Tree tree) =>
+    private Node Root(Tree tree) =>
         tree.Values.First(node => !tree.Values.Any(nodeParent => nodeParent.Children.Contains(node.Id)));
 
-    int ComputeTreeWeights(Node node, Tree tree)
+    private int ComputeTreeWeights(Node node, Tree tree)
     {
         node.TreeWeight = node.Weight + node.Children.Select(childId => ComputeTreeWeights(tree[childId], tree)).Sum();
         return node.TreeWeight;
     }
 
-    Node BogusChild(Node node, Tree tree)
+    private Node BogusChild(Node node, Tree tree)
     {
         var w =
             (from childId in node.Children
@@ -75,7 +75,7 @@ public class Y2017D07
         return w.Length == 1 ? null : w[0].Single();
     }
 
-    int Fix(Node node, int desiredWeight, Tree tree)
+    private int Fix(Node node, int desiredWeight, Tree tree)
     {
         if (node.Children.Length < 2)
         {
@@ -95,7 +95,7 @@ public class Y2017D07
         }
     }
 
-    class Node
+    private class Node
     {
         public string Id;
         public string[] Children;
@@ -103,7 +103,7 @@ public class Y2017D07
         public int TreeWeight = -1;
     }
 
-    class Tree : Dictionary<string, Node>
+    private class Tree : Dictionary<string, Node>
     {
     }
 }

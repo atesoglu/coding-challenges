@@ -107,7 +107,7 @@ public class Y2018D22
         output.Should().Be(1029);
     }
 
-    (int targetX, int targetY, Func<int, int, RegionType> regionType) Parse(string input)
+    private (int targetX, int targetY, Func<int, int, RegionType> regionType) Parse(string input)
     {
         var lines = input.Split("\n");
         var depth = Regex.Matches(lines[0], @"\d+").Select(x => int.Parse(x.Value)).Single();
@@ -157,23 +157,23 @@ public class Y2018D22
     }
 }
 
-enum RegionType
+internal enum RegionType
 {
     Rocky = 0,
     Wet = 1,
     Narrow = 2
 }
 
-enum Tool
+internal enum Tool
 {
     Nothing,
     Torch,
     ClimbingGear
 }
 
-class PQueue<T>
+internal class PQueue<T>
 {
-    SortedDictionary<int, Queue<T>> d = new SortedDictionary<int, Queue<T>>();
+    private SortedDictionary<int, Queue<T>> d = new SortedDictionary<int, Queue<T>>();
 
     public bool Any()
     {

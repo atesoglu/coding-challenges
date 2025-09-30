@@ -26,13 +26,13 @@ public class Y2024D11
         output.Should().Be(259755538429618);
     }
 
-    long CalculateStoneCount(string input, int blinks)
+    private long CalculateStoneCount(string input, int blinks)
     {
         var cache = new Cache();
         return input.Split(" ").Sum(number => EvaluateEngraving(long.Parse(number), blinks, cache));
     }
 
-    long EvaluateEngraving(long number, int blinks, Cache cache) =>
+    private long EvaluateEngraving(long number, int blinks, Cache cache) =>
         cache.GetOrAdd((number.ToString(), blinks), key =>
             key switch
             {

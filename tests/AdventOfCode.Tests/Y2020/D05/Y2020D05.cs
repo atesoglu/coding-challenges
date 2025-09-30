@@ -30,7 +30,7 @@ public class Y2020D05
         output.Should().Be(705);
     }
 
-    HashSet<int> Seats(string input) =>
+    private HashSet<int> Seats(string input) =>
         input
             .Replace("B", "1")
             .Replace("F", "0")

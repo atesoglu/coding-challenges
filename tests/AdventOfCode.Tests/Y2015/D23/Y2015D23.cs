@@ -31,8 +31,6 @@ public class Y2015D23
         var instructions = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
         long instructionPointer = 0;
 
-        long ReadRegister(string name) => long.TryParse(name, out var value) ? value : registers.GetValueOrDefault(name, 0);
-
         while (instructionPointer >= 0 && instructionPointer < instructions.Length)
         {
             var parts = instructions[instructionPointer].Replace(",", "").Split(' ');
@@ -72,5 +70,7 @@ public class Y2015D23
         }
 
         return registers["b"];
+
+        long ReadRegister(string name) => long.TryParse(name, out var value) ? value : registers.GetValueOrDefault(name, 0);
     }
 }

@@ -25,9 +25,9 @@ public class Y2017D04
     }
 
 
-    int ValidLineCount(string lines, Func<string, string> normalizer) =>
+    private int ValidLineCount(string lines, Func<string, string> normalizer) =>
         lines.Split('\n').Where(line => IsValidLine(line.Split(' '), normalizer)).Count();
 
-    bool IsValidLine(string[] words, Func<string, string> normalizer) =>
+    private bool IsValidLine(string[] words, Func<string, string> normalizer) =>
         words.Select(normalizer).Distinct().Count() == words.Count();
 }

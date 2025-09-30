@@ -25,7 +25,7 @@ public class Y2020D06
         output.Should().Be(3356);
     }
 
-    int Solve(string input, Func<ImmutableHashSet<char>, ImmutableHashSet<char>, ImmutableHashSet<char>> combine)
+    private int Solve(string input, Func<ImmutableHashSet<char>, ImmutableHashSet<char>, ImmutableHashSet<char>> combine)
     {
         return (
             from grp in input.Split("\n\n")

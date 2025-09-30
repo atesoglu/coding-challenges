@@ -31,7 +31,7 @@ public class Y2016D21
         output.Should().Be("dhaegfbc");
     }
 
-    IEnumerable<T[]> Permutations<T>(T[] rgt)
+    private IEnumerable<T[]> Permutations<T>(T[] rgt)
     {
         IEnumerable<T[]> PermutationsRec(int i)
         {
@@ -55,7 +55,7 @@ public class Y2016D21
         return PermutationsRec(0);
     }
 
-    Func<IEnumerable<char>, IEnumerable<char>> Parse(string input)
+    private Func<IEnumerable<char>, IEnumerable<char>> Parse(string input)
     {
         var steps = (
             from line in input.Split('\n')
@@ -114,7 +114,7 @@ public class Y2016D21
         };
     }
 
-    Action<char[]> Match(string stm, string pattern, Func<string[], Action<char[]>> a)
+    private Action<char[]> Match(string stm, string pattern, Func<string[], Action<char[]>> a)
     {
         var match = Regex.Match(stm, pattern);
         if (match.Success)
@@ -127,12 +127,12 @@ public class Y2016D21
         }
     }
 
-    void SwapPosition(char[] chars, int x, int y)
+    private void SwapPosition(char[] chars, int x, int y)
     {
         (chars[x], chars[y]) = (chars[y], chars[x]);
     }
 
-    void SwapLetter(char[] chars, char chX, char chY)
+    private void SwapLetter(char[] chars, char chX, char chY)
     {
         for (var i = 0; i < chars.Length; i++)
         {
@@ -140,13 +140,13 @@ public class Y2016D21
         }
     }
 
-    void RotateBasedOnPosition(char[] chars, char chX)
+    private void RotateBasedOnPosition(char[] chars, char chX)
     {
         var i = Array.IndexOf(chars, chX);
         RotateRight(chars, i >= 4 ? i + 2 : i + 1);
     }
 
-    void RotateLeft(char[] chars, int t)
+    private void RotateLeft(char[] chars, int t)
     {
         t %= chars.Length;
         Reverse(chars, 0, t - 1);
@@ -154,7 +154,7 @@ public class Y2016D21
         Reverse(chars, 0, chars.Length - 1);
     }
 
-    void RotateRight(char[] chars, int t)
+    private void RotateRight(char[] chars, int t)
     {
         t %= chars.Length;
         Reverse(chars, 0, chars.Length - 1);
@@ -162,7 +162,7 @@ public class Y2016D21
         Reverse(chars, t, chars.Length - 1);
     }
 
-    void Reverse(char[] chars, int x, int y)
+    private void Reverse(char[] chars, int x, int y)
     {
         while (x < y)
         {
@@ -172,7 +172,7 @@ public class Y2016D21
         }
     }
 
-    void MovePosition(char[] chars, int x, int y)
+    private void MovePosition(char[] chars, int x, int y)
     {
         var d = x < y ? 1 : -1;
 

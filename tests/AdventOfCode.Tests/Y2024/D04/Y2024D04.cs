@@ -38,12 +38,12 @@ public class Y2024D04
     }
 
 
-    Complex Up = -Complex.ImaginaryOne;
-    Complex Down = Complex.ImaginaryOne;
-    Complex Left = -1;
-    Complex Right = 1;
+    private Complex Up = -Complex.ImaginaryOne;
+    private Complex Down = Complex.ImaginaryOne;
+    private Complex Left = -1;
+    private Complex Right = 1;
 
-    bool Matches(Map map, Complex pt, Complex dir, string pattern)
+    private bool Matches(Map map, Complex pt, Complex dir, string pattern)
     {
         var characters = Enumerable.Range(0, pattern.Length)
             .Select(i => map.GetValueOrDefault(pt + i * dir))
@@ -51,7 +51,7 @@ public class Y2024D04
         return characters.SequenceEqual(pattern) || characters.SequenceEqual(pattern.Reverse());
     }
 
-    Map BuildGrid(string[] lines)
+    private Map BuildGrid(string[] lines)
     {
         return (
             from y in Enumerable.Range(0, lines.Length)

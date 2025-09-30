@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2016.D12;
 [ChallengeName("Leonardo's Monorail")]
 public class Y2016D12
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D12\Y2016D12-input.txt", Encoding.UTF8);
+    private readonly string[] _lines = File.ReadAllLines(@"Y2016\D12\Y2016D12-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Solve(_input, 0);
+        var output = ExecuteBootSequence(0);
 
         output.Should().Be(318009);
     }
@@ -19,57 +19,58 @@ public class Y2016D12
     [Fact]
     public void PartTwo()
     {
-        var output = Solve(_input, 1);
+        var output = ExecuteBootSequence(1);
 
         output.Should().Be(9227663);
     }
 
 
-    int Solve(string input, int c)
+    /// <summary>
+    /// Executes the assembunny boot sequence for the monorail system.
+    /// </summary>
+    /// <param name="initialIgnitionKey">The initial value for register 'c', representing the ignition key.</param>
+    /// <returns>The value left in register 'a' after execution (the monorail password).</returns>
+    private int ExecuteBootSequence(int initialIgnitionKey)
     {
-        var regs = new Dictionary<string, int>();
-        var ip = 0;
+        // Registers a, b, c, d. Register 'c' may be initialized to the ignition key.
+        var registers = new Dictionary<string, int> { ["c"] = initialIgnitionKey };
+        var instructionPointer = 0;
 
-        int getReg(string reg)
+        while (instructionPointer >= 0 && instructionPointer < _lines.Length)
         {
-            return int.TryParse(reg, out var n) ? n
-                : regs.ContainsKey(reg) ? regs[reg]
-                : 0;
-        }
+            var instructionParts = _lines[instructionPointer].Split(' ');
+            var operation = instructionParts[0];
 
-        void setReg(string reg, int value)
-        {
-            regs[reg] = value;
-        }
-
-        setReg("c", c);
-
-        var prog = input.Split('\n').ToArray();
-        while (ip >= 0 && ip < prog.Length)
-        {
-            var line = prog[ip];
-            var stm = line.Split(' ');
-            switch (stm[0])
+            switch (operation)
             {
-                case "cpy":
-                    setReg(stm[2], getReg(stm[1]));
-                    ip++;
+                case "cpy": // copy value x into register y
+                    registers[instructionParts[2]] = GetValue(instructionParts[1]);
+                    instructionPointer++;
                     break;
-                case "inc":
-                    setReg(stm[1], getReg(stm[1]) + 1);
-                    ip++;
+
+                case "inc": // increment register x by 1
+                    registers[instructionParts[1]] = GetValue(instructionParts[1]) + 1;
+                    instructionPointer++;
                     break;
-                case "dec":
-                    setReg(stm[1], getReg(stm[1]) - 1);
-                    ip++;
+
+                case "dec": // decrement register x by 1
+                    registers[instructionParts[1]] = GetValue(instructionParts[1]) - 1;
+                    instructionPointer++;
                     break;
-                case "jnz":
-                    ip += getReg(stm[1]) != 0 ? getReg(stm[2]) : 1;
+
+                case "jnz": // jump relative offset if x is not zero
+                    instructionPointer += GetValue(instructionParts[1]) != 0 ? GetValue(instructionParts[2]) : 1;
                     break;
-                default: throw new Exception("Cannot parse " + line);
+
+                default:
+                    throw new InvalidOperationException($"Unknown assembunny instruction: {_lines[instructionPointer]}");
             }
         }
 
-        return getReg("a");
+        // The password is the final value in register 'a'
+        return registers.GetValueOrDefault("a");
+
+        // Helper: fetch the integer value from either a literal or a register
+        int GetValue(string token) => int.TryParse(token, out var number) ? number : registers.GetValueOrDefault(token);
     }
 }

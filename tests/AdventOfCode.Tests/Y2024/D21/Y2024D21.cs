@@ -6,7 +6,7 @@ using Keypad = System.Collections.Generic.Dictionary<AdventOfCode.Tests.Y2024.D2
 
 namespace AdventOfCode.Tests.Y2024.D21;
 
-record struct Vec2(int x, int y);
+internal record struct Vec2(int x, int y);
 
 [ChallengeName("Keypad Conundrum")]
 public class Y2024D21
@@ -29,7 +29,7 @@ public class Y2024D21
         output.Should().Be(281212077733592);
     }
 
-    long CalculateTotalCost(IEnumerable<string> lines, int depth)
+    private long CalculateTotalCost(IEnumerable<string> lines, int depth)
     {
         var keypad1 = ParseKeypad("789\n456\n123\n 0A");
         var keypad2 = ParseKeypad(" ^A\n<v>");
@@ -47,7 +47,7 @@ public class Y2024D21
         return res;
     }
 
-    long EncodeKeys(string keys, Keypad[] keypads, Cache cache)
+    private long EncodeKeys(string keys, Keypad[] keypads, Cache cache)
     {
         if (keypads.Length == 0)
         {
@@ -68,7 +68,7 @@ public class Y2024D21
         }
     }
 
-    long EncodeKey(char currentKey, char nextKey, Keypad[] keypads, Cache cache) =>
+    private long EncodeKey(char currentKey, char nextKey, Keypad[] keypads, Cache cache) =>
         cache.GetOrAdd((currentKey, nextKey, keypads.Length), _ =>
         {
             var keypad = keypads[0];
@@ -96,7 +96,7 @@ public class Y2024D21
             return cost;
         });
 
-    Keypad ParseKeypad(string keypad)
+    private Keypad ParseKeypad(string keypad)
     {
         var lines = keypad.Split("\n");
         return (

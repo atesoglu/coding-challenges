@@ -48,10 +48,10 @@ public class Y2019D12
         output.Should().Be(277068010964808);
     }
 
-    long Lcm(long a, long b) => a * b / Gcd(a, b);
-    long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
+    private long Lcm(long a, long b) => a * b / Gcd(a, b);
+    private long Gcd(long a, long b) => b == 0 ? a : Gcd(b, a % b);
 
-    IEnumerable<(int[] pos, int[] vel)[]> Simulate(string input)
+    private IEnumerable<(int[] pos, int[] vel)[]> Simulate(string input)
     {
         var planets = (
             from line in input.Split("\n")

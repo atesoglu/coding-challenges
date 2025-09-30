@@ -27,13 +27,13 @@ public class Y2020D08
     }
 
 
-    Stm[] Parse(string input) =>
+    private Stm[] Parse(string input) =>
         input.Split("\n")
             .Select(line => line.Split(" "))
             .Select(parts => new Stm(parts[0], int.Parse(parts[1])))
             .ToArray();
 
-    IEnumerable<Stm[]> Patches(Stm[] program) =>
+    private IEnumerable<Stm[]> Patches(Stm[] program) =>
         Enumerable.Range(0, program.Length)
             .Where(line => program[line].op != "acc")
             .Select(lineToPatch =>
@@ -45,7 +45,7 @@ public class Y2020D08
                 ).ToArray()
             );
 
-    (int acc, bool terminated) Run(Stm[] program)
+    private (int acc, bool terminated) Run(Stm[] program)
     {
         var (ip, acc, seen) = (0, 0, new HashSet<int>());
 
@@ -78,4 +78,5 @@ public class Y2020D08
         }
     }
 }
-record Stm(string op, int arg);
+
+internal record Stm(string op, int arg);

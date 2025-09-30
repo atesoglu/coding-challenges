@@ -57,7 +57,10 @@ public class Y2015D09
         {
             (items[start], items[i]) = (items[i], items[start]);
             foreach (var p in Recurse(items, start + 1))
+            {
                 yield return p;
+            }
+
             (items[start], items[i]) = (items[i], items[start]);
         }
     }

@@ -6,12 +6,12 @@ namespace AdventOfCode.Tests.Y2016.D24;
 [ChallengeName("Air Duct Spelunking")]
 public class Y2016D24
 {
-    private readonly string _input = File.ReadAllText(@"Y2016\D24\Y2016D24-input.txt", Encoding.UTF8);
+    private readonly IEnumerable<string> _lines = File.ReadAllLines(@"Y2016\D24\Y2016D24-input.txt", Encoding.UTF8);
 
     [Fact]
     public void PartOne()
     {
-        var output = Routes(_input, false).Min();
+        var output = Routes(false).Min();
 
         output.Should().Be(430);
     }
@@ -19,15 +19,15 @@ public class Y2016D24
     [Fact]
     public void PartTwo()
     {
-        var output = Routes(_input, true).Min();
+        var output = Routes(true).Min();
 
         output.Should().Be(700);
     }
 
 
-    IEnumerable<int> Routes(string input, bool loop)
+    private IEnumerable<int> Routes(bool loop)
     {
-        var map = new Map(input);
+        var map = new Map(_lines.ToArray());
 
         foreach (var perm in Permutations(Enumerable.Range(1, map.poi.Length - 1).ToArray()))
         {
@@ -47,7 +47,7 @@ public class Y2016D24
         }
     }
 
-    IEnumerable<List<T>> Permutations<T>(T[] rgt)
+    private IEnumerable<List<T>> Permutations<T>(T[] rgt)
     {
         IEnumerable<List<T>> PermutationsRec(int i)
         {
@@ -73,15 +73,15 @@ public class Y2016D24
 
     private class Map
     {
-        string[] map;
-        private int crow;
-        private int ccol;
+        private readonly string[] map;
+        private readonly int crow;
+        private readonly int ccol;
         public (int irow, int icol)[] poi;
         private Dictionary<(int, int, int, int), int> cache = new Dictionary<(int, int, int, int), int>();
 
-        public Map(string input)
+        public Map(string[] lines)
         {
-            this.map = input.Split('\n');
+            this.map = lines;
             this.crow = map.Length;
             this.ccol = map[0].Length;
 

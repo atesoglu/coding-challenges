@@ -74,7 +74,7 @@ public class Y2017D20
     }
 
 
-    List<Particle> Parse(string input)
+    private List<Particle> Parse(string input)
     {
         var lines = input.Split('\n');
         return (
@@ -87,7 +87,7 @@ public class Y2017D20
             .ToList();
     }
 
-    class Point
+    private class Point
     {
         public int x;
         public int y;
@@ -103,7 +103,7 @@ public class Y2017D20
         }
     }
 
-    class Particle
+    private class Particle
     {
         public int i;
         public Point pos;

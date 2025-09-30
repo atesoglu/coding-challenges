@@ -35,7 +35,7 @@ public class Y2017D18
         output.Should().Be(7620);
     }
 
-    abstract class Machine<TState>
+    private abstract class Machine<TState>
     {
         private Dictionary<string, long> regs = new Dictionary<string, long>();
 
@@ -117,7 +117,7 @@ public class Y2017D18
         }
     }
 
-    class Machine1 : Machine<long?>
+    private class Machine1 : Machine<long?>
     {
         private long? sent = null;
         private long? received = null;
@@ -144,7 +144,7 @@ public class Y2017D18
         }
     }
 
-    class Machine2 : Machine<(bool running, int valueSent)>
+    private class Machine2 : Machine<(bool running, int valueSent)>
     {
         private int valueSent = 0;
         private Queue<long> qIn;

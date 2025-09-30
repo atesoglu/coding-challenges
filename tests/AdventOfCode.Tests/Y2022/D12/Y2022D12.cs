@@ -42,13 +42,13 @@ public class Y2022D12
     // locations on the map will be represented by the following structure of points-of-interests.
     private record struct Poi(Symbol symbol, Elevation elevation, int distanceFromGoal);
 
-    Symbol startSymbol = new Symbol('S');
-    Symbol goalSymbol = new Symbol('E');
-    Elevation lowestElevation = new Elevation('a');
-    Elevation highestElevation = new Elevation('z');
+    private Symbol startSymbol = new Symbol('S');
+    private Symbol goalSymbol = new Symbol('E');
+    private Elevation lowestElevation = new Elevation('a');
+    private Elevation highestElevation = new Elevation('z');
 
 
-    IEnumerable<Poi> GetPois(string input)
+    private IEnumerable<Poi> GetPois(string input)
     {
         var map = ParseMap(input);
         var goal = map.Keys.Single(point => map[point] == goalSymbol);
@@ -92,7 +92,7 @@ public class Y2022D12
         return poiByCoord.Values;
     }
 
-    Elevation GetElevation(Symbol symbol) =>
+    private Elevation GetElevation(Symbol symbol) =>
         symbol.value switch
         {
             'S' => lowestElevation,
@@ -102,7 +102,7 @@ public class Y2022D12
 
     // locations are parsed into a dictionary so that valid coordinates and
     // neighbours are easy to deal with
-    ImmutableDictionary<Coord, Symbol> ParseMap(string input)
+    private ImmutableDictionary<Coord, Symbol> ParseMap(string input)
     {
         var lines = input.Split("\n");
         return (
@@ -114,7 +114,7 @@ public class Y2022D12
         ).ToImmutableDictionary();
     }
 
-    IEnumerable<Coord> Neighbours(Coord coord) =>
+    private IEnumerable<Coord> Neighbours(Coord coord) =>
         new[]
         {
             coord with { lat = coord.lat + 1 },

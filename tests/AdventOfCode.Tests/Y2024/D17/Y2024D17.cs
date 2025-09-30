@@ -40,7 +40,7 @@ public class Y2024D17
         Cdv
     }
 
-    List<long> ExecuteProgram(List<long> state, List<long> program)
+    private List<long> ExecuteProgram(List<long> state, List<long> program)
     {
         var getOperand = (int operand) => operand < 4 ? operand : state[operand - 4];
         var output = new List<long>();
@@ -62,7 +62,7 @@ public class Y2024D17
         return output;
     }
 
-    IEnumerable<long> FindValidRegisters(List<long> program, List<long> expectedOutput)
+    private IEnumerable<long> FindValidRegisters(List<long> program, List<long> expectedOutput)
     {
         if (!expectedOutput.Any())
         {
@@ -83,13 +83,13 @@ public class Y2024D17
         }
     }
 
-    (List<long> state, List<long> program) ParseInput(string input)
+    private (List<long> state, List<long> program) ParseInput(string input)
     {
         var blocks = input.Split("\n\n").Select(ParseNumbers).ToArray();
         return (blocks[0], blocks[1]);
     }
 
-    List<long> ParseNumbers(string text) =>
+    private List<long> ParseNumbers(string text) =>
         Regex.Matches(text, @"\d+", RegexOptions.Multiline)
             .Select(match => long.Parse(match.Value))
             .ToList();

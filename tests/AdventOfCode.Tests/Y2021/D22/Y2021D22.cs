@@ -60,7 +60,7 @@ public class Y2021D22
                 new Segment(-range, range)));
     }
 
-    Cmd[] Parse(string input)
+    private Cmd[] Parse(string input)
     {
         var res = new List<Cmd>();
         foreach (var line in input.Split("\n"))
@@ -75,9 +75,9 @@ public class Y2021D22
     }
 }
 
-record Cmd(bool turnOff, Region region);
+internal record Cmd(bool turnOff, Region region);
 
-record Segment(int from, int to)
+internal record Segment(int from, int to)
 {
     public bool IsEmpty => from > to;
     public long Length => IsEmpty ? 0 : to - from + 1;
@@ -86,7 +86,7 @@ record Segment(int from, int to)
         new Segment(Math.Max(this.from, that.from), Math.Min(this.to, that.to));
 }
 
-record Region(Segment x, Segment y, Segment z)
+internal record Region(Segment x, Segment y, Segment z)
 {
     public bool IsEmpty => x.IsEmpty || y.IsEmpty || z.IsEmpty;
     public long Volume => x.Length * y.Length * z.Length;

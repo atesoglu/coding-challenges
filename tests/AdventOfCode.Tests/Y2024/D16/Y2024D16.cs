@@ -27,14 +27,14 @@ public class Y2024D16
         output.Should().Be(435);
     }
 
-    static readonly Complex North = -Complex.ImaginaryOne;
-    static readonly Complex South = Complex.ImaginaryOne;
-    static readonly Complex West = -1;
-    static readonly Complex East = 1;
+    private static readonly Complex North = -Complex.ImaginaryOne;
+    private static readonly Complex South = Complex.ImaginaryOne;
+    private static readonly Complex West = -1;
+    private static readonly Complex East = 1;
 
-    int FindBestScore(Map map) => CalculateShortestPaths(map, FindGoal(map))[FindStart(map)];
+    private int FindBestScore(Map map) => CalculateShortestPaths(map, FindGoal(map))[FindStart(map)];
 
-    int FindBestSpots(Map map)
+    private int FindBestSpots(Map map)
     {
         var distances = CalculateShortestPaths(map, FindGoal(map));
         var startState = FindStart(map);
@@ -59,7 +59,7 @@ public class Y2024D16
         return bestSpots.DistinctBy(state => state.pos).Count();
     }
 
-    Dictionary<State, int> CalculateShortestPaths(Map map, Complex goal)
+    private Dictionary<State, int> CalculateShortestPaths(Map map, Complex goal)
     {
         var distances = new Dictionary<State, int>();
         var queue = new PriorityQueue<State, int>();
@@ -92,7 +92,7 @@ public class Y2024D16
         return distances;
     }
 
-    IEnumerable<(State, int cost)> GetPossibleMoves(Map map, State state, bool forward)
+    private IEnumerable<(State, int cost)> GetPossibleMoves(Map map, State state, bool forward)
     {
         foreach (var direction in new[] { North, East, West, South })
         {
@@ -112,7 +112,7 @@ public class Y2024D16
         }
     }
 
-    Map BuildMap(IEnumerable<string> lines)
+    private Map BuildMap(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         return (
@@ -122,6 +122,6 @@ public class Y2024D16
         ).ToDictionary();
     }
 
-    Complex FindGoal(Map map) => map.Keys.Single(key => map[key] == 'E');
-    State FindStart(Map map) => (map.Keys.Single(key => map[key] == 'S'), East);
+    private Complex FindGoal(Map map) => map.Keys.Single(key => map[key] == 'E');
+    private State FindStart(Map map) => (map.Keys.Single(key => map[key] == 'S'), East);
 }

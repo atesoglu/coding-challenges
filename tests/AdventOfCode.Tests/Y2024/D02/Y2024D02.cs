@@ -24,14 +24,14 @@ public class Y2024D02
         output.Should().Be(674);
     }
 
-    IEnumerable<int[]> ParseSamples(IEnumerable<string> lines) =>
+    private IEnumerable<int[]> ParseSamples(IEnumerable<string> lines) =>
         lines.Select(line => line.Split(" ").Select(int.Parse).ToArray());
 
-    IEnumerable<int[]> GenerateSingleRemovalVariations(int[] samples) =>
+    private IEnumerable<int[]> GenerateSingleRemovalVariations(int[] samples) =>
         Enumerable.Range(0, samples.Length + 1)
             .Select(i => samples.Take(i - 1).Concat(samples.Skip(i)).ToArray());
 
-    bool IsMonotonicWithStepWithinRange(int[] samples)
+    private bool IsMonotonicWithStepWithinRange(int[] samples)
     {
         var consecutivePairs = Enumerable.Zip(samples, samples.Skip(1)).ToArray();
         var nonDecreasingValid = consecutivePairs.All(pair =>

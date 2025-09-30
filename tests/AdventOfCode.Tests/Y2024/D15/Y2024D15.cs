@@ -28,12 +28,12 @@ public class Y2024D15
     }
 
 
-    static Complex Up = -Complex.ImaginaryOne;
-    static Complex Down = Complex.ImaginaryOne;
-    static Complex Left = -1;
-    static Complex Right = 1;
+    private static Complex Up = -Complex.ImaginaryOne;
+    private static Complex Down = Complex.ImaginaryOne;
+    private static Complex Left = -1;
+    private static Complex Right = 1;
 
-    double CalculateScore(string input)
+    private double CalculateScore(string input)
     {
         var (map, steps) = ParseMapAndSteps(input);
 
@@ -51,7 +51,7 @@ public class Y2024D15
             .Sum(box => box.Real + 100 * box.Imaginary);
     }
 
-    bool TryMoveRobot(ref Map map, Complex position, Complex direction)
+    private bool TryMoveRobot(ref Map map, Complex position, Complex direction)
     {
         var originalMap = map;
 
@@ -115,10 +115,10 @@ public class Y2024D15
         return false;
     }
 
-    string ScaleUpMap(string input) =>
+    private string ScaleUpMap(string input) =>
         input.Replace("#", "##").Replace(".", "..").Replace("O", "[]").Replace("@", "@.");
 
-    (Map, Complex[]) ParseMapAndSteps(string input)
+    private (Map, Complex[]) ParseMapAndSteps(string input)
     {
         var blocks = input.Split("\n\n");
         var lines = blocks[0].Split("\n");

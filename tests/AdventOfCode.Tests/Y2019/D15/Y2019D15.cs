@@ -35,7 +35,7 @@ public class Y2019D15
         O2 = 2,
     }
 
-    IEnumerable<(ImmutableIntCodeMachine iicm, ImmutableList<int> path, Tile tile)> Bfs(ImmutableIntCodeMachine startIicm)
+    private IEnumerable<(ImmutableIntCodeMachine iicm, ImmutableList<int> path, Tile tile)> Bfs(ImmutableIntCodeMachine startIicm)
     {
         (int dx, int dy)[] dirs = new[] { (0, -1), (0, 1), (-1, 0), (1, 0) };
 

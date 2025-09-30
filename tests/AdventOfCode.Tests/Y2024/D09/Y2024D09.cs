@@ -6,7 +6,7 @@ using Node = System.Collections.Generic.LinkedListNode<AdventOfCode.Tests.Y2024.
 
 namespace AdventOfCode.Tests.Y2024.D09;
 
-record struct Block(int fileId, int length) { }
+internal record struct Block(int fileId, int length) { }
 
 [ChallengeName("Disk Fragmenter")]
 public class Y2024D09
@@ -30,7 +30,7 @@ public class Y2024D09
     }
 
 
-    Fs CompactFs(Fs fs, bool fragmentsEnabled)
+    private Fs CompactFs(Fs fs, bool fragmentsEnabled)
     {
         var (i, j) = (fs.First, fs.Last);
         while (i != j)
@@ -53,7 +53,7 @@ public class Y2024D09
         return fs;
     }
 
-    void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
+    private void RelocateBlock(Fs fs, Node start, Node j, bool fragmentsEnabled)
     {
         for (var i = start; i != j; i = i.Next)
         {
@@ -84,7 +84,7 @@ public class Y2024D09
         }
     }
 
-    long Checksum(Fs fs)
+    private long Checksum(Fs fs)
     {
         var res = 0L;
         var l = 0;
@@ -104,7 +104,7 @@ public class Y2024D09
         return res;
     }
 
-    Fs Parse(string input)
+    private Fs Parse(string input)
     {
         return new Fs(input.Select((ch, i) => new Block(i % 2 == 1 ? -1 : i / 2, ch - '0')));
     }

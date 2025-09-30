@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests.Y2024.D13;
 
 using Machine = (Vec2 a, Vec2 b, Vec2 p);
 
-record struct Vec2(long x, long y);
+internal record struct Vec2(long x, long y);
 
 [ChallengeName("Claw Contraption")]
 public class Y2024D13
@@ -29,7 +29,7 @@ public class Y2024D13
         output.Should().Be(76358113886726);
     }
 
-    long CalculatePrize(Machine machine)
+    private long CalculatePrize(Machine machine)
     {
         var (vectorA, vectorB, targetPoint) = machine;
 
@@ -48,9 +48,9 @@ public class Y2024D13
         }
     }
 
-    long CalculateDeterminant(Vec2 vectorA, Vec2 vectorB) => vectorA.x * vectorB.y - vectorA.y * vectorB.x;
+    private long CalculateDeterminant(Vec2 vectorA, Vec2 vectorB) => vectorA.x * vectorB.y - vectorA.y * vectorB.x;
 
-    IEnumerable<Machine> ParseMachines(string input, long shift = 0)
+    private IEnumerable<Machine> ParseMachines(string input, long shift = 0)
     {
         var blocks = input.Split("\n\n");
         foreach (var block in blocks)

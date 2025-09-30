@@ -26,7 +26,7 @@ public class Y2017D12
     }
 
 
-    IEnumerable<HashSet<string>> GetPartitions(string input)
+    private IEnumerable<HashSet<string>> GetPartitions(string input)
     {
         var nodes = Parse(input);
         var parent = new Dictionary<string, string>();
@@ -63,7 +63,7 @@ public class Y2017D12
             select new HashSet<string>(partitions.ToArray());
     }
 
-    List<Node> Parse(string input)
+    private List<Node> Parse(string input)
     {
         return (
             from line in input.Split('\n')
@@ -76,7 +76,7 @@ public class Y2017D12
         ).ToList();
     }
 
-    class Node
+    private class Node
     {
         public string Id;
         public List<string> Neighbours;

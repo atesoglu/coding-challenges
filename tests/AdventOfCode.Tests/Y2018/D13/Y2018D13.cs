@@ -121,9 +121,9 @@ public class Y2018D13
     }
 }
 
-enum Dir { Left, Forward, Right }
+internal enum Dir { Left, Forward, Right }
 
-class Cart
+internal class Cart
 {
     public (int irow, int icol) pos;
     public int drow;

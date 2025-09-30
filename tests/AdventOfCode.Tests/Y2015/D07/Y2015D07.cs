@@ -12,7 +12,7 @@ public class Y2015D07
     [Fact]
     public void PartOne()
     {
-        var output = Parse()["a"](new State());
+        var output = BuildCircuit()["a"](new SignalState());
 
         output.Should().Be(3176);
     }
@@ -20,16 +20,16 @@ public class Y2015D07
     [Fact]
     public void PartTwo()
     {
-        var calc = Parse();
+        var calc = BuildCircuit();
 
-        var output = calc["a"](new State { ["b"] = calc["a"](new State()) });
+        var output = calc["a"](new SignalState { ["b"] = calc["a"](new SignalState()) });
 
         output.Should().Be(14710);
     }
 
-    private Calc Parse()
+    private Circuit BuildCircuit()
     {
-        var calc = new Calc();
+        var circuit = new Circuit();
 
         // Define gate patterns and their corresponding operations
         var gates = new (string pattern, Func<int[], int> operation)[]
@@ -46,9 +46,9 @@ public class Y2015D07
         {
             var matched = false;
 
-            foreach (var (pattern, operation) in gates)
+            foreach (var (instructionPattern, gateOperation) in gates)
             {
-                if (Gate(calc, line, pattern, operation) != null)
+                if (TryAddGateFromInstruction(circuit, line, instructionPattern, gateOperation) != null)
                 {
                     matched = true;
                     break;
@@ -61,38 +61,38 @@ public class Y2015D07
             }
         }
 
-        return calc;
+        return circuit;
     }
 
-    private static Calc Gate(Calc calc, string line, string pattern, Func<int[], int> op)
+    private static Circuit? TryAddGateFromInstruction(Circuit circuit, string line, string instructionPattern, Func<int[], int> operation)
     {
-        var match = Regex.Match(line, pattern);
+        var match = Regex.Match(line, instructionPattern);
         if (!match.Success)
         {
             return null;
         }
 
         var parts = match.Groups.Cast<Group>().Skip(1).Select(g => g.Value).ToArray();
-        var pinOut = parts.Last();
-        var pins = parts.Take(parts.Length - 1).ToArray();
-        calc[pinOut] = (state) =>
+        var outputWire = parts.Last();
+        var inputWires = parts.Take(parts.Length - 1).ToArray();
+        circuit[outputWire] = (state) =>
         {
-            if (!state.ContainsKey(pinOut))
+            if (!state.ContainsKey(outputWire))
             {
-                var args = pins.Select(pin => int.TryParse(pin, out var i) ? i : calc[pin](state)).ToArray();
-                state[pinOut] = op(args);
+                var inputValues = inputWires.Select(pin => int.TryParse(pin, out var i) ? i : circuit[pin](state)).ToArray();
+                state[outputWire] = operation(inputValues);
             }
 
-            return state[pinOut];
+            return state[outputWire];
         };
-        return calc;
+        return circuit;
     }
 
-    private class State : Dictionary<string, int>
+    private class SignalState : Dictionary<string, int>
     {
     }
 
-    private class Calc : Dictionary<string, Func<State, int>>
+    private class Circuit : Dictionary<string, Func<SignalState, int>>
     {
     }
 }

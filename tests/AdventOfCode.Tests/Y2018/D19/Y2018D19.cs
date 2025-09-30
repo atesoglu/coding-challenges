@@ -45,7 +45,7 @@ public class Y2018D19
         output.Should().Be(19030032);
     }
 
-    int[] Step(int[] regs, string op, int[] stm)
+    private int[] Step(int[] regs, string op, int[] stm)
     {
         regs = regs.ToArray();
         regs[stm[2]] = op switch

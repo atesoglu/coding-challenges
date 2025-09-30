@@ -25,7 +25,7 @@ public class Y2017D01
     }
 
 
-    int InverseCaptcha(string input, int skip)
+    private int InverseCaptcha(string input, int skip)
     {
         return (
             from i in Enumerable.Range(0, input.Length)

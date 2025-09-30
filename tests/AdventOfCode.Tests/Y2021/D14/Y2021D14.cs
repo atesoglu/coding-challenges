@@ -25,7 +25,7 @@ public class Y2021D14
     }
 
 
-    long Solve(string input, int steps)
+    private long Solve(string input, int steps)
     {
         var blocks = input.Split("\n\n");
 

@@ -39,10 +39,10 @@ public class Y2020D24
     }
 
 
-    IEnumerable<Tile> Neighbourhood(Tile tile) =>
+    private IEnumerable<Tile> Neighbourhood(Tile tile) =>
         from dir in hexDirections.Values select new Tile(tile.x + dir.x, tile.y + dir.y);
 
-    HashSet<Tile> Flip(HashSet<Tile> blackTiles)
+    private HashSet<Tile> Flip(HashSet<Tile> blackTiles)
     {
         var tiles = (
             from black in blackTiles
@@ -58,7 +58,7 @@ public class Y2020D24
         ).ToHashSet();
     }
 
-    HashSet<Tile> ParseBlackTiles(string input)
+    private HashSet<Tile> ParseBlackTiles(string input)
     {
         var tiles = new Dictionary<Tile, bool>();
 
@@ -71,7 +71,7 @@ public class Y2020D24
         return (from kvp in tiles where kvp.Value select kvp.Key).ToHashSet();
     }
 
-    Tile Walk(string line)
+    private Tile Walk(string line)
     {
         var (x, y) = (0, 0);
         while (line != "")
@@ -89,4 +89,5 @@ public class Y2020D24
         return new Tile(x, y);
     }
 }
-record Tile(int x, int y);
+
+internal record Tile(int x, int y);

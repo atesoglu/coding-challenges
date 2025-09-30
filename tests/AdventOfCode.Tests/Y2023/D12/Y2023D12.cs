@@ -40,7 +40,7 @@ public class Y2023D12
     // involves backtracking, it's not immediately obvious from the solution below
     // but using a mutable stack or list would cause a lot of headache.
 
-    long Solve(string input, int repeat) => (
+    private long Solve(string input, int repeat) => (
         from line in input.Split("\n")
         let parts = line.Split(" ")
         let pattern = Unfold(parts[0], '?', repeat)
@@ -50,10 +50,10 @@ public class Y2023D12
             Compute(pattern, ImmutableStack.CreateRange(nums.Reverse()), new Cache())
     ).Sum();
 
-    string Unfold(string st, char join, int unfold) =>
+    private string Unfold(string st, char join, int unfold) =>
         string.Join(join, Enumerable.Repeat(st, unfold));
 
-    long Compute(string pattern, ImmutableStack<int> nums, Cache cache)
+    private long Compute(string pattern, ImmutableStack<int> nums, Cache cache)
     {
         if (!cache.ContainsKey((pattern, nums)))
         {
@@ -63,7 +63,7 @@ public class Y2023D12
         return cache[(pattern, nums)];
     }
 
-    long Dispatch(string pattern, ImmutableStack<int> nums, Cache cache)
+    private long Dispatch(string pattern, ImmutableStack<int> nums, Cache cache)
     {
         return pattern.FirstOrDefault() switch
         {
@@ -74,26 +74,26 @@ public class Y2023D12
         };
     }
 
-    long ProcessEnd(string _, ImmutableStack<int> nums, Cache __)
+    private long ProcessEnd(string _, ImmutableStack<int> nums, Cache __)
     {
         // no numbers left at the end of pattern -> good
         return nums.Any() ? 0 : 1;
     }
 
-    long ProcessDot(string pattern, ImmutableStack<int> nums, Cache cache)
+    private long ProcessDot(string pattern, ImmutableStack<int> nums, Cache cache)
     {
         // consume one spring and recurse
         return Compute(pattern[1..], nums, cache);
     }
 
-    long ProcessQuestion(string pattern, ImmutableStack<int> nums, Cache cache)
+    private long ProcessQuestion(string pattern, ImmutableStack<int> nums, Cache cache)
     {
         // recurse both ways
         return Compute("." + pattern[1..], nums, cache) +
                Compute("#" + pattern[1..], nums, cache);
     }
 
-    long ProcessHash(string pattern, ImmutableStack<int> nums, Cache cache)
+    private long ProcessHash(string pattern, ImmutableStack<int> nums, Cache cache)
     {
         // take the first number and consume that many dead springs, recurse
 

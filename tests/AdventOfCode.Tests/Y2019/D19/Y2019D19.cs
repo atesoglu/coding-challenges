@@ -31,7 +31,7 @@ public class Y2019D19
     }
 
 
-    Func<int, int, bool> Detector(string input)
+    private Func<int, int, bool> Detector(string input)
     {
         var icm = new ImmutableIntCodeMachine(input);
         return (int x, int y) =>

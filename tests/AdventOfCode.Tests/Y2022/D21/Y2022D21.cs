@@ -35,7 +35,7 @@ public class Y2022D21
     // One step in rearranging the equation to <variable> = <constant> form.
     // It is supposed that there is only one variable occurrence in the whole 
     // expression tree.
-    Eq Solve(Eq eq) =>
+    private Eq Solve(Eq eq) =>
         eq.left switch
         {
             Op(Const l, "+", Expr r) => new Eq(r, new Op(eq.right, "-", l).Simplify()),
@@ -50,7 +50,7 @@ public class Y2022D21
 
     // parses the input including the special rules for part2 
     // and returns the expression with the specified name
-    Expr Parse(string input, string name, bool part2)
+    private Expr Parse(string input, string name, bool part2)
     {
         var context = new Dictionary<string, string[]>();
         foreach (var line in input.Split("\n"))
@@ -88,30 +88,30 @@ public class Y2022D21
     }
 
     // standard expression tree representation
-    interface Expr
+    private interface Expr
     {
         Expr Simplify();
     }
 
-    record Const(long Value) : Expr
+    private record Const(long Value) : Expr
     {
         public override string ToString() => Value.ToString();
         public Expr Simplify() => this;
     }
 
-    record Var(string name) : Expr
+    private record Var(string name) : Expr
     {
         public override string ToString() => name;
         public Expr Simplify() => this;
     }
 
-    record Eq(Expr left, Expr right) : Expr
+    private record Eq(Expr left, Expr right) : Expr
     {
         public override string ToString() => $"{left} == {right}";
         public Expr Simplify() => new Eq(left.Simplify(), right.Simplify());
     }
 
-    record Op(Expr left, string op, Expr right) : Expr
+    private record Op(Expr left, string op, Expr right) : Expr
     {
         public override string ToString() => $"({left}) {op} ({right})";
 

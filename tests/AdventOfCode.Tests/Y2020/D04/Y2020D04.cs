@@ -43,7 +43,7 @@ public class Y2020D04
     }
 
 
-    int ValidCount(string input, Func<Dictionary<string, string>, bool> isValid) =>
+    private int ValidCount(string input, Func<Dictionary<string, string>, bool> isValid) =>
         input
             .Split("\n\n")
             .Select(block => block

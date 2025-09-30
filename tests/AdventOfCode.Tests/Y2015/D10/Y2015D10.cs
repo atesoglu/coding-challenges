@@ -34,19 +34,19 @@ public class Y2015D10
             {
                 if (ich < input.Length - 2 && input[ich] == input[ich + 1] && input[ich] == input[ich + 2])
                 {
-                    sb.Append("3");
+                    sb.Append('3');
                     sb.Append(input[ich]);
                     ich += 3;
                 }
                 else if (ich < input.Length - 1 && input[ich] == input[ich + 1])
                 {
-                    sb.Append("2");
+                    sb.Append('2');
                     sb.Append(input[ich]);
                     ich += 2;
                 }
                 else
                 {
-                    sb.Append("1");
+                    sb.Append('1');
                     sb.Append(input[ich]);
                     ich += 1;
                 }

@@ -28,9 +28,9 @@ public class Y2023D07
     // Each 'hand' gets points based on the card's individual value and  
     // pattern value.
 
-    (long, long) Part1Points(string hand) => (PatternValue(hand), CardValue(hand, "123456789TJQKA"));
+    private (long, long) Part1Points(string hand) => (PatternValue(hand), CardValue(hand, "123456789TJQKA"));
 
-    (long, long) Part2Points(string hand)
+    private (long, long) Part2Points(string hand)
     {
         var cards = "J123456789TQKA";
         var patternValue =
@@ -40,18 +40,18 @@ public class Y2023D07
 
     // map cards to their indices in cardOrder. E.g. for 123456789TJQKA
     // A8A8A becomes (13)(7)(13)(7)(13), 9A34Q becomes (8)(13)(2)(3)(11)
-    long CardValue(string hand, string cardOrder) =>
+    private long CardValue(string hand, string cardOrder) =>
         Pack(hand.Select(card => cardOrder.IndexOf(card)));
 
     // map cards to the number of their occurrences in the hand then order them 
     // such thatA8A8A becomes 33322, 9A34Q becomes 11111 and K99AA becomes 22221
-    long PatternValue(string hand) =>
+    private long PatternValue(string hand) =>
         Pack(hand.Select(card => hand.Count(x => x == card)).OrderDescending());
 
-    long Pack(IEnumerable<int> numbers) =>
+    private long Pack(IEnumerable<int> numbers) =>
         numbers.Aggregate(1L, (a, v) => (a * 256) + v);
 
-    int Solve(string input, Func<string, (long, long)> getPoints)
+    private int Solve(string input, Func<string, (long, long)> getPoints)
     {
         var bidsByRanking = (
             from line in input.Split("\n")

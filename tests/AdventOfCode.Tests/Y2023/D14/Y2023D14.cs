@@ -26,12 +26,12 @@ public class Y2023D14
     }
 
 
-    Map Parse(string input) => (from l in input.Split('\n') select l.ToCharArray()).ToArray();
+    private Map Parse(string input) => (from l in input.Split('\n') select l.ToCharArray()).ToArray();
 
-    int Crow(char[][] map) => map.Length;
-    int Ccol(char[][] map) => map[0].Length;
+    private int Crow(char[][] map) => map.Length;
+    private int Ccol(char[][] map) => map[0].Length;
 
-    Map Iterate(Map map, Func<Map, Map> cycle, int count)
+    private Map Iterate(Map map, Func<Map, Map> cycle, int count)
     {
         // The usual trick: keep iterating until we find a loop, make a shortcut
         // and read the result from the accumulated history.
@@ -58,7 +58,7 @@ public class Y2023D14
         return map;
     }
 
-    Map Cycle(Map map)
+    private Map Cycle(Map map)
     {
         for (var i = 0; i < 4; i++)
         {
@@ -69,7 +69,7 @@ public class Y2023D14
     }
 
     // Tilt the map to the North, so that the 'O' tiles roll to the top.
-    Map Tilt(Map map)
+    private Map Tilt(Map map)
     {
         for (var icol = 0; icol < Ccol(map); icol++)
         {
@@ -93,7 +93,7 @@ public class Y2023D14
     }
 
     // Ugly coordinate magic, turns the map 90Âº clockwise
-    Map Rotate(Map src)
+    private Map Rotate(Map src)
     {
         var dst = new char[Crow(src)][];
         for (var irow = 0; irow < Ccol(src); irow++)
@@ -109,7 +109,7 @@ public class Y2023D14
     }
 
     // returns the cummulated distances of 'O' tiles from the bottom of the map
-    int Measure(Map map) =>
+    private int Measure(Map map) =>
         map.Select((row, irow) =>
             (Crow(map) - irow) * row.Count(ch => ch == 'O')
         ).Sum();

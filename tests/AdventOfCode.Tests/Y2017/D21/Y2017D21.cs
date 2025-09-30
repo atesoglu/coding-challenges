@@ -26,7 +26,7 @@ public class Y2017D21
     }
 
 
-    int Iterate(string input, int iterations)
+    private int Iterate(string input, int iterations)
     {
         var mtx = Mtx.FromString(".#./..#/###");
         var ruleset = new RuleSet(input);
@@ -38,7 +38,7 @@ public class Y2017D21
         return mtx.Count();
     }
 
-    class RuleSet
+    private class RuleSet
     {
         private Dictionary<int, Mtx> rules2;
         private Dictionary<int, Mtx> rules3;
@@ -75,7 +75,7 @@ public class Y2017D21
             ).ToArray());
         }
 
-        IEnumerable<Mtx> Variations(Mtx mtx)
+        private IEnumerable<Mtx> Variations(Mtx mtx)
         {
             for (var j = 0; j < 2; j++)
             {
@@ -90,7 +90,7 @@ public class Y2017D21
         }
     }
 
-    class Mtx
+    private class Mtx
     {
         private bool[] flags;
 

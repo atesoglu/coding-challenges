@@ -60,7 +60,7 @@ public class Y2016D20
         output.Should().Be(109);
     }
 
-    IEnumerable<(long min, long max)> Parse(string input) => (
+    private IEnumerable<(long min, long max)> Parse(string input) => (
         from line in input.Split('\n')
         let parts = line.Split('-')
         let min = long.Parse(parts[0])

@@ -30,7 +30,7 @@ public class Y2017D03
         output.Should().Be(363010);
     }
 
-    IEnumerable<(int, int)> SpiralCoordinates()
+    private IEnumerable<(int, int)> SpiralCoordinates()
     {
         var (x, y) = (0, 0);
         var (dx, dy) = (1, 0);
@@ -50,7 +50,7 @@ public class Y2017D03
         }
     }
 
-    IEnumerable<int> SpiralSums()
+    private IEnumerable<int> SpiralSums()
     {
         var mem = new Dictionary<(int, int), int>();
         mem[(0, 0)] = 1;
@@ -63,7 +63,7 @@ public class Y2017D03
         }
     }
 
-    IEnumerable<(int, int)> Window((int x, int y) coord) =>
+    private IEnumerable<(int, int)> Window((int x, int y) coord) =>
         from dx in new[] { -1, 0, 1 }
         from dy in new[] { -1, 0, 1 }
         select (coord.x + dx, coord.y + dy);

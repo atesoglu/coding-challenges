@@ -28,7 +28,7 @@ public class Y2024D08
     }
 
 
-    HashSet<Complex> GetUniquePositions(IEnumerable<string> lines, GetAntinodes getAntinodes)
+    private HashSet<Complex> GetUniquePositions(IEnumerable<string> lines, GetAntinodes getAntinodes)
     {
         var map = BuildMap(lines);
 
@@ -47,9 +47,9 @@ public class Y2024D08
         ).ToHashSet();
     }
 
-    delegate IEnumerable<Complex> GetAntinodes(Complex srcAntenna, Complex dstAntenna, Map map);
+    private delegate IEnumerable<Complex> GetAntinodes(Complex srcAntenna, Complex dstAntenna, Map map);
 
-    IEnumerable<Complex> GetAntinodes1(Complex srcAntenna, Complex dstAntenna, Map map)
+    private IEnumerable<Complex> GetAntinodes1(Complex srcAntenna, Complex dstAntenna, Map map)
     {
         var dir = dstAntenna - srcAntenna;
         var antinote = dstAntenna + dir;
@@ -59,7 +59,7 @@ public class Y2024D08
         }
     }
 
-    IEnumerable<Complex> GetAntinodes2(Complex srcAntenna, Complex dstAntenna, Map map)
+    private IEnumerable<Complex> GetAntinodes2(Complex srcAntenna, Complex dstAntenna, Map map)
     {
         var dir = dstAntenna - srcAntenna;
         var antinote = dstAntenna;
@@ -70,7 +70,7 @@ public class Y2024D08
         }
     }
 
-    Map BuildMap(IEnumerable<string> lines)
+    private Map BuildMap(IEnumerable<string> lines)
     {
         var rowArray = lines.ToArray();
         return (
