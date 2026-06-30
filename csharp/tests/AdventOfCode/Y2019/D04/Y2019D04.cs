@@ -1,0 +1,63 @@
+﻿using System.Text;
+using System.Text.RegularExpressions;
+using FluentAssertions;
+
+namespace AdventOfCode.Y2019.D04;
+
+[ChallengeName("Secure Container")]
+public class Y2019D04
+{
+    private readonly string _input = File.ReadAllText(@"Y2019\D04\Y2019D04-input.txt", Encoding.UTF8);
+
+    [Fact]
+    public void PartOne()
+    {
+        var output = Solve(_input, true);
+
+        output.Should().Be(966);
+    }
+
+    [Fact]
+    public void PartTwo()
+    {
+        var output = Solve(_input, false);
+
+        output.Should().Be(628);
+    }
+
+
+    private int Solve(string input, bool trippletsAllowed)
+    {
+        var args = input.Split("-").Select(int.Parse).ToArray();
+        return (
+            from i in Enumerable.Range(args[0], args[1] - args[0] + 1)
+            where OK(i.ToString(), trippletsAllowed)
+            select i
+        ).Count();
+    }
+
+    private bool OK(string password, bool trippletsAllowed)
+    {
+        if (string.Join("", password.OrderBy(ch => ch)) != password)
+        {
+            return false;
+        }
+
+        return (
+            from sequence in Split(password)
+            where sequence.Length >= 2 && (trippletsAllowed || sequence.Length == 2)
+            select sequence
+        ).Any();
+    }
+
+    private static IEnumerable<string> Split(string st)
+    {
+        var ich = 0;
+        while (ich < st.Length)
+        {
+            var sequence = Regex.Match(st.Substring(ich), @$"[{st[ich]}]+").Value;
+            yield return sequence;
+            ich += sequence.Length;
+        }
+    }
+}

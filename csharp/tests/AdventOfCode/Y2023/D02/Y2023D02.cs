@@ -1,0 +1,51 @@
+﻿using System.Text;
+using System.Text.RegularExpressions;
+using FluentAssertions;
+
+namespace AdventOfCode.Y2023.D02;
+
+[ChallengeName("Cube Conundrum")]
+public class Y2023D02
+{
+    private readonly string[] _lines = File.ReadAllLines(@"Y2023\D02\Y2023D02-input.txt", Encoding.UTF8);
+
+    [Fact]
+    public void PartOne()
+    {
+        var output = (
+            from line in _lines
+            let game = ParseGame(line)
+            where game.red <= 12 && game.green <= 13 && game.blue <= 14
+            select game.id
+        ).Sum();
+
+        output.Should().Be(2149);
+    }
+
+    [Fact]
+    public void PartTwo()
+    {
+        var output = (
+            from line in _lines
+            let game = ParseGame(line)
+            select game.red * game.green * game.blue
+        ).Sum();
+
+        output.Should().Be(71274);
+    }
+
+
+    private Game ParseGame(string line) =>
+        new Game(
+            ParseInts(line, @"Game (\d+)").First(),
+            ParseInts(line, @"(\d+) red").Max(),
+            ParseInts(line, @"(\d+) green").Max(),
+            ParseInts(line, @"(\d+) blue").Max()
+        );
+
+    private static IEnumerable<int> ParseInts(string st, string rx) =>
+        from m in Regex.Matches(st, rx)
+        select int.Parse(m.Groups[1].Value);
+}
+
+internal record Game(int id, int red, int green, int blue);

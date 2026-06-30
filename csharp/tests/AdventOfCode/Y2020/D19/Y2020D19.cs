@@ -1,0 +1,115 @@
+﻿using System.Text;
+using FluentAssertions;
+using Parser = System.Func<string, System.Collections.Generic.IEnumerable<string>>;
+
+namespace AdventOfCode.Y2020.D19;
+
+[ChallengeName("Monster Messages")]
+public class Y2020D19
+{
+    private readonly string _input = File.ReadAllText(@"Y2020\D19\Y2020D19-input.txt", Encoding.UTF8);
+
+    [Fact]
+    public void PartOne()
+    {
+        var output = Solve(_input, true);
+
+        output.Should().Be(222);
+    }
+
+    [Fact]
+    public void PartTwo()
+    {
+        var output = Solve(_input, false);
+
+        output.Should().Be(339);
+    }
+
+
+    private static int Solve(string input, bool part1)
+    {
+        // Normalize line endings to just "\n"
+        input = input.Replace("\r\n", "\n").TrimEnd();
+
+        var blocks = (
+            from block in input.Split("\n\n")
+            select block.Split("\n")
+        ).ToArray();
+
+        var rules = new Dictionary<int, string>(
+            from line in blocks[0]
+            let parts = line.Split(": ")
+            let index = int.Parse(parts[0])
+            let rule = parts[1]
+            select
+                new KeyValuePair<int, string>(index, rule)
+        );
+
+        if (!part1)
+        {
+            rules[8] = "42 | 42 8";
+            rules[11] = "42 31 | 42 11 31";
+        }
+
+        // a parser will process some prefix of the input and return the possible remainders (nothing in case of error).
+        var parsers = new Dictionary<int, Parser>();
+
+        Parser getParser(int index)
+        {
+            if (!parsers.ContainsKey(index))
+            {
+                parsers[index] = (input) => getParser(index)(input); //avoid stack overflows in case of recursion in the grammar
+
+                parsers[index] =
+                    alt(
+                        from sequence in rules[index].Split(" | ")
+                        select
+                            seq(
+                                from item in sequence.Split(" ")
+                                select
+                                    int.TryParse(item, out var i) ? getParser(i) : literal(item.Trim('"'))
+                            )
+                    );
+            }
+
+            return parsers[index];
+        }
+
+        var parser = getParser(0);
+        return blocks[1].Count(data => parser(data).Any(st => st == ""));
+    }
+
+    // Parser combinators
+    private static Parser literal(string st) =>
+        input => input.StartsWith(st) ? new[] { input.Substring(st.Length) } : new string[0];
+
+    private static Parser seq(IEnumerable<Parser> parsers)
+    {
+        if (parsers.Count() == 1)
+        {
+            return parsers.Single();
+        }
+
+        var parseHead = parsers.First();
+        var parseTail = seq(parsers.Skip(1));
+
+        return input =>
+            from tail in parseHead(input)
+            from rest in parseTail(tail)
+            select rest;
+    }
+
+    private static Parser alt(IEnumerable<Parser> parsers)
+    {
+        if (parsers.Count() == 1)
+        {
+            return parsers.Single();
+        }
+
+        var arr = parsers.ToArray(); // don't recalc the enumerable in the parse phase
+        return input =>
+            from parser in arr
+            from rest in parser(input)
+            select rest;
+    }
+}
